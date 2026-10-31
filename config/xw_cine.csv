@@ -1,0 +1,377 @@
+﻿co_cine,no_cine,anos,ano_inicio,ano_fim,n_anos,nomes_distintos,co_cine_ref,tipo,equivalencia
+0011A01,ABI Educação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,abi educação,0011A01,estável,confirmada
+0011A02,ABI Artes e humanidades,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,abi artes e humanidades,0011A02,estável,confirmada
+0011A03,"ABI Ciências sociais, comunicação e informação","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"abi ciências sociais, comunicação e informação",0011A03,estável,confirmada
+0011A05,"ABI Ciências naturais, matemática e estatística","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"abi ciências naturais, matemática e estatística",0011A05,estável,confirmada
+0011A06,ABI Computação e Tecnologias da Informação e Comunicação (TIC),"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,abi computação e tecnologias da informação e comunicação (tic),0011A06,estável,confirmada
+0011A07,"ABI Engenharia, produção e construção","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"abi engenharia, produção e construção",0011A07,estável,confirmada
+0011A09,ABI Saúde e bem-estar,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,abi saúde e bem-estar,0011A09,estável,confirmada
+0111P01,Processos escolares,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,processos escolares,0111P01,estável,confirmada
+0111P02,Psicopedagogia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,psicopedagogia,0111P02,estável,confirmada
+0112E01,Educação infantil formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação infantil formação de professor,0112E01,estável,confirmada
+0113E01,Educação do campo formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação do campo formação de professor,0113E01,estável,confirmada
+0113E02,Educação especial formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação especial formação de professor,0113E02,estável,confirmada
+0113E03,Educação indígena formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação indígena formação de professor,0113E03,estável,confirmada
+0113F01,Formação pedagógica de professor para a educação básica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,formação pedagógica de professor para a educação básica,0113F01,estável,confirmada
+0113P01,Pedagogia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,pedagogia,0113P01,estável,confirmada
+0114A01,Artes formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes formação de professor,0114A01,estável,confirmada
+0114A02,Artes visuais formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes visuais formação de professor,0114A02,estável,confirmada
+0114B01,Biologia formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biologia formação de professor,0114B01,estável,confirmada
+0114C01,Ciências agrárias formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências agrárias formação de professor,0114C01,estável,confirmada
+0114C02,Ciências naturais formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências naturais formação de professor,0114C02,estável,confirmada
+0114C03,Ciências sociais formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências sociais formação de professor,0114C03,estável,confirmada
+0114C04,Cinema e audiovisual formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,cinema e audiovisual formação de professor,0114C04,estável,confirmada
+0114C05,Computação formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,computação formação de professor,0114C05,estável,confirmada
+0114D01,Dança formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,dança formação de professor,0114D01,estável,confirmada
+0114E01,Economia doméstica formação de professor,2017,2017,2017,1,economia doméstica formação de professor,0114E01,só em parte dos anos,não identificada
+0114E02,Educação do campo em áreas de conhecimento da educação básica formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação do campo em áreas de conhecimento da educação básica formação de professor,0114E02,estável,confirmada
+0114E03,Educação física formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação física formação de professor,0114E03,estável,confirmada
+0114E04,Educação indígena em áreas de conhecimento da educação básica formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação indígena em áreas de conhecimento da educação básica formação de professor,0114E04,estável,confirmada
+0114E05,Enfermagem formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,enfermagem formação de professor,0114E05,estável,confirmada
+0114E06,Ensino profissionalizante em área específica formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ensino profissionalizante em área específica formação de professor,0114E06,estável,confirmada
+0114E07,Ensino religioso formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ensino religioso formação de professor,0114E07,estável,confirmada
+0114F01,Filosofia formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,filosofia formação de professor,0114F01,estável,confirmada
+0114F02,Física formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,física formação de professor,0114F02,estável,confirmada
+0114G01,Geografia formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,geografia formação de professor,0114G01,estável,confirmada
+0114H01,História formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,história formação de professor,0114H01,estável,confirmada
+0114M01,Matemática formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,matemática formação de professor,0114M01,estável,confirmada
+0114M02,Música formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,música formação de professor,0114M02,estável,confirmada
+0114P01,Psicologia formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,psicologia formação de professor,0114P01,estável,confirmada
+0114Q01,Química formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,química formação de professor,0114Q01,estável,confirmada
+0114T01,Teatro formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,teatro formação de professor,0114T01,estável,confirmada
+0115L01,Letras alemão formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras alemão formação de professor,0115L01,estável,confirmada
+0115L02,Letras espanhol formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras espanhol formação de professor,0115L02,estável,confirmada
+0115L03,Letras francês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras francês formação de professor,0115L03,estável,confirmada
+0115L04,Letras inglês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras inglês formação de professor,0115L04,estável,confirmada
+0115L05,Letras italiano formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras italiano formação de professor,0115L05,estável,confirmada
+0115L06,Letras japonês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras japonês formação de professor,0115L06,estável,confirmada
+0115L07,Letras língua brasileira de sinais formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras língua brasileira de sinais formação de professor,0115L07,estável,confirmada
+0115L08,Letras línguas estrangeiras clássicas formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras línguas estrangeiras clássicas formação de professor,0115L08,estável,confirmada
+0115L10,Letras outras línguas estrangeiras modernas formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras outras línguas estrangeiras modernas formação de professor,0115L10,estável,confirmada
+0115L11,Letras português alemão formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português alemão formação de professor,0115L11,estável,confirmada
+0115L12,Letras português espanhol formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português espanhol formação de professor,0115L12,estável,confirmada
+0115L13,Letras português formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português formação de professor,0115L13,estável,confirmada
+0115L14,Letras português francês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português francês formação de professor,0115L14,estável,confirmada
+0115L15,Letras português inglês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português inglês formação de professor,0115L15,estável,confirmada
+0115L16,Letras português italiano formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português italiano formação de professor,0115L16,estável,confirmada
+0115L17,Letras português japonês formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português japonês formação de professor,0115L17,estável,confirmada
+0115L18,Letras português língua brasileira de sinais formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português língua brasileira de sinais formação de professor,0115L18,estável,confirmada
+0115L19,Letras português línguas estrangeiras clássicas formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português línguas estrangeiras clássicas formação de professor,0115L19,estável,confirmada
+0115L20,Letras português outras línguas estrangeiras modernas formação de professor,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português outras línguas estrangeiras modernas formação de professor,0115L20,estável,confirmada
+0119P01,Programas abrangendo educação em processo de definição da classificação,2024,2024,2024,1,programas abrangendo educação em processo de definição da classificação,0119P01,só em parte dos anos,não identificada
+0188P01,Programas interdisciplinares abrangendo educação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,programas interdisciplinares abrangendo educação,0188P01,estável,confirmada
+0199P01,Programas abrangendo educação em processo de definição da classificação,2023,2023,2023,1,programas abrangendo educação em processo de definição da classificação,0119P01,código alterado (mesmo nome),provável
+0211A01,Animação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,animação,0211A01,estável,confirmada
+0211C01,Cinema e audiovisual,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,cinema e audiovisual,0211C01,estável,confirmada
+0211C02,Comunicação assistiva,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,comunicação assistiva,0211C02,estável,confirmada
+0211D01,Design gráfico,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,design gráfico,0211D01,estável,confirmada
+0211F01,Fotografia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,fotografia,0211F01,estável,confirmada
+0211P01,Produção audiovisual,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção audiovisual,0211P01,estável,confirmada
+0211P02,Produção cênica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção cênica,0211P02,estável,confirmada
+0211P03,Produção cultural,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção cultural,0211P03,estável,confirmada
+0211P04,Produção fonográfica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção fonográfica,0211P04,estável,confirmada
+0211P05,Produção multimídia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção multimídia,0211P05,estável,confirmada
+0212D01,Desenho industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,desenho industrial,0212D01,estável,confirmada
+0212D02,Design,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,design,0212D02,estável,confirmada
+0212D03,Design de interiores,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,design de interiores,0212D03,estável,confirmada
+0212D04,Design de produto,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,design de produto,0212D04,estável,confirmada
+0212M01,Moda,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,moda,0212M01,estável,confirmada
+0213A01,Artes,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes,0213A01,estável,confirmada
+0213A02,Artes plásticas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes plásticas,0213A02,estável,confirmada
+0213A03,Artes visuais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes visuais,0213A03,estável,confirmada
+0213H01,História da arte,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,história da arte,0213H01,estável,confirmada
+0214F01,Fabricação de instrumentos musicais não industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,fabricação de instrumentos musicais não industrial,0214F01,estável,confirmada
+0215A01,Artes cênicas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,artes cênicas,0215A01,estável,confirmada
+0215D01,Dança,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,dança,0215D01,estável,confirmada
+0215M01,Música,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,música,0215M01,estável,confirmada
+0215T01,Teatro,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,teatro,0215T01,estável,confirmada
+0221C01,Ciências da religião,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências da religião,0221C01,estável,confirmada
+0221T01,Teologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,teologia,0221T01,estável,confirmada
+0222A01,Arqueologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,arqueologia,0222A01,estável,confirmada
+0222C01,Conservação e restauro,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,conservação e restauro,0222C01,estável,confirmada
+0222H01,História,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,história,0222H01,estável,confirmada
+0223F01,Filosofia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,filosofia,0223F01,estável,confirmada
+0231L01,Letras alemão,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras alemão,0231L01,estável,confirmada
+0231L02,Letras escrita criativa,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras escrita criativa,0231L02,estável,confirmada
+0231L03,Letras espanhol,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras espanhol,0231L03,estável,confirmada
+0231L04,Letras francês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras francês,0231L04,estável,confirmada
+0231L05,Letras inglês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras inglês,0231L05,estável,confirmada
+0231L06,Letras italiano,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras italiano,0231L06,estável,confirmada
+0231L07,Letras japonês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras japonês,0231L07,estável,confirmada
+0231L08,Letras língua brasileira de sinais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras língua brasileira de sinais,0231L08,estável,confirmada
+0231L09,Letras línguas estrangeiras clássicas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras línguas estrangeiras clássicas,0231L09,estável,confirmada
+0231L10,Letras linguística,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras linguística,0231L10,estável,confirmada
+0231L11,Letras outras línguas estrangeiras modernas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras outras línguas estrangeiras modernas,0231L11,estável,confirmada
+0231L12,Letras português,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português,0231L12,estável,confirmada
+0231L13,Letras português alemão,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português alemão,0231L13,estável,confirmada
+0231L14,Letras português espanhol,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português espanhol,0231L14,estável,confirmada
+0231L15,Letras português francês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português francês,0231L15,estável,confirmada
+0231L16,Letras português inglês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português inglês,0231L16,estável,confirmada
+0231L17,Letras português italiano,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português italiano,0231L17,estável,confirmada
+0231L18,Letras português japonês,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português japonês,0231L18,estável,confirmada
+0231L19,Letras português língua brasileira de sinais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português língua brasileira de sinais,0231L19,estável,confirmada
+0231L20,Letras português línguas estrangeiras clássicas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português línguas estrangeiras clássicas,0231L20,estável,confirmada
+0231L21,Letras português outras línguas estrangeiras modernas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras português outras línguas estrangeiras modernas,0231L21,estável,confirmada
+0231L22,Letras tradutor e intérprete,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,letras tradutor e intérprete,0231L22,estável,confirmada
+0288P01,Programas interdisciplinares abrangendo artes e humanidades,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,programas interdisciplinares abrangendo artes e humanidades,0288P01,estável,confirmada
+0311E01,Economia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,economia,0311E01,estável,confirmada
+0312A01,Antropologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,antropologia,0312A01,estável,confirmada
+0312C01,Ciência política,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciência política,0312C01,estável,confirmada
+0312C02,Ciências sociais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências sociais,0312C02,estável,confirmada
+0312G01,Geografia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,geografia,0312G01,estável,confirmada
+0312R01,Relações internacionais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,relações internacionais,0312R01,estável,confirmada
+0312S01,Sociologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sociologia,0312S01,estável,confirmada
+0313P01,Psicologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,psicologia,0313P01,estável,confirmada
+0321C01,Comunicação social,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,comunicação social,0321C01,estável,confirmada
+0321J01,Jornalismo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,jornalismo,0321J01,estável,confirmada
+0321P01,Produção editorial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção editorial,0321P01,estável,confirmada
+0321R01,"Rádio, TV e internet","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"rádio, tv e internet",0321R01,estável,confirmada
+0322A01,Arquivologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,arquivologia,0322A01,estável,confirmada
+0322B01,Biblioteconomia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biblioteconomia,0322B01,estável,confirmada
+0322G01,Gestão da informação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão da informação,0322G01,estável,confirmada
+0322M01,Museologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,museologia,0322M01,estável,confirmada
+0388P01,"Programas interdisciplinares abrangendo ciências sociais, comunicação e informação","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"programas interdisciplinares abrangendo ciências sociais, comunicação e informação",0388P01,estável,confirmada
+0399P01,"Programas abrangendo ciências sociais, comunicação e informação em processo de definição da classificação","2023,2024",2023,2024,2,"programas abrangendo ciências sociais, comunicação e informação em processo de definição da classificação",0399P01,só em parte dos anos,não identificada
+0411C01,Contabilidade,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,contabilidade,0411C01,estável,confirmada
+0411G01,Gestão fiscal e tributária,"2019,2020,2021,2022,2023,2024",2019,2024,6,gestão fiscal e tributária,0411G01,só em parte dos anos,não identificada
+0412G01,Gestão financeira,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão financeira,0412G01,estável,confirmada
+0412S01,Seguros,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,seguros,0412S01,estável,confirmada
+0413A01,Administração,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,administração,0413A01,estável,confirmada
+0413A02,Administração pública,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,administração pública,0413A02,estável,confirmada
+0413C01,Comércio exterior,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,comércio exterior,0413C01,estável,confirmada
+0413E01,Empreendedorismo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,empreendedorismo,0413E01,estável,confirmada
+0413G01,Gestão da produção,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão da produção,0413G01,estável,confirmada
+0413G02,Gestão da qualidade,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão da qualidade,0413G02,estável,confirmada
+0413G03,Gestão da saúde,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão da saúde,0413G03,estável,confirmada
+0413G04,Gestão de cooperativas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão de cooperativas,0413G04,estável,confirmada
+0413G05,Gestão de negócios,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão de negócios,0413G05,estável,confirmada
+0413G06,Gestão de negócios internacionais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão de negócios internacionais,0413G06,estável,confirmada
+0413G07,Gestão de pessoas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão de pessoas,0413G07,estável,confirmada
+0413G08,Gestão de serviços,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão de serviços,0413G08,estável,confirmada
+0413G09,Gestão do agronegócio,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão do agronegócio,0413G09,estável,confirmada
+0413G10,Gestão estratégica,"2019,2020,2021,2022,2023,2024",2019,2024,6,gestão estratégica,0413G10,só em parte dos anos,não identificada
+0413G11,Gestão hospitalar,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão hospitalar,0413G11,estável,confirmada
+0413G12,Gestão pública,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão pública,0413G12,estável,confirmada
+0413L01,Logística,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,logística,0413L01,estável,confirmada
+0414M01,Marketing,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,marketing,0414M01,estável,confirmada
+0414P01,Publicidade e propaganda,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,publicidade e propaganda,0414P01,estável,confirmada
+0414R01,Relações públicas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,relações públicas,0414R01,estável,confirmada
+0415S01,Secretariado,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,secretariado,0415S01,estável,confirmada
+0416G01,Gestão comercial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão comercial,0416G01,estável,confirmada
+0416N01,Negócios imobiliários,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,negócios imobiliários,0416N01,estável,confirmada
+0421D01,Direito,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,direito,0421D01,estável,confirmada
+0421M01,Mediação,"2022,2023,2024",2022,2024,3,mediação,0421M01,só em parte dos anos,não identificada
+0421S01,Serviços jurídicos e cartoriais,"2019,2020,2021,2022,2023,2024",2019,2024,6,serviços jurídicos e cartoriais,0421S01,só em parte dos anos,não identificada
+0488P01,"Programas interdisciplinares abrangendo negócios, administração e direito","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"programas interdisciplinares abrangendo negócios, administração e direito",0488P01,estável,confirmada
+0499P01,"Programas abrangendo negócios, administração e direito em processo de definição da classificação",2024,2024,2024,1,"programas abrangendo negócios, administração e direito em processo de definição da classificação",0499P01,só em parte dos anos,não identificada
+0511B01,Biologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biologia,0511B01,estável,confirmada
+0512B01,Bioquímica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,bioquímica,0512B01,estável,confirmada
+0512B02,Biotecnologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biotecnologia,0512B02,estável,confirmada
+0512T01,Toxicologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,toxicologia,0512T01,estável,confirmada
+0521C01,Ciências ambientais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências ambientais,0521C01,estável,confirmada
+0521E01,Ecologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ecologia,0521E01,estável,confirmada
+0531Q01,Química,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,química,0531Q01,estável,confirmada
+0531Q02,Química industrial e tecnológica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,química industrial e tecnológica,0531Q02,estável,confirmada
+0532G01,Geofísica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,geofísica,0532G01,estável,confirmada
+0532G02,Geologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,geologia,0532G02,estável,confirmada
+0532G03,Geoprocessamento,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,geoprocessamento,0532G03,estável,confirmada
+0532M01,Meteorologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,meteorologia,0532M01,estável,confirmada
+0532O01,Oceanografia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,oceanografia,0532O01,estável,confirmada
+0533A01,Astronomia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,astronomia,0533A01,estável,confirmada
+0533F01,Física,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,física,0533F01,estável,confirmada
+0533F02,Física aplicada,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,física aplicada,0533F02,estável,confirmada
+0533F03,Física médica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,física médica,0533F03,estável,confirmada
+0541M01,Matemática,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,matemática,0541M01,estável,confirmada
+0541M02,Matemática aplicada e computacional,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,matemática aplicada e computacional,0541M02,estável,confirmada
+0542C01,Ciências atuariais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências atuariais,0542C01,estável,confirmada
+0542E01,Estatística,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,estatística,0542E01,estável,confirmada
+0588P01,"Programas interdisciplinares abrangendo ciências naturais, matemática e estatística","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"programas interdisciplinares abrangendo ciências naturais, matemática e estatística",0588P01,estável,confirmada
+0612B01,Banco de dados,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,banco de dados,0612B01,estável,confirmada
+0612D01,Defesa cibernética,"2018,2019,2020,2021,2022,2023,2024",2018,2024,7,defesa cibernética,0612D01,só em parte dos anos,não identificada
+0612G01,Gestão da tecnologia da informação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão da tecnologia da informação,0612G01,estável,confirmada
+0612R01,Redes de computadores,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,redes de computadores,0612R01,estável,confirmada
+0612S01,Segurança da informação,2024,2024,2024,1,segurança da informação,0612S01,só em parte dos anos,não identificada
+0613C01,Ciência da computação,2024,2024,2024,1,ciência da computação,0613C01,só em parte dos anos,não identificada
+0613E01,Engenharia de software,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de software,0613E01,estável,confirmada
+0613I01,Inteligência artificial,2024,2024,2024,1,inteligência artificial,0613I01,só em parte dos anos,não identificada
+0613I02,Internet das coisas,2024,2024,2024,1,internet das coisas,0613I02,só em parte dos anos,não identificada
+0613J01,Jogos digitais,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,jogos digitais,0681J01,código alterado (mesmo nome),provável
+0613S01,Sistemas de informação,2024,2024,2024,1,sistemas de informação,0613S01,só em parte dos anos,não identificada
+0613S02,Sistemas para internet,2024,2024,2024,1,sistemas para internet,0613S02,só em parte dos anos,não identificada
+0614C01,Ciência da computação,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,ciência da computação,0613C01,código alterado (mesmo nome),provável
+0614I01,Inteligência artificial,"2020,2021,2022,2023",2020,2023,4,inteligência artificial,0613I01,código alterado (mesmo nome),provável
+0615S01,Segurança da informação,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,segurança da informação,0612S01,código alterado (mesmo nome),provável
+0615S02,Sistemas de informação,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,sistemas de informação,0613S01,código alterado (mesmo nome),provável
+0615S03,Sistemas para internet,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,sistemas para internet,0613S02,código alterado (mesmo nome),provável
+0616E01,Engenharia de computação (DCN Computação),"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,engenharia de computação (dcn computação),0616E01,só em parte dos anos,não identificada
+0616I01,Internet das coisas,"2020,2021,2022,2023",2020,2023,4,internet das coisas,0613I02,código alterado (mesmo nome),provável
+0616S01,Sistemas embarcados,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,sistemas embarcados,0714S03,código alterado (mesmo nome),provável
+0617A01,Agrocomputação,"2020,2021,2022,2023",2020,2023,4,agrocomputação,0681A01,código alterado (mesmo nome),provável
+0617C01,Ciência de dados,"2020,2021,2022,2023",2020,2023,4,ciência de dados,0681C01,código alterado (mesmo nome),provável
+0617C02,Computação e Tecnologias da Informação e Comunicação (TIC) em biociências e saúde,"2020,2021,2022,2023",2020,2023,4,computação e tecnologias da informação e comunicação (tic) em biociências e saúde,0681C02,código alterado (mesmo nome),provável
+0617C03,Criação digital,"2020,2021,2022,2023",2020,2023,4,criação digital,0681C03,código alterado (mesmo nome),provável
+0619P01,Programas abrangendo Computação e Tecnologias da Informação e Comunicação (TIC) em processo de definição da classificação,2024,2024,2024,1,programas abrangendo computação e tecnologias da informação e comunicação (tic) em processo de definição da classificação,0619P01,só em parte dos anos,não identificada
+0681A01,Agrocomputação,2024,2024,2024,1,agrocomputação,0681A01,só em parte dos anos,não identificada
+0681C01,Ciência de dados,2024,2024,2024,1,ciência de dados,0681C01,só em parte dos anos,não identificada
+0681C02,Computação e Tecnologias da Informação e Comunicação (TIC) em biociências e saúde,2024,2024,2024,1,computação e tecnologias da informação e comunicação (tic) em biociências e saúde,0681C02,só em parte dos anos,não identificada
+0681C03,Criação digital,2024,2024,2024,1,criação digital,0681C03,só em parte dos anos,não identificada
+0681J01,Jogos digitais,2024,2024,2024,1,jogos digitais,0681J01,só em parte dos anos,não identificada
+0688P01,Programas interdisciplinares abrangendo computação e Tecnologias da Informação e Comunicação (TIC),"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,programas interdisciplinares abrangendo computação e tecnologias da informação e comunicação (tic),0688P01,estável,confirmada
+0710E01,Engenharia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia,0710E01,estável,confirmada
+0711B01,Biocombustíveis,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biocombustíveis,0711B01,estável,confirmada
+0711E01,Engenharia bioquímica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia bioquímica,0711E01,estável,confirmada
+0711E02,Engenharia de bioprocessos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de bioprocessos,0711E02,estável,confirmada
+0711E03,Engenharia de biotecnologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de biotecnologia,0711E03,estável,confirmada
+0711E04,Engenharia de nanotecnologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de nanotecnologia,0711E04,estável,confirmada
+0711E05,Engenharia química,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia química,0711E05,estável,confirmada
+0712E01,Engenharia ambiental,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia ambiental,0712E01,estável,confirmada
+0712E02,Engenharia ambiental e sanitária,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia ambiental e sanitária,0712E02,estável,confirmada
+0712G01,Gestão ambiental,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão ambiental,0712G01,estável,confirmada
+0712G02,Gestão de resíduos,"2020,2021,2022,2023,2024",2020,2024,5,gestão de resíduos,0712G02,só em parte dos anos,não identificada
+0712S01,Saneamento ambiental,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,saneamento ambiental,0712S01,estável,confirmada
+0713E01,Eletrotécnica industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,eletrotécnica industrial,0713E01,estável,confirmada
+0713E02,Energias renováveis,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,energias renováveis,0713E02,estável,confirmada
+0713E03,Engenharia bioenergética,"2017,2018,2019,2020",2017,2020,4,engenharia bioenergética,0713E03,só em parte dos anos,não identificada
+0713E04,Engenharia de energia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de energia,0713E04,estável,confirmada
+0713E05,Engenharia elétrica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia elétrica,0713E05,estável,confirmada
+0713E06,Engenharia nuclear,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia nuclear,0713E06,estável,confirmada
+0713R01,Refrigeração e climatização,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,refrigeração e climatização,0713R01,estável,confirmada
+0713S01,Sistemas elétricos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sistemas elétricos,0713S01,estável,confirmada
+0714A01,Automação industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,automação industrial,0714A01,estável,confirmada
+0714E01,Eletrônica industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,eletrônica industrial,0714E01,estável,confirmada
+0714E02,Engenharia acústica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia acústica,0714E02,estável,confirmada
+0714E03,Engenharia biomédica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia biomédica,0714E03,estável,confirmada
+0714E04,Engenharia de computação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de computação | engenharia de computação (dcn engenharia),0714E04,nome alterado (mesmo código),provável
+0714E05,Engenharia de controle e automação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de controle e automação,0714E05,estável,confirmada
+0714E06,Engenharia de informação,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de informação,0714E06,estável,confirmada
+0714E07,Engenharia de telecomunicações,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de telecomunicações,0714E07,estável,confirmada
+0714E08,Engenharia eletrônica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia eletrônica,0714E08,estável,confirmada
+0714E09,Engenharia mecatrônica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia mecatrônica,0714E09,estável,confirmada
+0714G01,Gestão de telecomunicações,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,gestão de telecomunicações,0714G01,só em parte dos anos,não identificada
+0714M01,Mecatrônica industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,mecatrônica industrial,0714M01,estável,confirmada
+0714R01,Redes de telecomunicações,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,redes de telecomunicações,0714R01,estável,confirmada
+0714S01,Sistemas biomédicos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sistemas biomédicos,0714S01,estável,confirmada
+0714S02,Sistemas de telecomunicações,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sistemas de telecomunicações,0714S02,estável,confirmada
+0714S03,Sistemas embarcados,2024,2024,2024,1,sistemas embarcados,0714S03,só em parte dos anos,não identificada
+0714T01,Telemática,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,telemática,0714T01,estável,confirmada
+0715E01,Engenharia física,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia física,0715E01,estável,confirmada
+0715E02,Engenharia mecânica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia mecânica,0715E02,estável,confirmada
+0715E03,Engenharia metalúrgica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia metalúrgica,0715E03,estável,confirmada
+0715F01,Fabricação mecânica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,fabricação mecânica,0715F01,estável,confirmada
+0715M01,Manutenção industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,manutenção industrial,0715M01,estável,confirmada
+0715M02,Mecânica de precisão,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,mecânica de precisão,0715M02,estável,confirmada
+0715P01,Processos metalúrgicos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,processos metalúrgicos,0715P01,estável,confirmada
+0715S01,Soldagem,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,soldagem,0715S01,estável,confirmada
+0716A01,Aeroespacial,"2017,2018",2017,2018,2,aeroespacial,0716A01,só em parte dos anos,não identificada
+0716C01,Construção naval,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,construção naval,0716C01,estável,confirmada
+0716E01,Engenharia aeroespacial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia aeroespacial,0716E01,estável,confirmada
+0716E02,Engenharia aeronáutica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia aeronáutica,0716E02,estável,confirmada
+0716E03,Engenharia automotiva,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia automotiva,0716E03,estável,confirmada
+0716E04,Engenharia ferroviária e metroviária,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia ferroviária e metroviária,0716E04,estável,confirmada
+0716E05,Engenharia naval,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia naval,0716E05,estável,confirmada
+0716M01,Manutenção de aeronaves,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,manutenção de aeronaves,0716M01,estável,confirmada
+0716S01,Sistemas automotivos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sistemas automotivos,0716S01,estável,confirmada
+0716S02,Sistemas de navegação fluvial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,sistemas de navegação fluvial,0716S02,estável,confirmada
+0721A01,Alimentos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,alimentos,0721A01,estável,confirmada
+0721E01,Engenharia de alimentos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de alimentos,0721E01,estável,confirmada
+0721L01,Laticínios,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,laticínios,0721L01,estável,confirmada
+0721P02,Produção de cachaça,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção de cachaça,0721P02,estável,confirmada
+0721P03,Produção sucroalcooleira,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção sucroalcooleira,0721P03,estável,confirmada
+0721P04,Produção de cerveja,"2019,2020,2021,2022,2023,2024",2019,2024,6,produção de cerveja,0721P04,só em parte dos anos,não identificada
+0722C01,Cerâmica,"2017,2024",2017,2024,2,cerâmica,0722C01,só em parte dos anos,não identificada
+0722C02,Ciências dos materiais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências dos materiais,0722C02,estável,confirmada
+0722E01,Engenharia de materiais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de materiais,0722E01,estável,confirmada
+0722P01,Papel e celulose,"2017,2018,2019,2020,2021,2022,2024",2017,2024,7,papel e celulose,0722P01,só em parte dos anos,não identificada
+0722P02,Polímeros,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,polímeros,0722P02,estável,confirmada
+0723E01,Engenharia têxtil,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia têxtil,0723E01,estável,confirmada
+0723P01,Produção de vestuário,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção de vestuário,0723P01,estável,confirmada
+0723P02,Produção têxtil,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção têxtil,0723P02,estável,confirmada
+0724E01,Engenharia de minas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de minas,0724E01,estável,confirmada
+0724E02,Engenharia de petróleo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de petróleo,0724E02,estável,confirmada
+0724E03,Engenharia geológica,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,engenharia geológica,0724E03,só em parte dos anos,não identificada
+0724M01,Mineração,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,mineração,0724M01,estável,confirmada
+0724P01,Petróleo e gás,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,petróleo e gás,0724P01,estável,confirmada
+0724R01,Rochas ornamentais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,rochas ornamentais,0724R01,estável,confirmada
+0725E01,Engenharia de manufatura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de manufatura,0725E01,estável,confirmada
+0725E02,Engenharia de produção,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de produção,0725E02,estável,confirmada
+0725E03,Engenharia industrial,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia industrial,0725E03,estável,confirmada
+0725P01,Produção gráfica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção gráfica,0725P01,estável,confirmada
+0725P02,Produção industrial,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,produção industrial,0725P02,só em parte dos anos,não identificada
+0731A01,Agrimensura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,agrimensura,0731A01,estável,confirmada
+0731A02,Arquitetura e urbanismo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,arquitetura e urbanismo,0731A02,estável,confirmada
+0731E01,Engenharia cartográfica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia cartográfica,0731E01,estável,confirmada
+0731E02,Engenharia de agrimensura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de agrimensura,0731E02,estável,confirmada
+0731E03,Engenharia de agrimensura e cartográfica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de agrimensura e cartográfica,0731E03,estável,confirmada
+0732C01,Construção de edifícios,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,construção de edifícios,0732C01,estável,confirmada
+0732C02,Controle de obras,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,controle de obras,0732C02,estável,confirmada
+0732E01,Engenharia civil,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia civil,0732E01,estável,confirmada
+0732E02,Engenharia de recursos hídricos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de recursos hídricos,0732E02,estável,confirmada
+0732E03,Engenharia de transportes,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de transportes,0732E03,estável,confirmada
+0732E04,Engenharia portuária,2017,2017,2017,1,engenharia portuária,0732E04,só em parte dos anos,não identificada
+0732E05,Estradas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,estradas,0732E05,estável,confirmada
+0732M01,Material de construção,"2023,2024",2023,2024,2,material de construção,0732M01,só em parte dos anos,não identificada
+0788P01,"Programas interdisciplinares abrangendo engenharia, produção e construção","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"programas interdisciplinares abrangendo engenharia, produção e construção",0788P01,estável,confirmada
+0811A01,Agroecologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,agroecologia,0811A01,estável,confirmada
+0811A02,Agroindústria,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,agroindústria,0811A02,estável,confirmada
+0811A03,Agronegócio,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,agronegócio,0811A03,só em parte dos anos,não identificada
+0811A04,Agronomia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,agronomia,0811A04,estável,confirmada
+0811A05,Agropecuária,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,agropecuária,0811A05,estável,confirmada
+0811C01,Cafeicultura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,cafeicultura,0811C01,estável,confirmada
+0811E01,Engenharia agrícola,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia agrícola,0811E01,estável,confirmada
+0811E02,Engenharia de biossistemas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de biossistemas,0811E02,estável,confirmada
+0811F01,Fruticultura,"2017,2018,2022,2023,2024",2017,2024,5,fruticultura,0811F01,só em parte dos anos,não identificada
+0811I01,Irrigação e drenagem,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,irrigação e drenagem,0811I01,estável,confirmada
+0811M01,Manejo da produção agrícola,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,manejo da produção agrícola,0811M01,estável,confirmada
+0811V01,Viticultura e enologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,viticultura e enologia,0811V01,estável,confirmada
+0811Z01,Zootecnia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,zootecnia,0811Z01,estável,confirmada
+0812H01,Horticultura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,horticultura,0812H01,estável,confirmada
+0821E01,Engenharia florestal,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia florestal,0821E01,estável,confirmada
+0821S01,Silvicultura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,silvicultura,0821S01,estável,confirmada
+0831A01,Aquicultura,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,aquicultura,0831A01,estável,confirmada
+0831E01,Engenharia de pesca,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,engenharia de pesca,0831E01,estável,confirmada
+0831P01,Produção pesqueira,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,produção pesqueira,0831P01,estável,confirmada
+0841M01,Medicina veterinária,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,medicina veterinária,0841M01,estável,confirmada
+0888P01,"Programas interdisciplinares abrangendo agricultura, silvicultura, pesca e veterinária","2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,"programas interdisciplinares abrangendo agricultura, silvicultura, pesca e veterinária",0888P01,estável,confirmada
+0911O01,Odontologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,odontologia,0911O01,estável,confirmada
+0912M01,Medicina,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,medicina,0912M01,estável,confirmada
+0913E01,Enfermagem,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,enfermagem,0913E01,estável,confirmada
+0914A01,Análises clínicas e toxicológicas,"2023,2024",2023,2024,2,análises clínicas e toxicológicas,0914A01,só em parte dos anos,não identificada
+0914B01,Biomedicina,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,biomedicina,0914B01,estável,confirmada
+0914O01,Oftálmica,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,oftálmica,0914O01,estável,confirmada
+0914O02,Optometria,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,optometria,0914O02,estável,confirmada
+0914P01,Prótese e órtese,2024,2024,2024,1,prótese e órtese,0914P01,só em parte dos anos,não identificada
+0914R01,Radiologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,radiologia,0914R01,estável,confirmada
+0915E01,Educação física,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,educação física,0915E01,estável,confirmada
+0915F01,Fisioterapia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,fisioterapia,0915F01,estável,confirmada
+0915F02,Fonoaudiologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,fonoaudiologia,0915F02,estável,confirmada
+0915N01,Nutrição,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,nutrição,0915N01,estável,confirmada
+0915P01,Podologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,podologia,0915P01,estável,confirmada
+0915T01,Terapia ocupacional,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,terapia ocupacional,0915T01,estável,confirmada
+0916F01,Farmácia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,farmácia,0916F01,estável,confirmada
+0917M01,Musicoterapia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,musicoterapia,0917M01,estável,confirmada
+0917P01,Práticas integrativas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,práticas integrativas,0917P01,estável,confirmada
+0918S01,Saúde coletiva,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,saúde coletiva,0918S01,estável,confirmada
+0918S02,Saúde pública,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,saúde pública,0918S02,estável,confirmada
+0921G01,Gerontologia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gerontologia,0921G01,estável,confirmada
+0923S01,Serviço social,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,serviço social,0923S01,estável,confirmada
+0988P01,Programas interdisciplinares abrangendo saúde e bem-estar,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,programas interdisciplinares abrangendo saúde e bem-estar,0988P01,estável,confirmada
+1011E01,Economia doméstica,"2017,2018,2019,2020,2021,2022,2023",2017,2023,7,economia doméstica,1011E01,só em parte dos anos,não identificada
+1012E01,Estética e cosmética,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,estética e cosmética,1012E01,estável,confirmada
+1013G01,Gastronomia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gastronomia,1013G01,estável,confirmada
+1014F01,Formação de técnicos e treinadores esportivos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,formação de técnicos e treinadores esportivos,1014F01,estável,confirmada
+1014G01,Gestão desportiva e de lazer,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão desportiva e de lazer,1014G01,estável,confirmada
+1015E01,Eventos,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,eventos,1015E01,estável,confirmada
+1015H01,Hotelaria,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,hotelaria,1015H01,estável,confirmada
+1015T01,Turismo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,turismo,1015T01,estável,confirmada
+1022S01,Segurança no trabalho,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,segurança no trabalho,1022S01,estável,confirmada
+1031C01,Ciências militares,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências militares,1031C01,estável,confirmada
+1032I01,Investigação e perícia,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,investigação e perícia,1032I01,estável,confirmada
+1032S01,Segurança no trânsito,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,segurança no trânsito,1032S01,estável,confirmada
+1032S02,Segurança privada,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,segurança privada,1032S02,estável,confirmada
+1032S03,Segurança pública,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,segurança pública,1032S03,estável,confirmada
+1032S04,Serviços penais,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,serviços penais,1032S04,estável,confirmada
+1041C01,Ciências aeronáuticas,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,ciências aeronáuticas,1041C01,estável,confirmada
+1041G01,Gestão portuária,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,gestão portuária,1041G01,estável,confirmada
+1041T01,Transporte aéreo,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,transporte aéreo,1041T01,estável,confirmada
+1041T02,Transporte terrestre,"2017,2018,2019,2020,2021,2022,2023,2024",2017,2024,8,transporte terrestre,1041T02,estável,confirmada
+1088P01,Programas interdisciplinares abrangendo serviços,"2021,2022,2023,2024",2021,2024,4,programas interdisciplinares abrangendo serviços,1088P01,só em parte dos anos,não identificada

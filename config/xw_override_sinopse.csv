@@ -1,0 +1,9 @@
+tabela,coluna,anos,campo,valor,justificativa
+4.1,AA,2017-2024,indicador,inscritos,"Mesclagem 'Candidatos Inscritos' começa em AB8 e não em AA8; AA9='Total' é o total de Inscritos da Universidade (bloco L–AO: Vagas L–Z, Inscritos AA–AO). Conferido nos cabeçalhos crus de 2017 e 2024."
+4.1,AP,2017-2024,org_academica,Centro Universitário,"Mesclagem 'Centro Universitário' começa em AR7; AP–BS é o bloco do Centro Universitário (Vagas AP8:BD8, Inscritos BF8:BS8). AP9='Total' de Vagas."
+4.1,AQ,2017-2024,org_academica,Centro Universitário,"Idem AP: AQ9='Presencial', AQ10='Total' dentro de Vagas do Centro Universitário."
+4.1,BE,2017-2024,indicador,inscritos,"Mesclagem 'Candidatos Inscritos' começa em BF8; BE9='Total' é o total de Inscritos do Centro Universitário."
+4.1,CI,2017-2024,indicador,inscritos,"Mesclagem 'Candidatos Inscritos' começa em CJ8; CI9='Total' é o total de Inscritos da Faculdade."
+6.5,BI,2017-2018,ignorar,,"Coluna OCULTA no arquivo original, sem nenhum rótulo de cabeçalho, com valores diferentes do Total (ex.: Brasil 17.349 × 1.201.145); desaparece em 2019. Significado não identificável: mantida só no staging, fora do núcleo (ocorrência Q05)."
+3.2,FM:HK,2020-2020,ignorar,,"Colunas sem rótulo à direita da tabela; as 51 são cópias exatas (todas as linhas) das colunas rotuladas Y em diante. Sobra de edição; nenhuma informação nova (ocorrência Q06)."
+4.4,HE:JY,2020-2020,ignorar,,"Colunas sem rótulo à direita da tabela; as 73 são cópias exatas (todas as linhas) das colunas rotuladas Y em diante. Sobra de edição; nenhuma informação nova (ocorrência Q06)."

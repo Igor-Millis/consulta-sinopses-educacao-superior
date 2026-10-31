@@ -1,0 +1,109 @@
+﻿rotulo,dimensao,valor
+Universidade,org_academica,Universidade
+Centro Universitário,org_academica,Centro Universitário
+Faculdade,org_academica,Faculdade
+"Instituto Federal de Educação, Ciência e Tecnologia (IF) e Centro Federal de Educação Tecnológica (Cefet)",org_academica,IF/Cefet
+Pública,dependencia,Pública
+Federal,dependencia,Federal
+Estadual,dependencia,Estadual
+Municipal,dependencia,Municipal
+Privada,dependencia,Privada
+Privada - Com Fins Lucrativos,dependencia,Privada
+Privada - Com Fins Lucrativos,categoria_privada,Com Fins Lucrativos
+Privada - Sem Fins Lucrativos,dependencia,Privada
+Privada - Sem Fins Lucrativos,categoria_privada,Sem Fins Lucrativos
+Com Fins Lucrativos,categoria_privada,Com Fins Lucrativos
+Sem Fins Lucrativos,categoria_privada,Sem Fins Lucrativos
+Comunitária,tipo_privada,Comunitária
+Confessional,tipo_privada,Confessional
+Bacharelado,grau,Bacharelado
+Licenciatura,grau,Licenciatura
+Tecnológico,grau,Tecnológico
+Não Aplicável,grau,Não Aplicável
+Presencial,modalidade,Presencial
+A Distância,modalidade,A Distância
+Diurno,turno,Diurno
+Noturno,turno,Noturno
+Feminino,sexo,Feminino
+Masculino,sexo,Masculino
+Branca,cor_raca,Branca
+Preta,cor_raca,Preta
+Parda,cor_raca,Parda
+Amarela,cor_raca,Amarela
+Indígena,cor_raca,Indígena
+Não Dispõe da Informação,cor_raca,Não Dispõe da Informação
+Brasileira,nacionalidade,Brasileira
+Brasileira - Naturalizado,nacionalidade,Brasileira - Naturalizado
+Estrangeira,nacionalidade,Estrangeira
+Estrangeiro,nacionalidade,Estrangeira
+Auditiva,deficiencia,Auditiva
+Baixa Visão,deficiencia,Baixa Visão
+Cegueira,deficiencia,Cegueira
+Física,deficiencia,Física
+Intelectual,deficiencia,Intelectual
+Múltipla,deficiencia,Múltipla
+Surdez,deficiencia,Surdez
+Surdocegueira,deficiencia,Surdocegueira
+Autismo Infantil,deficiencia,Autismo Infantil
+Síndrome de Asperger,deficiencia,Síndrome de Asperger
+Síndrome de Rett,deficiencia,Síndrome de Rett
+Transtorno Desintegrativo da Infância,deficiencia,Transtorno Desintegrativo da Infância
+Transtorno Global do Desenvolvimento (TGD),deficiencia,Transtorno Global do Desenvolvimento (TGD)
+Transtorno do Espectro Autista (TEA),deficiencia,Transtorno do Espectro Autista (TEA)
+Transtorno do Espectro Autista,deficiencia,Transtorno do Espectro Autista
+Superdotação,deficiencia,Superdotação
+Altas habilidades/superdotação,deficiencia,Altas habilidades/superdotação
+Visão Monocular,deficiencia,Visão Monocular
+Seleção para Vagas Novas,forma_ingresso,Seleção para Vagas Novas
+Vestibular,forma_ingresso,Vestibular
+Enem,forma_ingresso,Enem
+Avaliação Seriada,forma_ingresso,Avaliação Seriada
+Seleção Simplificada,forma_ingresso,Seleção Simplificada
+Seleção para vagas de programas especiais,forma_ingresso,Seleção para vagas de programas especiais
+Seleção para vagas remanescentes,forma_ingresso,Seleção para vagas remanescentes
+Outras Formas de Ingresso,forma_ingresso,Outras Formas de Ingresso
+FIES,financiamento,FIES
+ProUni Integral,financiamento,ProUni Integral
+ProUni Parcial,financiamento,ProUni Parcial
+Outros Financiamentos,financiamento,Outros Financiamentos
+Étnico,reserva_vagas,Étnico
+Pessoas com Deficiência,reserva_vagas,Pessoas com Deficiência
+Estudante Procedente de Escola Pública,reserva_vagas,Estudante Procedente de Escola Pública
+Social / Renda Familiar,reserva_vagas,Social / Renda Familiar
+Outros Programas,reserva_vagas,Outros Programas
+Outros,reserva_vagas,Outros
+Estudante Idoso,reserva_vagas,Estudante Idoso
+Estudante Internacional,reserva_vagas,Estudante Internacional
+Estudante Medalhista,reserva_vagas,Estudante Medalhista
+"Estudante Preto, Pardo ou Indígena",reserva_vagas,"Estudante Preto, Pardo ou Indígena"
+Estudante Quilombola,reserva_vagas,Estudante Quilombola
+Estudante Refugiado,reserva_vagas,Estudante Refugiado
+Estudante Transgênero,reserva_vagas,Estudante Transgênero
+Estudante de Comunidade Tradicional,reserva_vagas,Estudante de Comunidade Tradicional
+Tempo Integral,regime_trabalho,Tempo Integral
+Tempo Parcial,regime_trabalho,Tempo Parcial
+Horista,regime_trabalho,Horista
+Com Dedicação Exclusiva,dedicacao_exclusiva,Com Dedicação Exclusiva
+Sem Dedicação Exclusiva,dedicacao_exclusiva,Sem Dedicação Exclusiva
+Sem Graduação,grau_formacao,Sem Graduação
+Graduação,grau_formacao,Graduação
+Especialização,grau_formacao,Especialização
+Mestrado,grau_formacao,Mestrado
+Doutorado,grau_formacao,Doutorado
+Número de Cursos,indicador,cursos
+Vagas Oferecidas,indicador,vagas
+Candidatos Inscritos,indicador,inscritos
+Ingressantes,indicador,ingressantes
+Matrículas,indicador,matriculas
+Concluintes,indicador,concluintes
+Matrículas Trancadas,indicador,matriculas_trancadas
+Matrículas Desvinculadas,indicador,matriculas_desvinculadas
+Alunos Transferidos para outros cursos na mesma IES,indicador,alunos_transferidos
+Alunos Falecidos,indicador,alunos_falecidos
+Número de Polos,indicador,polos
+Grau de Formação,(legenda),
+Regime de Trabalho,(legenda),
+Sexo,(legenda),
+Tipo da Instituição Privada,(legenda),
+Total Geral,(legenda),
+Total Geral - Instituições Privadas - Comunitárias e/ou Confessionais,(legenda),

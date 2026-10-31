@@ -1,0 +1,10 @@
+# Fontes originais do INEP (imutáveis, não versionadas)
+*.zip
+# Dados gerados (reconstruíveis pelo pipeline; o banco tem ~5 GB)
+dados/
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+# Configuração local do Claude Code
+.claude/settings.local.json

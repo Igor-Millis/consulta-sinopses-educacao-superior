@@ -1,0 +1,16 @@
+﻿ano,tabela,nivel_academico,indicador,coluna_a,coluna_b,valor_publicado_a,valor_publicado_b,dimensao,robusto
+2017,3.1,Graduação,cursos,X,Y,7838,14456,dependencia,True
+2017,3.1,Graduação,cursos,AO,AP,126,5000,dependencia,True
+2017,3.1,Graduação,cursos,BF,BG,583,12400,dependencia,True
+2018,3.1,Graduação,cursos,X,Y,7779,14399,dependencia,True
+2018,3.1,Graduação,cursos,AO,AP,163,6203,dependencia,True
+2018,3.1,Graduação,cursos,BF,BG,564,12658,dependencia,True
+2019,3.1,Graduação,cursos,X,Y,7803,14399,dependencia,True
+2019,3.1,Graduação,cursos,AO,AP,148,7658,dependencia,True
+2019,3.1,Graduação,cursos,BF,BG,585,12182,dependencia,True
+2021,3.1,Graduação,cursos,X,Y,7769,14460,dependencia,True
+2021,3.1,Graduação,cursos,AO,AP,146,8401,dependencia,True
+2021,3.1,Graduação,cursos,BF,BG,609,10834,dependencia,True
+2023,3.1,Graduação,cursos,X,Y,7998,14461,dependencia,True
+2023,3.1,Graduação,cursos,AO,AP,114,9137,dependencia,True
+2023,3.1,Graduação,cursos,BF,BG,633,9946,dependencia,True

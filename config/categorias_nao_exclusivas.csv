@@ -1,0 +1,8 @@
+dimensao,tabelas,nota_oficial
+financiamento,4.12;4.13;4.14;5.11;5.12;5.13;6.11;6.12;6.13,"O mesmo aluno pode ter mais de um tipo de Financiamento Estudantil."
+forma_ingresso,4.2;4.3;4.4;4.5;4.6;4.7;4.8;4.9;4.10;4.11;4.12;4.13;4.14;4.15;4.16;4.17;5.14,"O mesmo aluno pode ter mais de um tipo de Forma de Ingresso."
+reserva_vagas,4.15;4.16;4.17,"O mesmo aluno pode ter mais de um tipo de Programa de Reserva de Vagas."
+deficiencia,4.9;4.10;5.8;5.9;6.8;6.9,"O mesmo aluno pode ter mais de um tipo de deficiência."
+turno,3.3,"O mesmo curso pode ser oferecido em mais de um turno."
+tipo_privada,1.2;2.10;7.4,"A mesma Instituição pode ser comunitária e Confessional."
+reserva_vagas,5.14;5.15;5.16;6.14;6.15;6.16,"NÃO DECLARADO nas notas destas tabelas; comportamento observado nos dados (soma das categorias > total em ~50% das comparações, como nas 4.15–4.17, onde a nota diz: O mesmo aluno pode ter mais de um tipo de Programa de Reserva de Vagas). Hipótese a confirmar."
