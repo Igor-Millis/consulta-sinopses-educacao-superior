@@ -103,6 +103,23 @@ Instâncias antigas e de teste do servidor foram encerradas. Fica no ar só a ve
 
 Dica: abra o modo IA uma vez antes da apresentação (a primeira pergunta carrega o modelo e é a mais lenta).
 
+### 9.1 Verificação pós-limpeza (31/10/2026, 12:39) — `pipeline/verificar_pos_limpeza.py`
+O usuário autorizou apagar o banco pré-compactação e as cópias XLSX. **As exclusões não foram feitas:**
+- a tentativa pelo Claude Code foi bloqueada pela proteção de arquivos (pasta `dados/nucleo` protegida pela D16; `%TEMP%` fora da pasta da sessão);
+- os comandos manuais indicados ao usuário ainda não foram executados.
+
+Situação verificada:
+
+| Item | Resultado |
+|---|---|
+| `ijsn_pre_compactacao_20261031_011217.duckdb` | **ainda existe**, íntegro (5.488.521.216 bytes) |
+| `%TEMP%\ijsn_pipeline` | **ainda existe** (32 arquivos, 4.088.980.562 bytes) |
+| Banco atual `ijsn.duckdb` | existe; 4.813.500.416 bytes (4,48 GB); 25 tabelas; 8/8 visões compilam; contagens iguais às da auditoria; marcações de qualidade preservadas; consulta de leitura ES 2024 = 182.335; motor Vila Velha 2024 = 27.743 |
+| 8 ZIPs 2017–2024 | **intactos**: tamanho e MD5 iguais ao `config/manifesto_fontes.csv` |
+| Disco C: | **5,0 GB livres** (subiu de 2,5 GB por outras causas, **não** por essas exclusões) |
+
+Espaço ainda recuperável com as exclusões autorizadas: cerca de 9,6 GB (5,49 + 4,09 GB).
+
 ## 12. Pendências que dependem de autorização
 1. Liberar espaço (§9). Nada foi apagado.
 2. Manter ou ajustar as permissões atuais (restritas, D16).
