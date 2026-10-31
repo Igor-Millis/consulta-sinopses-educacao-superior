@@ -75,7 +75,7 @@ class Handler(BaseHTTPRequestHandler):
         self._enviar(codigo, json.dumps(obj, ensure_ascii=False).encode("utf-8"), "application/json; charset=utf-8")
 
     def do_GET(self):
-        if self.path in ("/", "/index.html"):
+        if self.path.split("?", 1)[0] in ("/", "/index.html"):   # a página aceita ?q=... (lido pelo JavaScript)
             return self._enviar(200, PAGINA.encode("utf-8"), "text/html; charset=utf-8")
         if self.path == "/api/estado":
             return self._json(200, estado())

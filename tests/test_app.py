@@ -58,6 +58,12 @@ def test_pagina(url):
     assert st == 200 and "Consulta às Sinopses" in corpo.decode() and "Content-Security-Policy" in h
 
 
+def test_pagina_com_parametro_q(url):
+    """?q=... abre a mesma página (o JavaScript lê a pergunta); antes do ajuste de 31/10/2026 dava 404."""
+    st, corpo, _ = _get(url + "/?q=Quantas%20matr%C3%ADculas%20em%20Vit%C3%B3ria")
+    assert st == 200 and "Consulta às Sinopses" in corpo.decode()
+
+
 def test_pergunta_com_numero_correto_e_arquivos(url):
     d = _post(url + "/api/perguntar", {"pergunta": "Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?"})
     assert "182.335" in d["html"] and not d["precisa_esclarecer"] and d["interpretador"] == "regras"
