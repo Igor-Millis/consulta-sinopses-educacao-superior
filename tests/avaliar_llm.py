@@ -65,6 +65,28 @@ PARAFRASES = [
 ]
 
 
+# Conjunto de CONTROLE (escrito em 31/10/2026 depois do ajuste das regras; nada foi ajustado depois de rodá-lo).
+# Mede a generalização: o conjunto PARAFRASES acima foi usado para corrigir as regras e não serve para isso.
+CONTROLE = [
+    ("Quantos estudantes de graduação havia em Linhares no último ano disponível?", dict(indicador="matriculas", locais=["Linhares"])),
+    ("Em que municípios do Espírito Santo há mais vagas oferecidas?", dict(indicador="vagas", tipos=["ranking"], locais=ES, listar="municipios")),
+    ("Total de concluintes em São Mateus de 2019 a 2022", dict(indicador="concluintes", tipos=["serie"], anos=(2019, 2022), locais=["São Mateus"])),
+    ("Pernambuco ou Ceará: qual tem mais ingressantes?", dict(indicador="ingressantes", tipos=["comparacao"], anos=(2017, 2024), locais=["Pernambuco", "Ceará"])),
+    ("Percentual de alunos em universidades no ES em 2023", dict(indicador="matriculas", tipos=["participacao"], anos=(2023, 2023), locais=ES, filtros={"org_academica": "Universidade"})),
+    ("Como variou o número de docentes no Brasil entre 2017 e 2024?", dict(indicador="docentes_exercicio", tipos=["serie"], anos=(2017, 2024), locais=["Brasil"])),
+    ("Ranking dos estados por concluintes em 2022", dict(indicador="concluintes", tipos=["ranking"], anos=(2022, 2022), locais=[], listar="ufs")),
+    ("Quantos ingressantes homens em Vitória em 2024?", dict(indicador="ingressantes", locais=["Vitória"], filtros={"sexo": "Masculino"})),
+    ("Matrículas em cursos tecnológicos na Grande Vitória em 2024", dict(indicador="matriculas", locais=["Grande Vitória"], filtros={"grau": "Tecnológico"})),
+    ("Qual curso tem mais concluintes no Brasil?", dict(indicador="concluintes", tipos=["ranking"], locais=["Brasil"], quebras=["curso"])),
+    ("Evolução das vagas EaD no Brasil", dict(indicador="vagas", tipos=["serie"], anos=(2017, 2024), locais=["Brasil"], filtros={"modalidade": "A Distância"})),
+    ("Quantos inscritos por vaga em Medicina no Brasil em 2024?", dict(indicador="candidatos_por_vaga", locais=["Brasil"], curso="Medicina")),
+    ("Quais municípios capixabas perderam ingressantes entre 2019 e 2024?", dict(indicador="ingressantes", tipos=["crescimento"], anos=(2019, 2024), locais=ES, listar="municipios", ordem="asc", so_reducao=True)),
+    ("Quantas IES privadas há em Vila Velha?", dict(indicador="ies", locais=["Vila Velha"], filtros={"rede": "Privada"})),
+    ("Me mostre os ingressantes por cor/raça no Sudeste em 2021", dict(indicador="ingressantes", anos=(2021, 2021), locais=["Sudeste"], quebras=["cor_raca"])),
+    ("Qual o melhor time de futebol do Espírito Santo?", dict(indicador=None, esclarece=True)),
+]
+
+
 def esperado_ids(e, cat):
     ids = []
     for nome in e.get("locais", []):
@@ -105,9 +127,9 @@ def comparar(j, e, cat):
     return f
 
 
-def avaliar(nome, interpretar_fn, cat):
+def avaliar(nome, interpretar_fn, cat, conjunto=None):
     linhas = []
-    for p, e in PARAFRASES:
+    for p, e in (conjunto or PARAFRASES):
         t0 = time.time()
         j, origem = interpretar_fn(p)
         f = comparar(j, e, cat)
@@ -119,7 +141,9 @@ def avaliar(nome, interpretar_fn, cat):
 
 def main():
     cat = catalogo()
-    modelos = sys.argv[1:] or ["qwen2.5:3b"]
+    controle = "--controle" in sys.argv
+    modelos = [a for a in sys.argv[1:] if not a.startswith("--")] or ["qwen2.5:3b"]
+    conjunto = CONTROLE if controle else PARAFRASES
 
     def regras(p):
         c = interpretar(p, cat)
@@ -139,19 +163,19 @@ def main():
             return via_llm(modelo)(p)
         return f
 
-    res = [avaliar("regras", regras, cat)]
+    res = [avaliar("regras", regras, cat, conjunto)]
     for m in modelos:
-        res.append(avaliar(f"llm:{m}", via_llm(m), cat))
-        res.append(avaliar(f"hibrido:{m}", hibrido(m), cat))
+        res.append(avaliar(f"llm:{m}", via_llm(m), cat, conjunto))
+        res.append(avaliar(f"hibrido:{m}", hibrido(m), cat, conjunto))
     df = pd.concat(res, ignore_index=True)
-    saida = Path(__file__).resolve().parent.parent / "dados" / "qualidade" / f"avaliacao_llm_{'_'.join(m.replace(':', '-') for m in modelos)}.csv"
+    saida = Path(__file__).resolve().parent.parent / "dados" / "qualidade" / f"avaliacao_llm_{'controle_' if controle else ''}{'_'.join(m.replace(':', '-') for m in modelos)}.csv"
     df.to_csv(saida, sep=";", index=False, encoding="utf-8-sig")
     resumo(df, saida)
 
 
 def resumo(df, saida):
     df = df.fillna({"erros": ""})
-    print("\nRESUMO (perguntas parafraseadas, n =", len(PARAFRASES), ")")
+    print("\nRESUMO (n =", df.pergunta.nunique(), "perguntas)")
     print(df.groupby("interpretador").agg(exatas=("exata", "sum"), tempo_medio_s=("segundos", "mean"),
                                           tempo_max_s=("segundos", "max")).to_string())
     print("erros por campo:")

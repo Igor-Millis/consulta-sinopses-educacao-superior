@@ -78,7 +78,7 @@ pergunta ─► interpretador ─► Consulta ─► consultas.planejar ─► S
 Ver `_arquitetura/02_decisoes.md` (D06). As tabelas autorizadas estão em `config.py` (`TABELAS_AUTORIZADAS`). Para auditoria, toda consulta fica em `dados/consultas/registro_consultas.jsonl`, com pergunta, SQL, parâmetros, linhas, tempo e erro.
 
 ## Testes
-`python -I -m pytest -p no:cacheprovider tests` (216 testes, cerca de 45 s):
+`python -I -m pytest -p no:cacheprovider tests` (260 testes, cerca de 70 s; inclui interface, LLM e marcações de qualidade):
 - `test_seguranca.py`: 4 SQLs aceitos e 17 recusados, escrita bloqueada pela conexão, injeção via parâmetro;
 - `test_interpretador.py`: 17 formas de pergunta;
 - `test_analise.py`: fórmulas e formatação;

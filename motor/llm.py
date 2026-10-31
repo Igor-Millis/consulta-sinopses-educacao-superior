@@ -16,7 +16,7 @@ from .interpretador import Consulta
 from .semantica import normalizar
 
 URL = "http://127.0.0.1:11434/api/chat"       # só local (não configurável de propósito)
-MODELO = "qwen2.5:3b"
+MODELO = "qwen2.5:7b"   # escolhido pela avaliação de 31/10/2026 (27/40 × 21/40 do 3B; D17)
 TEMPO_MAXIMO_S = 180
 DIMS_FILTRO = ["modalidade", "rede", "dependencia", "categoria_privada", "org_academica", "grau", "sexo", "cor_raca"]
 DIMS_QUEBRA = DIMS_FILTRO + ["faixa_etaria", "curso"]

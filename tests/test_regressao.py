@@ -114,6 +114,27 @@ def test_r10_sexo_por_rede_bate_com_anexos(ref):
     assert r.tabela["valor"].sum() == anexos_uf(ref, "matriculas", 2024, "32")
 
 
+# R11 — conjunto de controle (31/10/2026): "Ranking dos estados" respondia o total do Brasil em silêncio
+def test_r11_ranking_dos_estados(ref):
+    r = perguntar("Ranking dos estados por concluintes em 2022")
+    sp = um(ref, f"""SELECT sum(valor) FROM fato_anexo_curso f JOIN dim_geografia g USING (id_geo)
+                     WHERE f.nivel_geo='Município' AND g.co_uf='35' AND id_recorte={TOT} AND indicador='concluintes' AND ano=2022""")
+    assert len(r.tabela) == 10 and r.tabela["nome"].iloc[0] == "São Paulo" and r.tabela["valor"].iloc[0] == sp
+
+
+# R12 — "Qual curso tem mais concluintes" respondia o NÚMERO DE CURSOS (45.772) em silêncio
+def test_r12_qual_curso_tem_mais(ref):
+    r = perguntar("Qual curso tem mais concluintes no Brasil?")
+    lider = ref.execute(f"""SELECT coalesce(x.co_cine_ref, f.co_cine), sum(valor) FROM fato_anexo_curso f
+        LEFT JOIN xw_cine x USING (co_cine) WHERE f.nivel_geo='Brasil' AND f.co_cine <> '_TOTAL' AND id_recorte={TOT}
+        AND indicador='concluintes' AND ano=2024 GROUP BY 1 ORDER BY 2 DESC LIMIT 1""").fetchall()[0]
+    assert r.tabela["nome"].iloc[0] == "Pedagogia" and r.tabela["valor"].iloc[0] == lider[1]
+
+
+def test_r12_numero_de_cursos_continua_indicador(cat):
+    assert interpretar("Quantos cursos de graduação existem no ES em 2024?", cat).indicador == "cursos"
+
+
 # R09 — texto todo em maiúsculas: "SE" (conjunção) não pode virar Sergipe
 def test_r09_caixa_alta_se_nao_e_sergipe(cat):
     c = interpretar("QUANTAS MATRÍCULAS SE TEM EM VITÓRIA EM 2024?", cat)

@@ -106,7 +106,7 @@ async function enviar() {
   if (!pergunta) return;
   const modo = $("modo").value;
   $("enviar").disabled = true;
-  $("saida").innerHTML = "<div class='cartao'>Consultando" + (modo === "hibrido" ? " (a IA local pode levar de 10 a 40 segundos)" : "") + "…</div>";
+  $("saida").innerHTML = "<div class='cartao'>Consultando" + (modo === "hibrido" ? " (a IA local pode levar de 20 a 90 segundos)" : "") + "…</div>";
   try {
     const r = await fetch("/api/perguntar", {method: "POST", headers: {"Content-Type": "application/json"},
                                              body: JSON.stringify({pergunta, modo})});

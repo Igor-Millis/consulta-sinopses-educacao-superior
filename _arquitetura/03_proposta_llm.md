@@ -1,5 +1,12 @@
 # Proposta: integração de um modelo de linguagem (LLM) ao motor de consultas
 
+> **Situação em 31/10/2026: implementada.**
+> - Ollama 0.40.13 local (127.0.0.1), modelo padrão Qwen2.5 **7B**; o 3B também está baixado.
+> - Código em `motor/llm.py`; modo híbrido em `motor.api.perguntar(modo="hibrido")`.
+> - Avaliação (`tests/avaliar_llm.py`): o 7B sozinho acerta 27 de 40 perguntas, o 3B 21 e as regras 38 (14/16 nas inéditas).
+> - Decisão e justificativa em `02_decisoes.md` (D17): regras como padrão, LLM só como apoio, com aviso.
+> - Diferença em relação a esta proposta: o modelo devolve **nomes** (não códigos IBGE), resolvidos de forma determinística no catálogo antes do contrato.
+
 Situação em 30/10/2026: o motor funciona com um interpretador por regras. Esta proposta descreve como acrescentar um modelo de linguagem **sem abrir mão** de três garantias:
 - os números vêm do banco e do código;
 - toda consulta é somente leitura e validada;

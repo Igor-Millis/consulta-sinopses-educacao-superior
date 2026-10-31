@@ -30,7 +30,7 @@ Escreva a pergunta e clique em **Perguntar** (ou tecle Enter). Exemplos:
 
 ### Modo de interpretação
 - **Regras (mais previsível):** entende as formas de pergunta dos exemplos acima e responde em menos de 1 segundo.
-- **Regras + IA local:** quando as regras não entendem a pergunta, uma IA instalada neste computador tenta interpretá-la (10 a 40 segundos). A resposta mostra um **aviso amarelo**: confira "Como a pergunta foi entendida" antes de usar os números.
+- **Regras + IA local:** quando as regras não entendem a pergunta, uma IA instalada neste computador tenta interpretá-la (20 a 90 segundos; a primeira pergunta do dia é a mais lenta). A resposta mostra um **aviso amarelo**: confira "Como a pergunta foi entendida" antes de usar os números.
 
 A IA **só interpreta** a pergunta. Os números vêm sempre do banco de dados, calculados por programa.
 

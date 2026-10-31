@@ -93,10 +93,12 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
 
     # ---------------- dimensão curso e listas de lugares ("quais cursos", "municípios capixabas")
     lista_cursos = _tem(t, "quais cursos", "por curso", "cursos que", "cursos com", "cursos mais", "cursos de maior",
-                        "cursos que mais", "que cursos", "quais os cursos", "cursos estao", "quais sao os cursos")
+                        "cursos que mais", "que cursos", "quais os cursos", "cursos estao", "quais sao os cursos",
+                        "qual curso", "que curso", "qual o curso", "curso com mais", "curso tem mais", "curso com menos",
+                        "curso que mais", "ranking dos cursos", "ranking de cursos")
     if lista_cursos:
         c.quebras.append("curso")
-        t = t.replace("cursos", " ")
+        t = re.sub(r"\bcursos?\b", " ", t)   # "curso(s)" aqui é a dimensão, não o indicador "número de cursos"
 
     # ---------------- locais: aliases, UFs e municípios numa só passada, nome mais longo primeiro
     # (assim "Rio Grande do Sul" e "Rio Novo do Sul" vencem a região "sul"); cada trecho achado é consumido.
@@ -165,7 +167,8 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         if len(ufs) == 1 and not [l for l in c.locais if l.nivel == "Município"]:
             c.listar_municipios_uf = ufs[0].co_uf
     if _tem(t, "por estado", "por uf", "entre os estados", "quais estados", "por estados", "qual estado", "que estado",
-            "qual uf", "qual unidade da federacao"):
+            "qual uf", "qual unidade da federacao", "ranking dos estados", "ranking das ufs", "dos estados por",
+            "estados com mais", "estados com menos"):
         c.listar_ufs = True
 
     # ---------------- indicador
