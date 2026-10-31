@@ -315,7 +315,9 @@ def _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, in
     partes.append("**Fontes**\n" + "\n".join(fontes))
     lim = list(dict.fromkeys([*plano.notas, *notas_extra, *ind.get("limitacoes", [])]))
     if "tem_suspeito" in df_bruto.columns and df_bruto["tem_suspeito"].fillna(False).any():
-        lim.append("Parte dos valores usados está marcada como **suspeita** na fonte (ver ocorrências abaixo).")
+        n_s, n_t = int(df_bruto["tem_suspeito"].fillna(False).sum()), len(df_bruto)
+        lim.append(f"**{n_s} de {n_t}** valores usados contêm células marcadas como **suspeitas** na publicação do "
+                   "INEP (mantidas como publicadas; ver ocorrências abaixo). Use esses números com cautela.")
     for _, o in ocorr.iterrows():
         lim.append(f"Ocorrência {o['id']} ({o['anos']}, tabela {o['tabela']}): {o['descricao'][:300]}"
                    + ("…" if len(o["descricao"]) > 300 else ""))

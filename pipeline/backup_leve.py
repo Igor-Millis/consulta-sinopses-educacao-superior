@@ -82,34 +82,44 @@ def exportar():
     return destino
 
 
-def validar(destino: Path):
-    destino = Path(destino)
+def validar(destino: Path, banco_atual: Path = BANCO):
+    """Duas perguntas separadas:
+    INTEGRIDADE — os Parquet são exatamente o que o manifesto descreve (linhas, esquema, conteúdo, sha256)?
+                  É isto que decide VÁLIDO/INVÁLIDO.
+    ATUALIDADE  — o backup é igual ao banco atual? (informativo: um backup antigo é íntegro, mas desatualizado)
+    O relatório vai para validacao_<data_hora>.txt (arquivo novo; nada do backup é sobrescrito)."""
+    import tempfile
+    destino = Path(destino).resolve()
     man = json.loads((destino / "manifesto.json").read_text(encoding="utf-8"))
-    banco = duckdb.connect(str(BANCO), read_only=True)
+    banco = duckdb.connect(str(banco_atual), read_only=True)
     banco.execute("SET memory_limit = '2GB'")
     mem = duckdb.connect()
     mem.execute("SET memory_limit = '2GB'")
-    linhas, falhas = [], 0
+    linhas, falhas, desatualizadas = [], 0, []
+    tabelas_banco = {r[0] for r in banco.execute("SELECT table_name FROM duckdb_tables()").fetchall()}
     for t, info in man["tabelas"].items():
         arq = (destino / info["arquivo"]).as_posix()
         src = f"read_parquet('{arq}')"
         checks = {
-            "linhas": mem.execute(f"SELECT count(*) FROM {src}").fetchall()[0][0] == info["linhas"]
-                      == banco.execute(f"SELECT count(*) FROM {t}").fetchall()[0][0],
+            "linhas": mem.execute(f"SELECT count(*) FROM {src}").fetchall()[0][0] == info["linhas"],
             "esquema": [list(x) for x in esquema(mem, src)] == [list(x) for x in info["colunas"]],
-            "conteudo": digital(mem, src) == info["digital"] == digital(banco, t),
+            "conteudo": digital(mem, src) == info["digital"],
             "sha256": sha256(destino / info["arquivo"]) == info["sha256"],
         }
+        atual = t in tabelas_banco and digital(banco, t) == info["digital"]
+        if not atual:
+            desatualizadas.append(t)
         ok = all(checks.values())
         falhas += not ok
         linhas.append(f"{'OK   ' if ok else 'FALHA'} {t}: {info['linhas']:,} linhas " +
-                      " ".join(f"{k}={'ok' if v else 'DIFERENTE'}" for k, v in checks.items()))
+                      " ".join(f"{k}={'ok' if v else 'DIFERENTE'}" for k, v in checks.items()) +
+                      ("" if atual else "  [difere do banco atual]"))
         print(linhas[-1], flush=True)
+    novas = sorted(tabelas_banco - set(man["tabelas"]) - set(man.get("excluidas", {})))
     banco.close()
-    # reconstrução: banco novo só com os Parquet
-    recon = destino / "reconstrucao_teste.duckdb"
-    if recon.exists():
-        recon.unlink()
+    # reconstrução: banco novo só com os Parquet (em pasta temporária, fora do backup)
+    pasta_tmp = Path(tempfile.mkdtemp(prefix="ijsn_recon_"))
+    recon = pasta_tmp / "reconstrucao_teste.duckdb"
     r = duckdb.connect(str(recon))
     for t, info in man["tabelas"].items():
         r.execute(f"CREATE TABLE {t} AS SELECT * FROM read_parquet('{(destino / info['arquivo']).as_posix()}')")
@@ -126,16 +136,23 @@ def validar(destino: Path):
         falhas += 1
     print(linhas[-1])
     recon.unlink(missing_ok=True)
-    resumo = f"{'VÁLIDO' if falhas == 0 else 'INVÁLIDO'}: {len(man['tabelas'])} tabelas, {falhas} falha(s)"
-    linhas.append(resumo)
-    (destino / "validacao.txt").write_text(f"validado em {datetime.now():%d/%m/%Y %H:%M:%S}\n" + "\n".join(linhas),
-                                           encoding="utf-8")
+    pasta_tmp.rmdir()
+    resumo = f"{'VÁLIDO' if falhas == 0 else 'INVÁLIDO'}: {len(man['tabelas'])} tabelas, {falhas} falha(s) de integridade"
+    atualidade = ("ATUAL: igual ao banco atual em todas as tabelas" if not desatualizadas and not novas else
+                  f"DESATUALIZADO em relação ao banco atual: difere em {desatualizadas or 'nenhuma'}; "
+                  f"tabelas novas no banco: {novas or 'nenhuma'}")
+    linhas += [resumo, atualidade]
+    agora = datetime.now()
+    rel = destino / f"validacao_{agora:%Y%m%d_%H%M%S}.txt"
+    rel.write_text(f"validado em {agora:%d/%m/%Y %H:%M:%S} contra {banco_atual}\n" + "\n".join(linhas), encoding="utf-8")
+    print(atualidade)
     print(resumo)
     return falhas == 0
 
 
 if __name__ == "__main__":
-    if len(sys.argv) >= 3 and sys.argv[1] == "--validar":
-        sys.exit(0 if validar(Path(sys.argv[2])) else 1)
+    if len(sys.argv) >= 3 and sys.argv[1] == "--validar":   # [--banco OUTRO.duckdb] para comparar com outro banco
+        outro = Path(sys.argv[4]) if len(sys.argv) >= 5 and sys.argv[3] == "--banco" else BANCO
+        sys.exit(0 if validar(Path(sys.argv[2]), outro) else 1)
     d = exportar()
     sys.exit(0 if validar(d) else 1)

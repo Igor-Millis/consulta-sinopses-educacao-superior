@@ -7,8 +7,12 @@ colunas identificadoras). Regras (documento de arquitetura, §4):
   - nível acadêmico (Graduação/Sequencial) quando a tabela tem essa coluna; senão "Total";
   - célula vazia ≠ zero (celula_vazia, valor nulo); "." → marcador_ponto; texto → texto_nao_numerico;
   - suspeitos: Q01 (4.1/2023, IF, vagas/inscritos, MT e agregados Centro-Oeste/Brasil),
-    Q02 (inscritos do IF em MT 2018–2023, presencial), Q03 (ingressantes do IF em MT 2021–2022, presencial).
+    Q02 (inscritos do IF em MT 2018–2023, presencial), Q03 (ingressantes do IF em MT 2021–2022, presencial),
+    Q09 (colunas trocadas, config/q09_colunas_trocadas.csv), Q10 (células 'suspeita' de config/q10_celulas_suspeitas.csv,
+    geradas por q10_detectar.py);
+  - somente_presencial: cursos/vagas/inscritos abaixo do Brasil em 3.1/4.1 (modalidade Total) e 7.4 (Q13).
 Idempotente. Uso: python -I carregar_sinopse.py
+  Teste controlado (não toca o banco principal): python -I carregar_sinopse.py --banco OUTRO.duckdb --tabelas 6.3,6.6,7.4
 """
 import re, sys, time
 from pathlib import Path
@@ -32,8 +36,13 @@ xw = pd.read_csv(CONFIG / "xw_colunas_sinopse.csv", encoding="utf-8-sig", keep_d
 xw["ano"] = xw.ano.astype(int)
 xw["eh_agregado"] = xw.eh_agregado == "True"
 man = pd.read_csv(CONFIG / "manifesto_fontes.csv", encoding="utf-8-sig")
-con = duckdb.connect(str(NUCLEO / "ijsn.duckdb"))
-con.execute("SET memory_limit = '6GB'")
+ARGS = dict(zip(sys.argv[1::2], sys.argv[2::2]))
+BANCO_DESTINO = Path(ARGS.get("--banco", NUCLEO / "ijsn.duckdb"))
+SO_TABELAS = set(ARGS["--tabelas"].split(",")) if "--tabelas" in ARGS else None
+if SO_TABELAS is not None and BANCO_DESTINO.resolve() == (NUCLEO / "ijsn.duckdb").resolve():
+    raise SystemExit("--tabelas só é permitido com --banco diferente do banco principal (carga parcial apagaria o resto)")
+con = duckdb.connect(str(BANCO_DESTINO))
+con.execute("SET memory_limit = '6GB'" if SO_TABELAS is None else "SET memory_limit = '3GB'")
 
 con.register("v_ufs", pd.read_csv(CONFIG / "ufs.csv", dtype=str))
 con.execute("CREATE OR REPLACE TABLE dim_uf AS SELECT * FROM v_ufs")
@@ -47,6 +56,12 @@ q9 = pd.read_csv(_q9, encoding="utf-8-sig", dtype={"tabela": str}, keep_default_
 con.register("v_q09", pd.concat([q9[["ano", "tabela", "coluna_a"]].rename(columns={"coluna_a": "coluna"}),
                                  q9[["ano", "tabela", "coluna_b"]].rename(columns={"coluna_b": "coluna"})]).drop_duplicates()
              if len(q9) else pd.DataFrame({"ano": pd.Series(dtype=int), "tabela": pd.Series(dtype=str), "coluna": pd.Series(dtype=str)}))
+_q10 = CONFIG / "q10_celulas_suspeitas.csv"
+q10 = (pd.read_csv(_q10, encoding="utf-8-sig", dtype={"tabela": str, "coluna": str})
+       .query("papel == 'suspeita'")[["ano", "tabela", "linha", "coluna"]] if _q10.exists() else
+       pd.DataFrame({"ano": pd.Series(dtype=int), "tabela": pd.Series(dtype=str), "linha": pd.Series(dtype=int),
+                     "coluna": pd.Series(dtype=str)}))
+con.register("v_q10", q10)
 con.execute(f"""CREATE OR REPLACE TABLE dim_recorte_sinopse AS
   SELECT row_number() OVER (ORDER BY {', '.join(DIMS)}) AS id_recorte, *,
          ({' OR '.join(f"{d} IN ('Total', 'Pública')" for d in DIMS)}) AS eh_agregado
@@ -71,6 +86,8 @@ con.execute("""CREATE OR REPLACE TABLE correcoes_geografia_sinopse (ano SMALLINT
 REG = "lower(strip_accents(trim({})))"
 
 for (ano, tabela), m in xw.groupby(["ano", "tabela"]):
+    if SO_TABELAS is not None and tabela not in SO_TABELAS:
+        continue
     meta = c02s[(c02s.ano == ano) & (c02s.tabela == tabela)].iloc[0]
     s = cat[(cat.ano == ano) & (cat.conjunto == "sinopse") & (cat.aba == meta.aba)].iloc[0]
     pq = str(PROJETO / s.parquet).replace("\\", "/")
@@ -156,7 +173,10 @@ for (ano, tabela), m in xw.groupby(["ano", "tabela"]):
           WHEN indicador = 'inscritos' AND org_academica = 'IF/Cefet' AND {ano} BETWEEN 2018 AND 2023 AND mt
                AND modalidade <> 'A Distância' AND '{tabela}' <> '7.3' THEN 'Q02'
           WHEN indicador = 'ingressantes' AND org_academica = 'IF/Cefet' AND {ano} BETWEEN 2021 AND 2022 AND mt
-               AND modalidade <> 'A Distância' AND '{tabela}' <> '7.3' THEN 'Q03' END AS ocorr
+               AND modalidade <> 'A Distância' AND '{tabela}' <> '7.3' THEN 'Q03'
+          -- Q10: célula em total que não fecha, sem evidência a favor (q10_detectar.py); valor mantido
+          WHEN EXISTS (SELECT 1 FROM v_q10 q WHERE q.ano = {ano} AND q.tabela = '{tabela}' AND q.linha = b.linha
+                       AND q.coluna = b.coluna) THEN 'Q10' END AS ocorr
         FROM b),
       t AS (
         SELECT *, CASE
@@ -168,9 +188,9 @@ for (ano, tabela), m in xw.groupby(["ano", "tabela"]):
                        WHEN trim(bruto) = '.' THEN 'marcador_ponto'
                        WHEN num IS NULL THEN 'texto_nao_numerico'
                        WHEN ocorr IS NOT NULL THEN 'suspeito'
-                       -- 3.1/4.1 abaixo do Brasil: modalidade "Total" contém só o presencial
+                       -- 3.1/4.1 e 7.4 (Q13) abaixo do Brasil: modalidade "Total" contém só o presencial
                        WHEN indicador IN ('cursos', 'vagas', 'inscritos') AND _nivel <> 'Brasil'
-                            AND '{tabela}' IN ('3.1', '4.1') AND modalidade = 'Total' THEN 'somente_presencial'
+                            AND '{tabela}' IN ('3.1', '4.1', '7.4') AND modalidade = 'Total' THEN 'somente_presencial'
                        ELSE 'informado' END AS st
         FROM s)
       SELECT {ano}, '{tabela}', id_geo, _nivel, _nivac, indicador, id_recorte,
@@ -182,8 +202,9 @@ for (ano, tabela), m in xw.groupby(["ano", "tabela"]):
     if tabela.endswith(".1") and tabela.startswith("1"):
         print(f"{ano}: ... ({round(time.time() - t0)} s)", flush=True)
 
-construir_dim_geografia(con)
-criar_visoes(con)
+if SO_TABELAS is None:     # carga parcial de teste: sem fatos dos Anexos, não há visões nem dim_geografia completas
+    construir_dim_geografia(con)
+    criar_visoes(con)
 con.execute("CREATE TABLE IF NOT EXISTS carga_log (quando TIMESTAMP, etapa VARCHAR, situacao VARCHAR)")
 con.execute("INSERT INTO carga_log VALUES (current_timestamp, 'carregar_sinopse', 'concluída')")
 print(con.execute("SELECT status_valor, count(*) n FROM fato_sinopse GROUP BY 1 ORDER BY 2 DESC").df().to_string(index=False))
@@ -195,6 +216,7 @@ print(con.execute("""SELECT ano, tabela, linha, rotulo_planilha, co_uf_pelo_rotu
 print("chaves duplicadas no fato:", con.execute("""SELECT count(*) FROM (SELECT ano, tabela, id_geo, nivel_academico, indicador,
       id_recorte FROM fato_sinopse GROUP BY ALL HAVING count(*) > 1)""").fetchone()[0])
 print(con.execute("SELECT ano, tabela, linha, conteudo FROM linhas_nao_classificadas_sinopse LIMIT 15").df().to_string(index=False))
-print("geografias:", con.execute("SELECT nivel_geo, count(*) FROM dim_geografia GROUP BY 1 ORDER BY 1").fetchall())
+if SO_TABELAS is None:
+    print("geografias:", con.execute("SELECT nivel_geo, count(*) FROM dim_geografia GROUP BY 1 ORDER BY 1").fetchall())
 con.close()
 print(f"P3 carga concluída em {round((time.time() - t0) / 60, 1)} min")

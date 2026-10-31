@@ -296,9 +296,17 @@ def ocorrencias(ids=None, tabelas_anos=None) -> pd.DataFrame:
         sel |= q["id"].isin(ids)
     for tab, ano in (tabelas_anos or []):
         for i, r in q.iterrows():
+            # ocorrências marcadas célula a célula só valem se alguma célula usada estiver marcada (ids acima);
+            # as demais (sem marcação por célula) entram por tabela × ano
+            if r["id"] in MARCADAS_POR_CELULA:
+                continue
             if tab in str(r["tabela"]).split(";") and _ano_em(ano, str(r["anos"])):
                 sel[i] = True
     return q[sel]
+
+
+# ocorrências cujas células estão marcadas individualmente no núcleo (status_valor = 'suspeito' + id_ocorrencia)
+MARCADAS_POR_CELULA = {"Q01", "Q02", "Q03", "Q09", "Q10"}
 
 
 def _ano_em(ano, texto):

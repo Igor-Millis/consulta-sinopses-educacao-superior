@@ -29,7 +29,8 @@ def _respostas(banco):
     try:
         return {p: perguntar(p) for p in PERGUNTAS}
     finally:
-        seg._con.close()
+        if seg._con is not None:
+            seg._con.close()
         seg._con = None
         seg.BANCO = original
         carregar.cache_clear()
