@@ -6,7 +6,11 @@
 Primeira versão utilizável, auditada e testada de ponta a ponta, **recomendada para demonstração** (ver §13). Três defeitos de uso foram achados nesta auditoria e corrigidos (§6). O mais grave: o atalho `iniciar_interface.bat` **não iniciava** depois da troca de identidade.
 
 ## 2. Criador e natureza do projeto
-**Criação e desenvolvimento: Igor L. Millis.** Projeto independente, desenvolvido em ambiente pessoal e no tempo livre, com dados públicos do INEP/MEC. Não é produto oficial do INEP, do MEC nem de qualquer outra instituição.
+**Igor L. Millis - Projeto Independente com Dados Públicos**
+
+Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
+
+*(31/10/2026: identificação padronizada a pedido do autor; a auditoria abaixo registra os textos da época.)*
 
 **Auditoria de identidade** (busca por "IJSN" em todo o projeto, exceto `dados/`, ZIPs e `.git`): 74 ocorrências em 47 arquivos.
 

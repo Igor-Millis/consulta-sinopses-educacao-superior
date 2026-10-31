@@ -130,7 +130,7 @@ def grafico(res, titulo, unidade, pergunta):
     ax.grid(axis="y" if res.serie is not None else "x", color=GRADE, linewidth=0.8)
     ax.set_axisbelow(True)
     ax.set_title(titulo, loc="left", fontsize=11, color=TINTA)
-    fig.text(0.01, 0.01, "Fonte: INEP — Sinopses Estatísticas da Educação Superior (Graduação). Elaboração: Igor L. Millis (projeto independente).",
+    fig.text(0.01, 0.01, "Fonte: INEP — Sinopses Estatísticas da Educação Superior (Graduação). Elaboração: Igor L. Millis - Projeto Independente com Dados Públicos.",
              fontsize=7, color=TINTA2)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     caminho = _arquivo(pergunta, "png")

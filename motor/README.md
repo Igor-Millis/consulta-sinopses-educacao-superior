@@ -1,6 +1,6 @@
 # Motor de consultas — manual e documentação técnica
 
-Parte da Consulta às Sinopses da Educação Superior. Criação e desenvolvimento: Igor L. Millis (projeto independente, dados públicos do INEP).
+Parte da Consulta às Sinopses da Educação Superior · Igor L. Millis - Projeto Independente com Dados Públicos.
 
 Responde perguntas em português sobre as Sinopses da Educação Superior (INEP, 2017–2024), com números calculados pelo banco e por código, além das fontes e limitações.
 

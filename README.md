@@ -1,6 +1,10 @@
 # Consulta às Sinopses da Educação Superior (INEP), 2017–2024
 
-**Criação e desenvolvimento: Igor L. Millis.** Projeto independente, desenvolvido em ambiente pessoal e no tempo livre, com dados públicos do INEP/MEC. Não é produto oficial do INEP, do MEC nem de qualquer outra instituição.
+**Igor L. Millis - Projeto Independente com Dados Públicos**
+
+Explore matrículas, ingressantes, concluintes, cursos, vagas e instituições de ensino superior por município, estado e região. Consulte indicadores, compare períodos e identifique tendências com base nos dados oficiais do INEP.
+
+Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
 
 > Nota técnica: a pasta do projeto, o arquivo do banco (`ijsn.duckdb`) e a pasta temporária `ijsn_pipeline` conservam o nome técnico usado desde o início do desenvolvimento. É só um identificador de arquivo (renomear exigiria mover arquivos e refazer caminhos) e não indica autoria nem vínculo institucional. Os commits antigos do git trazem o nome de autor "IJSN projeto", que foi preservado (o histórico não é reescrito); os commits a partir de 31/10/2026 são de Igor L. Millis.
 

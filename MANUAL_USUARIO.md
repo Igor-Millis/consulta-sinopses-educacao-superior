@@ -2,7 +2,11 @@
 
 Para quem vai **fazer perguntas** aos dados. Não é preciso saber programar.
 
-*Ferramenta criada e desenvolvida por **Igor L. Millis**: projeto independente, desenvolvido em ambiente pessoal e no tempo livre, com dados públicos do INEP. Não é produto oficial do INEP, do MEC nem de qualquer outra instituição.*
+*Igor L. Millis - Projeto Independente com Dados Públicos*
+
+Explore matrículas, ingressantes, concluintes, cursos, vagas e instituições de ensino superior por município, estado e região. Consulte indicadores, compare períodos e identifique tendências com base nos dados oficiais do INEP.
+
+Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
 
 ## 1. Abrir
 1. Na pasta do projeto (`IJSN`, nome técnico da pasta), dê **dois cliques em `iniciar_interface.bat`**.

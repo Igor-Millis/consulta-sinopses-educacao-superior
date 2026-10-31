@@ -60,7 +60,9 @@ def main():
     checagens = {
         "página responde 200": st == 200,
         "autoria Igor L. Millis visível": "Igor L. Millis" in pagina,
-        "aviso de não ser produto oficial": "Não é produto oficial" in pagina,
+        "identificação padronizada (autoria)": "Igor L. Millis</strong> - Projeto Independente com Dados Públicos" in pagina,
+        "descrição da plataforma": "Consulte indicadores, compare períodos e identifique tendências" in pagina,
+        "texto de fontes": "Inconsistências identificadas na publicação original são preservadas" in pagina,
         "fonte INEP identificada": "INEP" in pagina,
         "nenhuma menção a IJSN na página": "IJSN" not in pagina,
         "modo IA rotulado como experimental": "experimental" in pagina,

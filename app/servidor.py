@@ -1,5 +1,5 @@
-"""Interface web LOCAL da Consulta às Sinopses da Educação Superior — criação e desenvolvimento: Igor L. Millis
-(projeto independente; dados públicos do INEP). Só biblioteca padrão do Python; escuta apenas em 127.0.0.1).
+"""Interface web LOCAL da Consulta às Sinopses da Educação Superior — Igor L. Millis - Projeto Independente com Dados Públicos.
+Só biblioteca padrão do Python; escuta apenas em 127.0.0.1).
 
 Uso: python -I app/servidor.py [porta]      (padrão 8765; abre o navegador)   — ou duplo clique em iniciar_interface.bat
 Rotas: GET /  (página) · POST /api/perguntar {"pergunta", "modo"} · GET /api/estado · GET /arquivo/<nome> (PNG/CSV
@@ -140,6 +140,6 @@ if __name__ == "__main__":
             print(f"A porta {porta} está ocupada por outro programa. Feche-o ou rode: "
                   f"python -I app\\servidor.py 8766")
         sys.exit(1)
-    print(f"Consulta às Sinopses da Educação Superior — Igor L. Millis — em {url} (só neste computador). Feche esta janela para encerrar.")
+    print(f"Consulta às Sinopses da Educação Superior · Igor L. Millis - Projeto Independente com Dados Públicos — em {url} (só neste computador). Feche esta janela para encerrar.")
     threading.Timer(1.0, lambda: webbrowser.open(url)).start()
     srv.serve_forever()
