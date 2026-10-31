@@ -15,6 +15,13 @@ Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior, 201
 
 A página funciona **só neste computador**: nada é enviado para a internet.
 
+**Primeira vez?** Abra a aba **Guia de Consultas**, no alto da página (ou o endereço `http://127.0.0.1:8765/#guia`). Ela ensina, passo a passo:
+- como montar uma pergunta;
+- quais indicadores, locais, períodos e categorias existem;
+- o que ainda não está disponível.
+
+O guia tem um **montador de perguntas**, e todo exemplo tem um botão **Testar** que leva à consulta. Todos os exemplos e combinações do guia são testados automaticamente (`tests/test_guia.py`).
+
 ## 2. Perguntar
 Escreva a pergunta e clique em **Perguntar** (ou tecle Enter). Exemplos:
 

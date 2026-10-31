@@ -175,6 +175,70 @@ td.num:first-child, th:first-child { text-align: left; }
 footer { margin-top: 40px; border-top: 1px solid var(--linha); background: var(--cartao); }
 footer .container { padding-top: 18px; padding-bottom: 22px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; font-size: .84rem; color: var(--tinta-3); }
 footer strong { color: var(--tinta-2); }
+
+/* abas */
+.abas { display: flex; gap: 4px; }
+.aba { font: inherit; font-size: .9rem; font-weight: 600; color: #c9d6e6; background: transparent; border: 0; border-radius: 8px;
+       padding: 7px 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.aba:hover { background: rgba(255,255,255,.08); color: #fff; }
+.aba[aria-selected="true"] { background: rgba(255,255,255,.14); color: #fff; }
+.aba:focus-visible { outline: 3px solid rgba(124,177,247,.7); outline-offset: 2px; }
+.topo .lado { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* guia */
+.guia-abertura { background: linear-gradient(180deg, var(--marinho) 0, var(--marinho-2) 100%); padding: 28px 0 30px; color: #fff; }
+.guia-abertura h1 { margin: 0 0 6px; font-size: clamp(1.4rem, 1.1rem + 1.3vw, 1.95rem); }
+.guia-abertura p { margin: 0; color: #c6d3e3; max-width: 780px; }
+.guia { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 26px; margin-top: 24px; align-items: start; }
+.indice { position: sticky; top: 14px; background: var(--cartao); border: 1px solid var(--linha); border-radius: var(--raio); padding: 12px; }
+.indice strong { display: block; font-size: .75rem; text-transform: uppercase; letter-spacing: .6px; color: var(--tinta-3); margin: 2px 6px 8px; }
+.indice a { display: block; padding: 6px 8px; border-radius: 7px; text-decoration: none; color: var(--tinta-2); font-size: .9rem; }
+.indice a:hover { background: var(--azul-suave); color: var(--azul); }
+.gsec { background: var(--cartao); border: 1px solid var(--linha); border-radius: var(--raio); box-shadow: var(--sombra); padding: 20px 22px; margin-bottom: 16px; scroll-margin-top: 12px; }
+.gsec h2 { margin: 0 0 4px; font-size: 1.15rem; display: flex; align-items: center; gap: 10px; color: var(--tinta); }
+.gsec h2 .n { width: 26px; height: 26px; border-radius: 8px; background: var(--azul-suave); color: var(--azul); display: grid; place-items: center; font-size: .85rem; flex: none; }
+.gsec > p.intro { color: var(--tinta-2); margin: 4px 0 14px; }
+.gsec h3 { font-size: .95rem; margin: 16px 0 8px; }
+.passos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px; }
+.passo { border: 1px solid var(--linha); border-radius: 10px; padding: 12px 14px; }
+.passo b { display: block; color: var(--teal); font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; }
+.anatomia { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 1.02rem; padding: 12px; background: var(--fundo); border-radius: 10px; }
+.anatomia span { border-radius: 7px; padding: 3px 8px; }
+.p-ind { background: #e6efff; color: #1d4fa3; } .p-loc { background: #e2f5f1; color: #0b6e65; }
+.p-per { background: #fff1db; color: #8a5300; } .p-cor { background: #f1e8ff; color: #5b3aa8; }
+@media (prefers-color-scheme: dark) {
+  .p-ind { background: #1b2c47; color: #8fb8f7; } .p-loc { background: #12302c; color: #5fd3c4; }
+  .p-per { background: #33260f; color: #f2c46d; } .p-cor { background: #2a1f40; color: #c6a8ff; }
+}
+.legenda-anat { display: flex; flex-wrap: wrap; gap: 8px; font-size: .84rem; margin-top: 8px; }
+.legenda-anat span { border-radius: 6px; padding: 2px 8px; }
+.exemplos-g { display: grid; gap: 8px; }
+.ex { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--linha); border-radius: 10px; padding: 9px 12px; }
+.ex .q { font-size: .93rem; }
+.ex .q small { display: block; color: var(--tinta-3); font-size: .8rem; }
+.testar { font: inherit; font-size: .82rem; font-weight: 600; color: var(--azul); background: var(--azul-suave); border: 0; border-radius: 8px;
+          padding: 6px 11px; cursor: pointer; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.testar:hover { background: color-mix(in srgb, var(--azul) 18%, var(--cartao)); }
+.testar:focus-visible { outline: 3px solid color-mix(in srgb, var(--azul) 45%, transparent); outline-offset: 2px; }
+.ex.limite { border-style: dashed; }
+.ex.limite .testar { color: var(--aviso); background: var(--aviso-fundo); }
+.montador { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: 12px; }
+.montador label { display: block; font-size: .8rem; font-weight: 650; color: var(--tinta-2); margin-bottom: 4px; }
+.montador select { width: 100%; font: inherit; padding: 9px 10px; border: 1.5px solid var(--linha-2); border-radius: 9px; background: var(--cartao); color: var(--tinta); }
+.montador select:focus { outline: 0; border-color: var(--azul); box-shadow: 0 0 0 4px color-mix(in srgb, var(--azul) 18%, transparent); }
+.resultado-montador { margin-top: 14px; border-radius: 10px; padding: 14px; background: var(--azul-suave); display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.resultado-montador .frase { font-size: 1.05rem; font-weight: 600; color: var(--tinta); }
+.resultado-montador.indisp { background: var(--aviso-fundo); border: 1px solid var(--aviso-borda); }
+.resultado-montador.indisp .frase { color: var(--aviso); font-weight: 500; font-size: .95rem; }
+.tab-g { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.tab-g th, .tab-g td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--linha); white-space: normal; vertical-align: top; }
+.tab-g th { background: var(--fundo); color: var(--tinta-2); font-size: .78rem; text-transform: uppercase; letter-spacing: .3px; }
+.ok-sim { color: var(--teal); font-weight: 650; } .ok-nao { color: var(--erro); font-weight: 650; }
+details.faq { border: 1px solid var(--linha); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; }
+details.faq summary { cursor: pointer; font-weight: 600; }
+details.faq p { margin: 8px 0 2px; color: var(--tinta-2); font-size: .93rem; }
+@media (max-width: 860px) { .guia { grid-template-columns: 1fr; } .indice { position: static; } }
+
 @media (max-width: 760px) {
   footer .container { grid-template-columns: 1fr; }
   .campo { flex-direction: column; }
@@ -210,10 +274,17 @@ footer strong { color: var(--tinta-2); }
       <span class="logo" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><use href="#i-graf"/></svg></span>
       <span>Consulta às Sinopses da Educação Superior<small>Exploração analítica dos dados públicos do INEP · 2017–2024</small></span>
     </div>
-    <span class="status-ia" id="status-ia" title="Disponibilidade da IA local"><span class="ponto"></span><span id="estado-ia">Verificando IA local…</span></span>
+    <div class="lado">
+      <nav class="abas" role="tablist" aria-label="Seções da aplicação">
+        <button class="aba" role="tab" id="aba-consulta" aria-controls="vista-consulta" aria-selected="true" data-vista="consulta"><svg class="ic" aria-hidden="true"><use href="#i-busca"/></svg>Consultar</button>
+        <button class="aba" role="tab" id="aba-guia" aria-controls="vista-guia" aria-selected="false" data-vista="guia"><svg class="ic" aria-hidden="true"><use href="#i-livro"/></svg>Guia de Consultas</button>
+      </nav>
+      <span class="status-ia" id="status-ia" title="Disponibilidade da IA local"><span class="ponto"></span><span id="estado-ia">Verificando IA local…</span></span>
+    </div>
   </div>
 </header>
 
+<div id="vista-consulta" role="tabpanel" aria-labelledby="aba-consulta">
 <section class="abertura">
   <div class="container">
     <h1>Pergunte aos dados da educação superior</h1>
@@ -276,6 +347,227 @@ footer strong { color: var(--tinta-2); }
     <div class="recentes" id="historico"></div>
   </div>
 </main>
+</div>
+
+<div id="vista-guia" role="tabpanel" aria-labelledby="aba-guia" hidden>
+<section class="guia-abertura">
+  <div class="container">
+    <h1>Guia de Consultas</h1>
+    <p>Aprenda a fazer perguntas aos dados da educação superior, mesmo sem conhecer as bases do INEP. Todos os exemplos deste guia
+       foram testados no sistema: clique em <strong>Testar</strong> para ver a resposta.</p>
+  </div>
+</section>
+<div class="container guia">
+  <nav class="indice" aria-label="Índice do guia">
+    <strong>Neste guia</strong>
+    <a href="#g-como">1. Como funciona</a>
+    <a href="#g-anatomia">2. Como montar uma pergunta</a>
+    <a href="#g-montador">3. Montador de perguntas</a>
+    <a href="#g-indicadores">4. Indicadores</a>
+    <a href="#g-locais">5. Locais e períodos</a>
+    <a href="#g-analises">6. Tipos de análise</a>
+    <a href="#g-recortes">7. Categorias e cruzamentos</a>
+    <a href="#g-limites">8. O que ainda não está disponível</a>
+    <a href="#g-leitura">9. Como ler a resposta</a>
+    <a href="#g-dicas">10. Dúvidas e dicas</a>
+  </nav>
+  <div>
+    <section class="gsec" id="g-como">
+      <h2><span class="n">1</span>Como funciona</h2>
+      <p class="intro">Você escreve uma pergunta em português comum. O sistema identifica o que foi pedido, busca os números no banco de dados
+        montado a partir das Sinopses Estatísticas da Educação Superior do INEP (2017 a 2024) e devolve a resposta com fontes e limitações.</p>
+      <div class="passos">
+        <div class="passo"><b>1. Você pergunta</b>Ex.: “Quantas matrículas havia em Vila Velha em 2024?”</div>
+        <div class="passo"><b>2. O sistema interpreta</b>Identifica indicador, local, período e o tipo de análise — e mostra como entendeu.</div>
+        <div class="passo"><b>3. O banco calcula</b>Os números vêm do banco de dados, calculados por programa. Nada é estimado.</div>
+        <div class="passo"><b>4. Você confere</b>A resposta traz tabela, gráfico, fontes, limitações e um CSV para baixar.</div>
+      </div>
+    </section>
+
+    <section class="gsec" id="g-anatomia">
+      <h2><span class="n">2</span>Como montar uma pergunta</h2>
+      <p class="intro">Uma boa pergunta tem até quatro partes. Só o <strong>indicador</strong> é obrigatório; o que faltar, o sistema completa
+        e avisa em “Como a pergunta foi entendida”.</p>
+      <div class="anatomia" aria-label="Exemplo de pergunta dividida em partes">
+        <span>Como evoluíram as</span><span class="p-ind">matrículas</span><span class="p-cor">a distância</span>
+        <span class="p-loc">no Espírito Santo</span><span class="p-per">entre 2017 e 2024</span><span>?</span>
+      </div>
+      <div class="legenda-anat"><span class="p-ind">■ indicador (o que contar)</span><span class="p-loc">■ local (onde)</span><span class="p-per">■ período (quando)</span><span class="p-cor">■ recorte (qual parte)</span></div>
+      <h3>O que o sistema completa quando falta</h3>
+      <table class="tab-g"><thead><tr><th>Se você não disser…</th><th>O sistema usa…</th></tr></thead><tbody>
+        <tr><td>o ano</td><td>2024 (o mais recente); em perguntas sobre evolução, a série inteira 2017–2024</td></tr>
+        <tr><td>o local</td><td>o Brasil</td></tr>
+        <tr><td>o indicador</td><td>pede esclarecimento (nada é consultado)</td></tr>
+      </tbody></table>
+      <div class="exemplos-g"><div class="ex"><span class="q">Como evoluíram as matrículas a distância no Espírito Santo entre 2017 e 2024?<small>a pergunta do exemplo acima</small></span><button class="testar" type="button" data-q="Como evoluíram as matrículas a distância no Espírito Santo entre 2017 e 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quantos concluintes em 2024?<small>sem local: o sistema usa o Brasil e avisa</small></span><button class="testar" type="button" data-q="Quantos concluintes em 2024?" data-espera="resposta">Testar</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-montador">
+      <h2><span class="n">3</span>Montador de perguntas</h2>
+      <p class="intro">Escolha as partes e o montador escreve a pergunta para você. Todas as combinações oferecidas foram testadas;
+        quando a base não tem o dado, o montador explica o motivo em vez de sugerir uma pergunta sem resposta.</p>
+      <div class="montador">
+        <div><label for="m-ind">Indicador</label><select id="m-ind"></select></div>
+        <div><label for="m-loc">Local</label><select id="m-loc"></select></div>
+        <div><label for="m-ana">Tipo de análise</label><select id="m-ana"></select></div>
+      </div>
+      <div class="resultado-montador" id="m-res" aria-live="polite"><span class="frase" id="m-frase"></span>
+        <button class="testar" type="button" id="m-testar">Testar esta pergunta</button></div>
+    </section>
+
+    <section class="gsec" id="g-indicadores">
+      <h2><span class="n">4</span>Indicadores disponíveis</h2>
+      <p class="intro">Indicador é <em>o que</em> está sendo contado. Você pode usar o nome ou sinônimos comuns.</p>
+      <table class="tab-g"><thead><tr><th>Indicador</th><th>O que é</th><th>Também entende</th></tr></thead><tbody>
+        <tr><td><strong>Matrículas</strong></td><td>Vínculos de alunos a cursos de graduação no ano</td><td>alunos, estudantes, universitários</td></tr>
+        <tr><td><strong>Ingressantes</strong></td><td>Alunos que entraram em cursos de graduação no ano</td><td>calouros, novos alunos</td></tr>
+        <tr><td><strong>Concluintes</strong></td><td>Alunos que concluíram cursos de graduação no ano</td><td>formados, formandos, se formaram</td></tr>
+        <tr><td><strong>Cursos</strong></td><td>Cursos de graduação com pelo menos um aluno matriculado</td><td>número de cursos</td></tr>
+        <tr><td><strong>Vagas</strong></td><td>Vagas oferecidas em processos seletivos</td><td>vagas oferecidas</td></tr>
+        <tr><td><strong>Inscritos</strong></td><td>Candidatos inscritos em processos seletivos</td><td>candidatos, inscrições</td></tr>
+        <tr><td><strong>Instituições (IES)</strong></td><td>Instituições de ensino superior, pela sede administrativa</td><td>faculdades e universidades</td></tr>
+        <tr><td><strong>Docentes</strong></td><td>Docentes em exercício (não se somam entre municípios)</td><td>professores</td></tr>
+        <tr><td><strong>Candidatos por vaga</strong></td><td>Inscritos ÷ vagas, no mesmo ano e local</td><td>relação candidato/vaga, concorrência</td></tr>
+        <tr><td><strong>Ingressantes por vaga</strong></td><td>Ingressantes ÷ vagas, no mesmo ano e local</td><td>ocupação das vagas</td></tr>
+      </tbody></table>
+      <div class="exemplos-g"><div class="ex"><span class="q">Quantas instituições de ensino superior há no ES em 2024?</span><button class="testar" type="button" data-q="Quantas instituições de ensino superior há no ES em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quantos docentes em exercício no ES em 2024?</span><button class="testar" type="button" data-q="Quantos docentes em exercício no ES em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Relação candidatos por vaga no ES em 2024</span><button class="testar" type="button" data-q="Relação candidatos por vaga no ES em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quantos universitários tinha Cariacica em 2023?<small>“universitários” = matrículas</small></span><button class="testar" type="button" data-q="Quantos universitários tinha Cariacica em 2023?" data-espera="resposta">Testar</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-locais">
+      <h2><span class="n">5</span>Locais e períodos</h2>
+      <h3>Locais</h3>
+      <p class="intro">Qualquer município, estado (pelo nome ou pela sigla em maiúsculas, como MG), região, o Brasil ou a Grande Vitória
+        (soma de Vitória, Vila Velha, Serra, Cariacica, Viana, Guarapari e Fundão).</p>
+      <div class="exemplos-g"><div class="ex"><span class="q">Quantas matrículas havia em Vila Velha em 2024?</span><button class="testar" type="button" data-q="Quantas matrículas havia em Vila Velha em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas em MG em 2024</span><button class="testar" type="button" data-q="Matrículas em MG em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas na região Sul em 2024</span><button class="testar" type="button" data-q="Matrículas na região Sul em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas na Grande Vitória em 2023<small>soma dos 7 municípios</small></span><button class="testar" type="button" data-q="Matrículas na Grande Vitória em 2023" data-espera="resposta">Testar</button></div></div>
+      <h3>Períodos</h3>
+      <p class="intro">Os dados cobrem de <strong>2017 a 2024</strong>. Você pode dizer o período de várias formas:</p>
+      <div class="exemplos-g"><div class="ex"><span class="q">Matrículas no ES em 2022<small>um ano</small></span><button class="testar" type="button" data-q="Matrículas no ES em 2022" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Como evoluíram as matrículas no ES entre 2017 e 2024?<small>intervalo</small></span><button class="testar" type="button" data-q="Como evoluíram as matrículas no ES entre 2017 e 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas no ES nos últimos 3 anos<small>“últimos N anos” termina em 2024</small></span><button class="testar" type="button" data-q="Matrículas no ES nos últimos 3 anos" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas em Vitória comparadas com 2017<small>de 2017 até o ano mais recente</small></span><button class="testar" type="button" data-q="Matrículas em Vitória comparadas com 2017" data-espera="resposta">Testar</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-analises">
+      <h2><span class="n">6</span>Tipos de análise</h2>
+      <p class="intro">As palavras da pergunta indicam o tipo de análise. Veja um exemplo de cada:</p>
+      <h3>Um número</h3><div class="exemplos-g"><div class="ex"><span class="q">Quantos concluintes de Pedagogia em Vitória em 2023?</span><button class="testar" type="button" data-q="Quantos concluintes de Pedagogia em Vitória em 2023?" data-espera="resposta">Testar</button></div></div>
+      <h3>Evolução no tempo — “como evoluíram”, “entre A e B”</h3>
+      <div class="exemplos-g"><div class="ex"><span class="q">Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?<small>inclui maior alta e maior queda de um ano para o outro</small></span><button class="testar" type="button" data-q="Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?" data-espera="resposta">Testar</button></div></div>
+      <h3>Comparação — “compare”, dois ou mais locais ou categorias</h3>
+      <div class="exemplos-g"><div class="ex"><span class="q">Compare Vitória, Vila Velha, Serra e Cariacica em matrículas</span><button class="testar" type="button" data-q="Compare Vitória, Vila Velha, Serra e Cariacica em matrículas" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Compare as matrículas presenciais e a distância no ES nos últimos 5 anos<small>mostra o ano em que uma série ultrapassou a outra</small></span><button class="testar" type="button" data-q="Compare as matrículas presenciais e a distância no ES nos últimos 5 anos" data-espera="resposta">Testar</button></div></div>
+      <h3>Ranking — “maiores”, “mais”, “menos”, “ranking”</h3>
+      <div class="exemplos-g"><div class="ex"><span class="q">Quais os 10 municípios capixabas com mais matrículas em 2024?</span><button class="testar" type="button" data-q="Quais os 10 municípios capixabas com mais matrículas em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quais estados têm mais matrículas em 2024?</span><button class="testar" type="button" data-q="Quais estados têm mais matrículas em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quais cursos têm mais matrículas no ES em 2024?</span><button class="testar" type="button" data-q="Quais cursos têm mais matrículas no ES em 2024?" data-espera="resposta">Testar</button></div></div>
+      <h3>Crescimento ou queda — “mais cresceram”, “perderam”, “redução”</h3>
+      <div class="exemplos-g"><div class="ex"><span class="q">Quais cursos mais cresceram em ingressantes no ES entre 2019 e 2024?</span><button class="testar" type="button" data-q="Quais cursos mais cresceram em ingressantes no ES entre 2019 e 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quais cursos tiveram maior crescimento percentual de matrículas no ES entre 2019 e 2024?<small>“percentual” ordena pelo %</small></span><button class="testar" type="button" data-q="Quais cursos tiveram maior crescimento percentual de matrículas no ES entre 2019 e 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Quais municípios do ES apresentaram redução de matrículas entre 2017 e 2024?</span><button class="testar" type="button" data-q="Quais municípios do ES apresentaram redução de matrículas entre 2017 e 2024?" data-espera="resposta">Testar</button></div></div>
+      <h3>Participação — “participação”, “percentual”, “fatia”</h3>
+      <div class="exemplos-g"><div class="ex"><span class="q">Qual a participação do EaD nas matrículas do Espírito Santo em 2024?</span><button class="testar" type="button" data-q="Qual a participação do EaD nas matrículas do Espírito Santo em 2024?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Qual a participação de Vila Velha nas matrículas do ES?</span><button class="testar" type="button" data-q="Qual a participação de Vila Velha nas matrículas do ES?" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Qual a participação das mulheres nas matrículas da rede privada do ES em 2024?<small>o 1º recorte é a parte; os demais definem o total</small></span><button class="testar" type="button" data-q="Qual a participação das mulheres nas matrículas da rede privada do ES em 2024?" data-espera="resposta">Testar</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-recortes">
+      <h2><span class="n">7</span>Categorias e cruzamentos</h2>
+      <p class="intro">Peça “por” uma categoria para abrir o resultado, ou cite um valor para filtrar (ex.: “rede pública”, “a distância”).</p>
+      <table class="tab-g"><thead><tr><th>Categoria</th><th>Valores</th></tr></thead><tbody>
+        <tr><td>Modalidade</td><td>presencial, a distância (EaD)</td></tr>
+        <tr><td>Rede</td><td>pública, privada</td></tr>
+        <tr><td>Dependência administrativa</td><td>federal, estadual, municipal, privada</td></tr>
+        <tr><td>Organização acadêmica</td><td>universidade, centro universitário, faculdade, IF/Cefet</td></tr>
+        <tr><td>Grau acadêmico</td><td>bacharelado, licenciatura, tecnológico</td></tr>
+        <tr><td>Curso</td><td>pelo nome (ex.: Direito, Medicina, Pedagogia)</td></tr>
+        <tr><td>Sexo · cor/raça · faixa etária</td><td>para matrículas, ingressantes e concluintes</td></tr>
+      </tbody></table>
+      <h3>O que pode ser combinado</h3>
+      <table class="tab-g"><thead><tr><th>Combinação</th><th>Disponível?</th></tr></thead><tbody>
+        <tr><td>Modalidade, rede, dependência, organização e grau entre si</td><td class="ok-sim">Sim</td></tr>
+        <tr><td>Sexo, cor/raça ou faixa etária com rede, dependência ou organização acadêmica</td><td class="ok-sim">Sim</td></tr>
+        <tr><td>Sexo com cor/raça (duas dessas ao mesmo tempo)</td><td class="ok-nao">Não — a Sinopse publica uma de cada vez</td></tr>
+        <tr><td>Sexo, cor/raça ou faixa etária com modalidade, grau ou curso</td><td class="ok-nao">Não</td></tr>
+        <tr><td>Curso com modalidade</td><td class="ok-sim">Sim</td></tr>
+      </tbody></table>
+      <div class="exemplos-g"><div class="ex"><span class="q">Matrículas do ES por organização acadêmica em 2024</span><button class="testar" type="button" data-q="Matrículas do ES por organização acadêmica em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas a distância na rede privada do ES em 2024</span><button class="testar" type="button" data-q="Matrículas a distância na rede privada do ES em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas de mulheres na rede pública do ES</span><button class="testar" type="button" data-q="Matrículas de mulheres na rede pública do ES" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Ingressantes por cor/raça e por rede no ES em 2024</span><button class="testar" type="button" data-q="Ingressantes por cor/raça e por rede no ES em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas por faixa etária no Espírito Santo em 2024</span><button class="testar" type="button" data-q="Matrículas por faixa etária no Espírito Santo em 2024" data-espera="resposta">Testar</button></div><div class="ex"><span class="q">Matrículas em Direito em Vitória de 2017 a 2024</span><button class="testar" type="button" data-q="Matrículas em Direito em Vitória de 2017 a 2024" data-espera="resposta">Testar</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-limites">
+      <h2><span class="n">8</span>O que ainda não está disponível</h2>
+      <p class="intro">Quando a pergunta pede algo que a base não tem, o sistema <strong>não inventa</strong>: explica o motivo e não consulta nada.
+        Estes exemplos mostram essa resposta.</p>
+      <table class="tab-g"><thead><tr><th>Assunto</th><th>Situação</th></tr></thead><tbody>
+        <tr><td>Deficiência, cotas (reserva de vagas), FIES/ProUni, turno, nacionalidade, titulação de docentes</td><td>O dado existe nas Sinopses, mas ainda não está disponível para consulta</td></tr>
+        <tr><td>Taxas de evasão ou de conclusão</td><td>Não são publicadas nas Sinopses (exigem microdados do Censo)</td></tr>
+        <tr><td>Cursos, vagas e inscritos a distância por município, estado ou região</td><td>O INEP só publica esses números no total Brasil</td></tr>
+        <tr><td>Anos antes de 2017 ou depois de 2024</td><td>Fora da base</td></tr>
+        <tr><td>Dois cortes de pessoa ao mesmo tempo (ex.: sexo e cor/raça)</td><td>Não publicado por localidade</td></tr>
+      </tbody></table>
+      <div class="exemplos-g"><div class="ex limite"><span class="q">Quantos alunos com deficiência no ES?</span><button class="testar" type="button" data-q="Quantos alunos com deficiência no ES?" data-espera="esclarecimento">Ver a resposta</button></div><div class="ex limite"><span class="q">Quantas vagas a distância em Vitória?</span><button class="testar" type="button" data-q="Quantas vagas a distância em Vitória?" data-espera="esclarecimento">Ver a resposta</button></div><div class="ex limite"><span class="q">Matrículas no ES em 2015</span><button class="testar" type="button" data-q="Matrículas no ES em 2015" data-espera="esclarecimento">Ver a resposta</button></div><div class="ex limite"><span class="q">Ingressantes por sexo e cor/raça no ES em 2024</span><button class="testar" type="button" data-q="Ingressantes por sexo e cor/raça no ES em 2024" data-espera="esclarecimento">Ver a resposta</button></div></div>
+    </section>
+
+    <section class="gsec" id="g-leitura">
+      <h2><span class="n">9</span>Como ler a resposta</h2>
+      <div class="passos">
+        <div class="passo"><b>Destaque e texto</b>O número principal e a frase da resposta, seguidos da tabela.</div>
+        <div class="passo"><b>Como a pergunta foi entendida</b>Toda suposição feita (ano, local, indicador). <strong>Leia sempre.</strong></div>
+        <div class="passo"><b>Interpretação</b>Tendência, maior alta e queda anuais, anos sem dado.</div>
+        <div class="passo"><b>Limitações e qualidade</b>O que o dado não mostra e valores marcados como suspeitos na publicação do INEP.</div>
+        <div class="passo"><b>Fontes e rastreabilidade</b>Tabela do INEP e a célula da planilha original de onde o número veio.</div>
+        <div class="passo"><b>Gráfico e CSV</b>O gráfico usa os mesmos números da tabela; o CSV abre no Excel.</div>
+      </div>
+      <h3>Cuidados com os números</h3>
+      <ul style="margin:0;padding-left:20px;color:var(--tinta-2);font-size:.93rem">
+        <li><strong>Ausência não é zero:</strong> se não há dado publicado, a resposta diz isso.</li>
+        <li><strong>EaD:</strong> a matrícula a distância é contada no município do polo.</li>
+        <li><strong>Docentes</strong> não são somados entre municípios (um docente pode atuar em mais de um).</li>
+        <li><strong>Cursos:</strong> a classificação mudou em 2024; os cursos foram ligados entre os anos.</li>
+      </ul>
+    </section>
+
+    <section class="gsec" id="g-dicas">
+      <h2><span class="n">10</span>Dúvidas e dicas</h2>
+      <details class="faq"><summary>A resposta pediu um esclarecimento. O que faço?</summary>
+        <p>Nada foi consultado. Siga a mensagem: em geral falta o indicador (“matrículas”, “concluintes”…), o ano está fora de 2017–2024
+           ou o município tem nome repetido em outro estado — inclua a sigla do estado.</p></details>
+      <details class="faq"><summary>Para que serve o modo “Regras + IA local”?</summary>
+        <p>É experimental. A IA, instalada neste computador, só entra quando as regras não entendem a pergunta. Ela é mais lenta (20 a 90 segundos)
+           e pode errar a interpretação — por isso a resposta mostra um aviso para conferir como a pergunta foi entendida. Os números continuam vindo do banco.</p></details>
+      <details class="faq"><summary>A resposta parece não bater com o que perguntei.</summary>
+        <p>Leia “Como a pergunta foi entendida”. Se algo estiver diferente do que você queria, reformule sendo mais explícito: diga o indicador,
+           o local e o período, como nos exemplos deste guia.</p></details>
+      <details class="faq"><summary>O que significa “valores suspeitos”?</summary>
+        <p>Em algumas tabelas, a própria publicação do INEP tem totais que não fecham. Esses números são mantidos como publicados e sinalizados
+           nas limitações, para que você os use com cautela.</p></details>
+      <details class="faq"><summary>Posso usar os números em relatórios?</summary>
+        <p>Sim, citando a fonte (INEP/MEC — Sinopses Estatísticas da Educação Superior, com o ano). O CSV e a célula de origem mostrada em
+           “Fontes” permitem conferir cada número na planilha original.</p></details>
+    </section>
+  </div>
+</div>
+</div>
+
+<script type="application/json" id="dados-montador">
+{
+  "indicadores": [
+    {"id": "matriculas", "rotulo": "Matrículas", "termo": "matrículas", "quanto": "Quantas", "art": "as"},
+    {"id": "ingressantes", "rotulo": "Ingressantes", "termo": "ingressantes", "quanto": "Quantos", "art": "os"},
+    {"id": "concluintes", "rotulo": "Concluintes", "termo": "concluintes", "quanto": "Quantos", "art": "os"},
+    {"id": "cursos", "rotulo": "Cursos", "termo": "cursos", "quanto": "Quantos", "art": "os"},
+    {"id": "vagas", "rotulo": "Vagas", "termo": "vagas", "quanto": "Quantas", "art": "as"},
+    {"id": "inscritos", "rotulo": "Inscritos", "termo": "inscritos", "quanto": "Quantos", "art": "os"}
+  ],
+  "locais": [
+    {"id": "3205309", "rotulo": "Vitória (município)", "em": "em Vitória", "nivel": "municipio"},
+    {"id": "3205200", "rotulo": "Vila Velha (município)", "em": "em Vila Velha", "nivel": "municipio"},
+    {"id": "UF-32", "rotulo": "Espírito Santo (estado)", "em": "no Espírito Santo", "nivel": "uf", "rotulo_mun": "capixabas"},
+    {"id": "REG-Sudeste", "rotulo": "Região Sudeste", "em": "na região Sudeste", "nivel": "regiao"},
+    {"id": "BR", "rotulo": "Brasil", "em": "no Brasil", "nivel": "brasil"}
+  ],
+  "analises": [
+    {"id": "valor", "rotulo": "Um número (2024)", "modelo": "{Quanto} {ind} havia {em} em 2024?", "tipo": "valor"},
+    {"id": "serie", "rotulo": "Evolução 2017–2024", "modelo": "Como evoluíram {art} {ind} {em} entre 2017 e 2024?", "tipo": "serie"},
+    {"id": "modalidade", "rotulo": "Presencial × a distância (2020–2024)", "modelo": "Compare {art} {ind} presenciais e a distância {em} nos últimos 5 anos", "tipo": "comparacao", "quebra": "modalidade"},
+    {"id": "rede", "rotulo": "Por rede pública e privada (2024)", "modelo": "{Ind} por rede {em} em 2024", "tipo": "valor", "quebra": "rede"},
+    {"id": "ranking", "rotulo": "Ranking (2024)", "modelo_uf": "Quais os 10 municípios {rotulo_mun} com mais {ind} em 2024?", "modelo_brasil": "Quais estados têm mais {ind} em 2024?", "tipo": "ranking"}
+  ],
+  "indisponivel": {
+    "ead_local": "O INEP só publica cursos, vagas e inscritos a distância no total Brasil. Para este local, a base tem apenas o presencial — escolha o Brasil ou outro tipo de análise.",
+    "ranking": "O ranking está disponível para os municípios de um estado (escolha o Espírito Santo) ou para os estados do Brasil (escolha Brasil)."
+  }
+}
+</script>
 
 <footer>
   <div class="container">
@@ -433,6 +725,56 @@ function adicionarHistorico(p) {
   $("historico").innerHTML = historico.slice(0, 8).map(x => "<button class='recente' type='button' title='" + esc(x) + "'>" + esc(x) + "</button>").join("");
   $("historico").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { ta.value = b.title; ajustarAltura(); enviar(); }));
 }
+
+
+/* ---------- abas ---------- */
+function mostrarVista(v) {
+  const guia = v === "guia";
+  $("vista-consulta").hidden = guia;
+  $("vista-guia").hidden = !guia;
+  $("aba-consulta").setAttribute("aria-selected", String(!guia));
+  $("aba-guia").setAttribute("aria-selected", String(guia));
+  if (guia && location.hash !== "#guia" && !location.hash.startsWith("#g-")) history.replaceState(null, "", "#guia");
+  if (!guia && (location.hash === "#guia" || location.hash.startsWith("#g-"))) history.replaceState(null, "", location.pathname + location.search);
+}
+document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => { mostrarVista(b.dataset.vista); window.scrollTo(0, 0); }));
+if (location.hash === "#guia" || location.hash.startsWith("#g-")) mostrarVista("guia");
+
+/* exemplos do guia: "Testar" leva à aba Consultar e executa a pergunta */
+function testarNaConsulta(q) {
+  mostrarVista("consulta");
+  definirModo("regras");
+  ta.value = q; ajustarAltura();
+  window.scrollTo(0, 0);
+  enviar();
+}
+document.querySelectorAll("#vista-guia .testar[data-q]").forEach(b => b.addEventListener("click", () => testarNaConsulta(b.dataset.q)));
+
+/* ---------- montador de perguntas (modelos testados em tests/test_guia.py) ---------- */
+const M = JSON.parse($("dados-montador").textContent);
+function preencher(sel, itens) { sel.innerHTML = itens.map(i => "<option value='" + esc(i.id) + "'>" + esc(i.rotulo) + "</option>").join(""); }
+preencher($("m-ind"), M.indicadores); preencher($("m-loc"), M.locais); preencher($("m-ana"), M.analises);
+function montar(indId, locId, anaId) {
+  const ind = M.indicadores.find(x => x.id === indId), loc = M.locais.find(x => x.id === locId), ana = M.analises.find(x => x.id === anaId);
+  if (ana.id === "modalidade" && ["cursos", "vagas", "inscritos"].includes(ind.id) && loc.nivel !== "brasil") return {indisponivel: M.indisponivel.ead_local};
+  let modelo = ana.modelo;
+  if (ana.id === "ranking") {
+    if (loc.nivel === "uf") modelo = ana.modelo_uf; else if (loc.nivel === "brasil") modelo = ana.modelo_brasil; else return {indisponivel: M.indisponivel.ranking};
+  }
+  const Ind = ind.termo.charAt(0).toUpperCase() + ind.termo.slice(1);
+  return {pergunta: modelo.replace("{Quanto}", ind.quanto).replace("{ind}", ind.termo).replace("{Ind}", Ind).replace("{art}", ind.art)
+                          .replace("{em}", loc.em).replace("{rotulo_mun}", loc.rotulo_mun || "")};
+}
+function atualizarMontador() {
+  const r = montar($("m-ind").value, $("m-loc").value, $("m-ana").value);
+  $("m-res").classList.toggle("indisp", !!r.indisponivel);
+  $("m-frase").textContent = r.indisponivel || r.pergunta;
+  $("m-testar").hidden = !!r.indisponivel;
+  $("m-testar").dataset.q = r.pergunta || "";
+}
+["m-ind", "m-loc", "m-ana"].forEach(id => $(id).addEventListener("change", atualizarMontador));
+$("m-testar").addEventListener("click", () => testarNaConsulta($("m-testar").dataset.q));
+atualizarMontador();
 
 /* ?q=pergunta&modo=regras|hibrido abre já com a consulta (útil para links de demonstração) */
 const qs = new URLSearchParams(location.search);
