@@ -17,8 +17,26 @@ def catalogo():
 
 
 def perguntar(texto: str) -> Resposta:
+    """Pergunta em português → resposta, com o interpretador por regras."""
     cat = catalogo()
-    c = interpretar(texto, cat)
+    return responder(interpretar(texto, cat), texto)
+
+
+def perguntar_estruturado(consulta_json: dict, texto: str = "") -> Resposta:
+    """Caminho de um interpretador externo (ex.: modelo de linguagem): o JSON da Consulta é validado contra o
+    catálogo (motor/contrato.py); se inválido, nada é consultado e os erros voltam como pedido de esclarecimento."""
+    from .contrato import de_json
+    from .interpretador import Consulta
+    cat = catalogo()
+    c, erros = de_json(consulta_json, cat, texto)
+    if erros:
+        return esclarecimento(texto, Consulta(texto=texto), ["Interpretação recusada pela validação: " + e for e in erros])
+    return responder(c, texto)
+
+
+def responder(c, texto: str) -> Resposta:
+    """Consulta (estrutura já validada) → resposta. Comum aos dois interpretadores."""
+    cat = catalogo()
     if c.tipo == "compatibilidade":
         return compatibilidade(texto, cat)
     if c.esclarecer:
