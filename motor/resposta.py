@@ -28,6 +28,7 @@ class Resposta:
     consulta: object = None
     sql: list = field(default_factory=list)
     precisa_esclarecer: bool = False
+    interpretador: str = "regras"
 
     def __str__(self):
         return self.texto

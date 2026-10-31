@@ -10,6 +10,15 @@ $py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
 & $py -I perguntar.py          # modo interativo; linha vazia sai
 ```
 
+**Interface para usuários:** duplo clique em `iniciar_interface.bat` (página local em `http://127.0.0.1:8765`, só biblioteca padrão do Python; ver `MANUAL_USUARIO.md`).
+
+**Modos de interpretação:** `perguntar(texto, modo="regras" | "hibrido" | "llm")`.
+- `regras` (padrão) é determinístico.
+- `hibrido` usa as regras e chama o modelo de linguagem local (Ollama em 127.0.0.1, `motor/llm.py`) só quando as regras não identificam o indicador.
+- `llm` serve para avaliação.
+
+O modelo devolve **nomes** de locais e cursos, que são resolvidos de forma determinística no catálogo. O resultado vira o JSON do contrato, validado por `contrato.de_json`. O modelo nunca gera SQL nem números.
+
 Em Python: `from motor import perguntar; r = perguntar("...")`. O objeto `r` traz `r.texto` (markdown), `r.tabela` (DataFrame), `r.grafico` e `r.csv` (arquivos em `dados/consultas/saidas/`) e `r.precisa_esclarecer`.
 
 ### Perguntas que o motor entende (exemplos testados)

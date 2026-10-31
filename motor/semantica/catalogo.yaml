@@ -30,7 +30,7 @@ fontes:
 indicadores:
   matriculas:
     nome: "Matrículas"
-    sinonimos: [matrícula, matriculas, matrícula, matriculados, matriculadas, alunos matriculados, estudantes matriculados, alunos, estudantes, vínculos]
+    sinonimos: [matrícula, matriculas, matrícula, matriculados, matriculadas, alunos matriculados, estudantes matriculados, alunos, estudantes, vínculos, universitários, universitarios, gente fazendo faculdade, pessoas fazendo faculdade]
     definicao: "Número de matrículas (vínculos de aluno a curso) em cursos de graduação na data de referência do Censo da Educação Superior."
     unidade: "matrículas"
     fontes: [mart_anexos_geo, mart_curso_geo, mart_sinopse_geo]
@@ -49,7 +49,7 @@ indicadores:
     limitacoes: []   # ocorrências (Q03 etc.) entram na resposta só quando os valores usados são afetados
   concluintes:
     nome: "Concluintes"
-    sinonimos: [concluinte, concluintes, formados, formandos, diplomados, graduados, egressos]
+    sinonimos: [concluinte, concluintes, formados, formandos, diplomados, graduados, egressos, se formaram, formaram, se formou]
     definicao: "Número de alunos que concluíram cursos de graduação no ano de referência."
     unidade: "concluintes"
     fontes: [mart_anexos_geo, mart_curso_geo, mart_sinopse_geo]

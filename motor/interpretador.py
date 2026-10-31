@@ -12,7 +12,7 @@ from .semantica import Catalogo, Local, normalizar
 NUMEROS = {"um": 1, "uma": 1, "dois": 2, "duas": 2, "tres": 3, "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8}
 QUEBRAS = {  # "por X" → dimensão
     "sexo": "sexo", "genero": "sexo", "cor": "cor_raca", "raca": "cor_raca", "cor raca": "cor_raca",
-    "cor/raca": "cor_raca", "faixa etaria": "faixa_etaria", "idade": "faixa_etaria", "modalidade": "modalidade",
+    "cor/raca": "cor_raca", "cor ou raca": "cor_raca", "faixa etaria": "faixa_etaria", "idade": "faixa_etaria", "modalidade": "modalidade",
     "rede": "rede", "categoria administrativa": "dependencia", "dependencia administrativa": "dependencia",
     "dependencia": "dependencia", "organizacao academica": "org_academica", "tipo de instituicao": "org_academica",
     "grau": "grau", "grau academico": "grau", "curso": "curso", "cursos": "curso", "municipio": "municipio",
@@ -37,6 +37,7 @@ class Consulta:
     so_reducao: bool = False                               # ranking de crescimento: só itens com variação < 0
     parte: dict = field(default_factory=dict)              # participação: recorte do numerador (filtros → quebras)
     parte_dims: list = field(default_factory=list)         # participação: só estes filtros são a parte (vazio = todos)
+    nao_entendida: bool = False                            # regras não identificaram o indicador (candidata ao LLM)
     supostos: list = field(default_factory=list)
     esclarecer: list = field(default_factory=list)
 
@@ -86,12 +87,13 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         c.esclarecer.append(f"Os dados cobrem {ano_min}–{ano_max}; não há dados para {', '.join(map(str, fora))}.")
 
     serie = _tem(t, "evolu", "evoluiram", "evoluiu", "evolucao", "historico", "serie", "ao longo", "tendencia",
-                 "variacao", "cresceu", "cresceram", "crescimento", "aumentou", "diminuiu", "queda", "reducao")
+                 "variacao", "cresceu", "cresceram", "crescimento", "aumentou", "diminuiu", "queda", "reducao",
+                 "como andam", "como anda", "trajetoria", "encolhendo", "caindo", "diminuindo", "crescendo", "perdendo")
     serie = serie or any(w.startswith("evolu") or w.startswith("cresc") for w in t.split())
 
     # ---------------- dimensão curso e listas de lugares ("quais cursos", "municípios capixabas")
     lista_cursos = _tem(t, "quais cursos", "por curso", "cursos que", "cursos com", "cursos mais", "cursos de maior",
-                        "cursos que mais")
+                        "cursos que mais", "que cursos", "quais os cursos", "cursos estao", "quais sao os cursos")
     if lista_cursos:
         c.quebras.append("curso")
         t = t.replace("cursos", " ")
@@ -162,21 +164,31 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         ufs = [l for l in c.locais if l.nivel == "UF"]
         if len(ufs) == 1 and not [l for l in c.locais if l.nivel == "Município"]:
             c.listar_municipios_uf = ufs[0].co_uf
-    if _tem(t, "por estado", "por uf", "entre os estados", "quais estados", "por estados"):
+    if _tem(t, "por estado", "por uf", "entre os estados", "quais estados", "por estados", "qual estado", "que estado",
+            "qual uf", "qual unidade da federacao"):
         c.listar_ufs = True
 
     # ---------------- indicador
+    # indicador citado PRIMEIRO na frase ("alunos que estudam em instituições" → matrículas); empate → termo mais
+    # longo. O trecho achado é consumido (assim "faculdades e universidades" = IES não vira quebra de org. acadêmica).
+    candidatos = []
     for termo, iid in cat.sin_indicador:
-        if _tem(restante, termo):
-            c.indicador = iid
-            break
+        m_i = re.search(rf"(?<![\w]){re.escape(termo)}(?![\w])", restante)
+        if m_i:
+            candidatos.append((m_i.start(), -len(termo), termo, iid))
+    if candidatos:
+        _, _, termo_ind, c.indicador = min(candidatos)
+        restante = _consumir(restante, termo_ind)
     if c.indicador is None and lista_cursos:
         c.indicador = "matriculas"
         c.supostos.append("indicador não citado: usei matrículas para medir os cursos")
-    if c.indicador is None and _tem(t, "ensino superior", "graduacao") and not _tem(t, "instituic", "docente", "professor"):
+    if c.indicador is None and (_tem(t, "ensino superior", "graduacao", "ensino a distancia", "ensino presencial",
+                                     "fazendo faculdade", "na faculdade", "universitarios", "ead", "presencial")
+                                or "modalidade" in c.quebras) and not _tem(t, "instituic", "docente", "professor"):
         c.indicador = "matriculas"
         c.supostos.append("indicador não citado explicitamente: usei matrículas")
     if c.indicador is None:
+        c.nao_entendida = True
         c.esclarecer.append("Qual indicador? Opções: matrículas, ingressantes, concluintes, cursos, vagas, "
                             "inscritos, instituições (IES) ou docentes.")
 
@@ -213,17 +225,24 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         elif d not in c.quebras:
             c.quebras.append(d)
             c.filtros.pop(d, None)
+    # dimensão nomeada sem "por" ("faixa etária dos ingressantes", "distribuição por cor ou raça"): vira quebra,
+    # salvo se a pergunta já fixou uma categoria dela
+    for termo_d, d in (("faixa etaria", "faixa_etaria"), ("cor ou raca", "cor_raca"), ("cor/raca", "cor_raca"),
+                       ("cor raca", "cor_raca"), ("sexo", "sexo"), ("genero", "sexo")):
+        if _tem(t, termo_d) and d not in c.filtros and d not in c.quebras:
+            c.quebras.append(d)
     if _tem(t, "categoria administrativa") and "dependencia" not in c.quebras and "rede" not in c.quebras:
         c.quebras.append("dependencia")
 
     # ---------------- tipo de análise
-    ranking = _tem(t, "maior", "maiores", "menor", "menores", "ranking", "top", "mais", "principais", "lideram")
+    ranking = _tem(t, "maior", "maiores", "menor", "menores", "ranking", "top", "mais", "menos", "principais", "lideram")
     reducao = _tem(t, "reducao", "reduziram", "reduziu", "perderam", "perdeu", "perda", "perdas", "queda", "cairam",
-                   "caiu", "diminuiram", "diminuiu", "encolheram", "recuo", "recuaram")
+                   "caiu", "diminuiram", "diminuiu", "encolheram", "recuo", "recuaram", "encolhendo", "caindo",
+                   "diminuindo", "perdendo")
     listar = "curso" in c.quebras or c.listar_municipios_uf or c.listar_ufs
     if _tem(t, "cada", "todos os municipios", "todos os estados", "todas as ufs"):
         c.top_n = 10000
-    if _tem(t, "menor", "menores"):
+    if _tem(t, "menor", "menores", "menos"):
         c.ordem = "asc"
     m = re.search(r"\b(\d+) (municipios|cursos|estados|maiores|principais)\b", t)
     if m:
@@ -232,7 +251,8 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
                      "proporcionalmente", "em termos percentuais")
     if cresc_pct:
         c.criterio = "percentual"
-    part = _tem(t, "participacao", "proporcao", "percentual", "parcela", "fatia", "porcentagem") and not cresc_pct
+    part = _tem(t, "participacao", "proporcao", "percentual", "parcela", "fatia", "porcentagem", "maioria", "minoria",
+                "domina", "dominam", "predomina", "predominam") and not cresc_pct
     if listar and reducao:                  # "quais municípios/cursos perderam/apresentaram redução"
         c.tipo, c.ordem, c.so_reducao = "crescimento", "asc", True
     elif part and listar and not [d for d in c.filtros if d != "curso"] and c.quebras in ([], ["curso"]):
@@ -241,7 +261,8 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         c.tipo = "participacao"
         # "participação das mulheres nas matrículas da rede privada": a parte é o 1º filtro citado depois da palavra
         # "participação"; os demais filtros definem o universo (denominador)
-        m_p = re.search(r"\b(participacao|proporcao|percentual|parcela|fatia|porcentagem)\b", restante)
+        m_p = re.search(r"\b(participacao|proporcao|percentual|parcela|fatia|porcentagem|maioria|minoria|domina|dominam|"
+                        r"predomina|predominam)\b", restante)
         if m_p and len(c.filtros) > 1:
             depois = sorted((p, d) for d, p in posicao.items() if d in c.filtros and p > m_p.start())
             if depois:

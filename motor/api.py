@@ -16,10 +16,42 @@ def catalogo():
     return carregar(conexao)
 
 
-def perguntar(texto: str) -> Resposta:
-    """Pergunta em português → resposta, com o interpretador por regras."""
+def perguntar(texto: str, modo: str = "regras") -> Resposta:
+    """Pergunta em português → resposta.
+    modo="regras"  — só o interpretador por regras (padrão; determinístico);
+    modo="hibrido" — regras primeiro; o modelo de linguagem local só entra quando as regras não identificam o
+                     indicador (limites conhecidos dos dados continuam respondidos pelas regras);
+    modo="llm"     — só o modelo (para avaliação).
+    O modelo nunca gera SQL nem números: devolve o JSON da consulta, validado por contrato.de_json."""
     cat = catalogo()
-    return responder(interpretar(texto, cat), texto)
+    if modo == "regras":
+        return responder(interpretar(texto, cat), texto)
+    from .llm import interpretar_llm
+    from .interpretador import Consulta
+    c_regras = interpretar(texto, cat) if modo == "hibrido" else None
+    if c_regras is not None and not c_regras.nao_entendida:
+        return responder(c_regras, texto)
+    c, meta = interpretar_llm(texto, cat)
+    _registrar_llm(texto, modo, meta)
+    if c is None:
+        motivos = ["O modelo de linguagem local não produziu uma interpretação válida: " + e for e in meta["erros"]]
+        if c_regras is not None:
+            motivos = c_regras.esclarecer + motivos
+        return esclarecimento(texto, c_regras or Consulta(texto=texto), motivos)
+    r = responder(c, texto)
+    r.interpretador = f"modelo de linguagem local ({meta['modelo']}, {meta['segundos']} s)"
+    return r
+
+
+def _registrar_llm(texto, modo, meta):
+    import json
+    from datetime import datetime
+    from .config import REGISTRO
+    REGISTRO.parent.mkdir(parents=True, exist_ok=True)
+    with open(REGISTRO, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"quando": datetime.now().isoformat(timespec="seconds"), "pergunta": texto,
+                            "interpretador": "llm", "modo": modo, **{k: v for k, v in meta.items()}},
+                           ensure_ascii=False, default=str) + "\n")
 
 
 def perguntar_estruturado(consulta_json: dict, texto: str = "") -> Resposta:

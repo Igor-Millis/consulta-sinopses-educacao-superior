@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consulta IJSN — Educação Superior</title>
+<style>
+:root {
+  --fundo: #f6f5f2; --cartao: #ffffff; --tinta: #1b1b1a; --tinta2: #55544f; --linha: #dedcd5;
+  --destaque: #1f5fa8; --destaque-fundo: #e8f0fa; --aviso: #8a5a00; --aviso-fundo: #fff4dc; --erro: #a12a2a;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fundo: #121211; --cartao: #1c1c1b; --tinta: #efeee9; --tinta2: #b9b7ae; --linha: #34332f;
+          --destaque: #7fb0ec; --destaque-fundo: #1a2a3d; --aviso: #f0c46a; --aviso-fundo: #33280f; --erro: #ef8a8a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); color: var(--tinta); font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.35rem; margin: 0 0 4px; }
+.sub { color: var(--tinta2); margin: 0 0 20px; font-size: .95rem; }
+.cartao { background: var(--cartao); border: 1px solid var(--linha); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+label { font-weight: 600; display: block; margin-bottom: 6px; }
+textarea { width: 100%; min-height: 64px; font: inherit; padding: 10px; border: 1px solid var(--linha); border-radius: 8px;
+           background: var(--fundo); color: var(--tinta); resize: vertical; }
+.linha { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+button { font: inherit; border-radius: 8px; border: 1px solid var(--destaque); cursor: pointer; }
+.primario { background: var(--destaque); color: #fff; padding: 8px 18px; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .primario { color: #10233a; } }
+.primario:disabled { opacity: .5; cursor: wait; }
+.exemplos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.exemplos button { background: transparent; color: var(--destaque); padding: 3px 10px; font-size: .85rem; }
+select { font: inherit; padding: 6px; border-radius: 8px; border: 1px solid var(--linha); background: var(--cartao); color: var(--tinta); }
+.entendi { background: var(--destaque-fundo); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: .95rem; }
+.entendi ul { margin: 4px 0 0; padding-left: 20px; }
+.alerta { background: var(--aviso-fundo); color: var(--aviso); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-weight: 600; }
+.erro { color: var(--erro); font-weight: 600; }
+.resposta p { margin: 8px 0; }
+.resposta strong { font-weight: 650; }
+.resposta code { font-size: .85em; background: var(--fundo); padding: 1px 4px; border-radius: 4px; word-break: break-all; }
+.tabela { overflow-x: auto; margin: 10px 0; }
+table { border-collapse: collapse; font-size: .9rem; min-width: 50%; }
+th, td { border-bottom: 1px solid var(--linha); padding: 5px 10px; text-align: left; white-space: nowrap; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+th { color: var(--tinta2); font-weight: 600; }
+img.grafico { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--linha); margin-top: 8px; background: #fcfcfb; }
+.acoes a { color: var(--destaque); font-weight: 600; }
+.rodape { color: var(--tinta2); font-size: .85rem; margin-top: 24px; }
+.historico button { display: block; width: 100%; text-align: left; background: transparent; border: none; color: var(--destaque);
+                    padding: 4px 0; font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Consulta às Sinopses da Educação Superior (INEP, 2017–2024)</h1>
+  <p class="sub">Pergunte em português. Os números vêm do banco de dados do IJSN, calculados por programa — não são estimados pela IA.
+    Cada resposta mostra como a pergunta foi entendida, as fontes e as limitações.</p>
+
+  <section class="cartao" aria-labelledby="rotulo-pergunta">
+    <label id="rotulo-pergunta" for="pergunta">Sua pergunta</label>
+    <textarea id="pergunta" placeholder="Ex.: Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?"></textarea>
+    <div class="linha">
+      <button class="primario" id="enviar" type="button">Perguntar</button>
+      <label for="modo" style="margin:0;font-weight:400">Interpretação:</label>
+      <select id="modo">
+        <option value="regras">Regras (mais previsível)</option>
+        <option value="hibrido">Regras + IA local (entende mais formas de perguntar)</option>
+      </select>
+      <span id="estado-ia" class="sub" style="margin:0"></span>
+    </div>
+    <div class="exemplos" aria-label="Exemplos de perguntas">
+      <button type="button">Quantas matrículas havia em Vila Velha em 2024?</button>
+      <button type="button">Quais os 10 municípios capixabas com mais matrículas em 2024?</button>
+      <button type="button">Compare as matrículas presenciais e a distância no ES nos últimos 5 anos</button>
+      <button type="button">Qual a participação das mulheres nas matrículas da rede privada do ES em 2024?</button>
+      <button type="button">Quais cursos mais cresceram em ingressantes no ES entre 2019 e 2024?</button>
+      <button type="button">Relação candidatos por vaga no ES em 2024</button>
+    </div>
+  </section>
+
+  <section id="saida" aria-live="polite"></section>
+
+  <section class="cartao historico" id="caixa-historico" hidden>
+    <strong>Perguntas desta sessão</strong>
+    <div id="historico"></div>
+  </section>
+
+  <p class="rodape">Fonte: INEP — Sinopses Estatísticas da Educação Superior (Graduação). Processamento 100% local neste computador.
+    Valores suspeitos na publicação do INEP são mantidos como publicados e sinalizados nas limitações.</p>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const historico = [];
+
+fetch("/api/estado").then(r => r.json()).then(e => {
+  $("estado-ia").textContent = e.llm_disponivel ? "IA local disponível (" + e.modelo + ")" : "IA local indisponível — usando só regras";
+  if (!e.llm_disponivel) { $("modo").value = "regras"; $("modo").options[1].disabled = true; }
+}).catch(() => {});
+
+document.querySelectorAll(".exemplos button").forEach(b => b.addEventListener("click", () => { $("pergunta").value = b.textContent; enviar(); }));
+$("enviar").addEventListener("click", enviar);
+$("pergunta").addEventListener("keydown", (ev) => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); enviar(); } });
+
+async function enviar() {
+  const pergunta = $("pergunta").value.trim();
+  if (!pergunta) return;
+  const modo = $("modo").value;
+  $("enviar").disabled = true;
+  $("saida").innerHTML = "<div class='cartao'>Consultando" + (modo === "hibrido" ? " (a IA local pode levar de 10 a 40 segundos)" : "") + "…</div>";
+  try {
+    const r = await fetch("/api/perguntar", {method: "POST", headers: {"Content-Type": "application/json"},
+                                             body: JSON.stringify({pergunta, modo})});
+    const d = await r.json();
+    mostrar(d);
+    if (!d.erro) adicionarHistorico(pergunta);
+  } catch (e) {
+    $("saida").innerHTML = "<div class='cartao erro'>Falha de comunicação com o servidor local.</div>";
+  } finally { $("enviar").disabled = false; }
+}
+
+function mostrar(d) {
+  if (d.erro) { $("saida").innerHTML = "<div class='cartao erro'>" + esc(d.erro) + "</div>"; return; }
+  let h = "<article class='cartao resposta'>";
+  if (d.interpretador && d.interpretador !== "regras")
+    h += "<div class='alerta'>Pergunta interpretada pela IA local. Confira abaixo como ela foi entendida antes de usar os números.</div>";
+  if (d.precisa_esclarecer)
+    h += "<div class='alerta'>Preciso de um esclarecimento — nenhum dado foi consultado.</div>";
+  h += d.html;
+  if (d.grafico) h += "<img class='grafico' alt='Gráfico da resposta (os mesmos números estão na tabela acima)' src='" + esc(d.grafico) + "'>";
+  if (d.csv) h += "<p class='acoes'><a href='" + esc(d.csv) + "'>Baixar a tabela (CSV, abre no Excel)</a></p>";
+  h += "</article>";
+  $("saida").innerHTML = h;
+}
+
+function adicionarHistorico(p) {
+  historico.unshift(p);
+  $("caixa-historico").hidden = false;
+  $("historico").innerHTML = historico.slice(0, 10).map(x => "<button type='button'>" + esc(x) + "</button>").join("");
+  $("historico").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { $("pergunta").value = b.textContent; enviar(); }));
+}
+</script>
+</body>
+</html>
