@@ -23,6 +23,8 @@ def perguntar(texto: str) -> Resposta:
         return compatibilidade(texto, cat)
     if c.esclarecer:
         return esclarecimento(texto, c, c.esclarecer)
+    if c.indicador in cat.derivados:
+        return _derivado(texto, c, cat)
     c_exec = para_participacao(c) if c.tipo == "participacao" else c
     plano = planejar(c_exec, cat)
     if plano.esclarecer:
@@ -42,6 +44,58 @@ def perguntar(texto: str) -> Resposta:
         tab_anos = {(t, int(a)) for a, ts in zip(df["ano"], df["tabelas"]) if ts for t in str(ts).split(",")}
     ocorr = ocorrencias(ids, tab_anos)
     return montar(texto, c_exec, cat, res, df, plano, notas, ocorr, [(plano.sql, plano.params)])
+
+
+CHAVES = ["ano", "id_geo", "nivel_geo", "local", "modalidade", "rede", "dependencia", "categoria_privada",
+          "org_academica", "grau", "co_curso", "no_curso"]
+
+
+def _derivado(texto, c, cat) -> Resposta:
+    """Razão entre dois indicadores aditivos: numerador e denominador são somados separadamente (por local, grupo e
+    recorte) e só então divididos. Nunca média de razões."""
+    from copy import deepcopy
+    import numpy as np
+    d = cat.derivados[c.indicador]
+    if c.tipo == "participacao":
+        return esclarecimento(texto, c, [f"'{d['nome']}' é uma razão; participação não se aplica. "
+                                         "Pergunte o valor, a evolução ou um ranking."])
+    partes, planos, notas = {}, [], []
+    for papel in ("numerador", "denominador"):
+        ck = deepcopy(c)
+        ck.indicador = d[papel]
+        pl = planejar(ck, cat)
+        if pl.esclarecer:
+            return esclarecimento(texto, c, pl.esclarecer)
+        df = buscar(pl, texto)
+        df, nt = rotular(df, ck, cat, True)
+        partes[papel], notas = df, notas + nt + pl.notas
+        planos.append(pl)
+    num, den = partes["numerador"], partes["denominador"]
+    if num.empty or den.empty:
+        return sem_dados(texto, c, planos[0])
+    chaves = [k for k in CHAVES if k in num.columns and k in den.columns]
+    m = num.merge(den, on=chaves, suffixes=("_num", "_den"))
+    m["valor"] = np.where(m["valor_den"] > 0, m["valor_num"] / m["valor_den"].where(m["valor_den"] > 0), np.nan)
+    m["tem_suspeito"] = m["tem_suspeito_num"].fillna(False) | m["tem_suspeito_den"].fillna(False)
+    m["origem"] = m["origem_num"]
+    if "ocorrencias_num" in m.columns:
+        m["ocorrencias"] = m[["ocorrencias_num", "ocorrencias_den"]].apply(
+            lambda r: ";".join(sorted({x for v in r.dropna() for x in str(v).split(";") if x})) or None, axis=1)
+    res = analisar(m, c, planos[0].dims)
+    res.fatos.pop("total", None)
+    if "participação_no_conjunto" in res.tabela.columns:
+        res.tabela = res.tabela.drop(columns="participação_no_conjunto")
+        res.fatos["top"] = res.tabela
+    notas.append(f"{d['nome']} = {cat.indicadores[d['numerador']]['nome'].lower()} ÷ "
+                 f"{cat.indicadores[d['denominador']]['nome'].lower()}, somados separadamente antes da divisão.")
+    ids = sorted({x for v in m.get("ocorrencias", pd_vazio()).dropna() for x in str(v).split(";") if x})
+    return montar(texto, c, cat, res, m, planos[0], list(dict.fromkeys(notas)), ocorrencias(ids, []),
+                  [(p.sql, p.params) for p in planos])
+
+
+def pd_vazio():
+    import pandas as pd
+    return pd.Series(dtype=object)
 
 
 def compatibilidade(texto, cat) -> Resposta:

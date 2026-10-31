@@ -33,7 +33,11 @@ class Resposta:
         return self.texto
 
 
-def n(v, casas=0):
+CASAS = 0   # casas decimais dos valores da resposta corrente (indicadores derivados usam 2)
+
+
+def n(v, casas=None):
+    casas = CASAS if casas is None else casas
     if v is None or (isinstance(v, float) and np.isnan(v)):
         return "—"
     s = f"{v:,.{casas}f}"
@@ -161,6 +165,24 @@ def principal(res, c, cat, unidade, nome_ind):
             frases.append(f"**{r['série']}**: {n(r['valor_inicial'])} em {r['ano_inicial']} → {n(r['valor_final'])} em "
                           f"{r['ano_final']} ({sn(r['variação_absoluta'])}; {pct(r['variação_%'], sinal=True)}; "
                           f"média de {pct(r['taxa_média_anual'], sinal=True)} ao ano).")
+        if res.serie is not None and len(res.serie.columns) <= 4:
+            for col in res.serie.columns:
+                y = res.serie[col].dropna()
+                d = y.diff().dropna()
+                if len(d) >= 2:
+                    i_alta, i_queda = d.idxmax(), d.idxmin()
+                    ant = lambda a: int(y.index[list(y.index).index(a) - 1])
+                    if d[i_alta] > 0:
+                        txt = f"{col} — maior alta anual: {ant(i_alta)}→{int(i_alta)} ({sn(d[i_alta])}"
+                        txt += f"; {pct(d[i_alta] / y[ant(i_alta)], sinal=True)})" if y[ant(i_alta)] else ")"
+                    else:
+                        txt = f"{col} — nenhuma alta anual no período"
+                    if d[i_queda] < 0:
+                        txt += f"; maior queda anual: {ant(i_queda)}→{int(i_queda)} ({sn(d[i_queda])}"
+                        txt += f"; {pct(d[i_queda] / y[ant(i_queda)], sinal=True)})" if y[ant(i_queda)] else ")"
+                    else:
+                        txt += "; nenhuma queda anual no período"
+                    frases.append(txt + ".")
         if f.get("ultrapassagem"):
             a, b = f["series"]
             frases.append(f"A ordem entre {a} e {b} se inverteu em **{f['ultrapassagem']}**.")
@@ -194,14 +216,20 @@ def principal(res, c, cat, unidade, nome_ind):
         ordem = "menores" if c.ordem == "asc" else "maiores"
         lider = top.iloc[0]
         return (f"**{len(top)} {ordem} {ent} em {nome_ind.lower()}{rec} — {loc}, {f['ano1']}** "
-                f"(de {f['n_total']} com dados). Primeiro: **{lider['nome']}** com {n(lider['valor'])} "
-                f"({pct(lider['participação_no_conjunto'])} do conjunto).")
+                f"(de {f['n_total']} com dados). Primeiro: **{lider['nome']}** com {n(lider['valor'])}"
+                + (f" ({pct(lider['participação_no_conjunto'])} do conjunto)" if "participação_no_conjunto" in top.columns else "")
+                + ".")
     if res.tipo == "crescimento":
         top = f["top"]
         if top.empty:
             return "Nenhum item com dados nos dois anos para comparar."
         ent = "cursos" if "curso" in c.quebras else ("municípios" if c.listar_municipios_uf else "UFs")
         crit = "variação percentual" if f["criterio"] == "percentual" else "variação absoluta"
+        if f.get("so_reducao"):
+            return (f"**{len(f['top'])} de {f['n_total']} {ent} com redução em {nome_ind.lower()}{rec} — {loc}, "
+                    f"{f['ano0']}→{f['ano1']}** (maiores quedas primeiro, por {crit}).") if not top.empty else (
+                    f"Nenhum dos {ent} com dados nos dois anos teve redução em {nome_ind.lower()}{rec} entre "
+                    f"{f['ano0']} e {f['ano1']}.")
         lider = top.iloc[0]
         return (f"**{ent.capitalize()} com {'menor' if c.ordem == 'asc' else 'maior'} crescimento em "
                 f"{nome_ind.lower()}{rec} — {loc}, {f['ano0']}→{f['ano1']}** (ordenado por {crit}). "
@@ -252,7 +280,16 @@ def interpretacao(res, c):
 
 
 def montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls) -> Resposta:
-    ind = cat.indicadores[c.indicador]
+    global CASAS
+    ind = cat.indicadores.get(c.indicador) or cat.derivados[c.indicador]
+    CASAS = ind.get("casas", 0)
+    try:
+        return _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, ind)
+    finally:
+        CASAS = 0
+
+
+def _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, ind) -> Resposta:
     partes = [principal(res, c, cat, ind["unidade"], ind["nome"])]
     tabela = res.tabela
     if tabela is not None and not tabela.empty:

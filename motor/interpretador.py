@@ -34,6 +34,7 @@ class Consulta:
     ordem: str = "desc"
     top_n: int = 10
     criterio: str = "absoluto"                             # ranking de crescimento: absoluto | percentual
+    so_reducao: bool = False                               # ranking de crescimento: só itens com variação < 0
     parte: dict = field(default_factory=dict)              # participação: recorte do numerador (filtros → quebras)
     supostos: list = field(default_factory=list)
     esclarecer: list = field(default_factory=list)
@@ -58,13 +59,23 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         c.tipo = "compatibilidade"
         return c
 
+    # ---------------- temas que o motor ainda não cobre: explicar em vez de responder outra coisa
+    for _tema, (termos, msg) in cat.temas_indisponiveis.items():
+        if _tem(t, *termos):
+            c.esclarecer.append(msg)
+            return c
+
     # ---------------- anos
     anos = [int(a) for a in re.findall(r"\b(20[12]\d)\b", t)]
     m = re.search(r"\bultimos? (\d+|" + "|".join(NUMEROS) + r") anos\b", t)
+    m_ref = re.search(r"\b(comparad[oa]s? (com|a)|em relacao a|frente a|desde|a partir de) (20[12]\d)\b", t)
     if m:
         n = int(m.group(1)) if m.group(1).isdigit() else NUMEROS[m.group(1)]
         c.anos = list(range(ano_max - n + 1, ano_max + 1))
         c.supostos.append(f"'últimos {n} anos' = {c.anos[0]}–{c.anos[-1]} (último ano disponível: {ano_max})")
+    elif m_ref and len(anos) == 1:          # "comparadas com 2017", "desde 2019": do ano citado até o último
+        c.anos = list(range(anos[0], ano_max + 1))
+        c.supostos.append(f"'{m_ref.group(0)}': de {anos[0]} até o último ano disponível ({ano_max})")
     elif len(anos) >= 2 and _tem(t, "entre", "de", "desde", "ate", "a"):
         c.anos = list(range(min(anos), max(anos) + 1))
     elif anos:
@@ -131,7 +142,11 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
                                     + ", ".join(f"{l.nome} ({l.sg_uf})" for l in escolhidos) + ". Qual deles?")
             elif escolhidos[0] not in c.locais:
                 c.locais.append(escolhidos[0])
+    letras = [ch for ch in original if ch.isalpha()]
+    caixa_alta = len(letras) > 8 and sum(ch.isupper() for ch in letras) / len(letras) > 0.6
     for sg in re.findall(r"\b([A-Z]{2})\b", original):  # siglas só em maiúsculas no texto original
+        if caixa_alta and sg in ("SE",):   # texto todo em maiúsculas: "SE" é a conjunção, não Sergipe
+            continue
         loc = cat.nomes_uf.get("sigla:" + sg)
         if loc and loc not in c.locais:
             c.locais.append(loc)
@@ -142,7 +157,7 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
             restante = _consumir(restante, nome)
             break
     # "municípios capixabas / do ES" → listar municípios da UF
-    if _tem(t, "municipios", "cidades") and not lista_cursos:
+    if _tem(t, "municipios", "cidades", "cada municipio", "por municipio", "cada cidade") and not lista_cursos:
         ufs = [l for l in c.locais if l.nivel == "UF"]
         if len(ufs) == 1 and not [l for l in c.locais if l.nivel == "Município"]:
             c.listar_municipios_uf = ufs[0].co_uf
@@ -165,6 +180,9 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
                             "inscritos, instituições (IES) ou docentes.")
 
     # ---------------- filtros e quebras por dimensão
+    for frase in ("total estadual", "total nacional", "total municipal", "ambito estadual", "ambito nacional",
+                  "ambito municipal", "nivel estadual", "nivel nacional", "nivel municipal"):
+        restante = _consumir(restante, frase)   # "total estadual" é o total do estado, não a dependência Estadual
     for dim in ("modalidade", "rede", "dependencia", "categoria_privada", "org_academica", "grau", "sexo", "cor_raca"):
         achados = []
         for termo, canon in cat.termos(dim):
@@ -177,9 +195,11 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
                 c.quebras.append(dim)
         elif len(achados) == 1:
             c.filtros[dim] = achados[0]
-    m = re.search(r"\bpor (" + "|".join(sorted(QUEBRAS, key=len, reverse=True)) + r")\b", t)
-    if m:
-        d = QUEBRAS[m.group(1)]
+    alt = "|".join(re.escape(q) for q in sorted(QUEBRAS, key=len, reverse=True))
+    pedidas = []
+    for m in re.finditer(rf"\bpor ((?:{alt})(?:(?:,| e| ou) (?:{alt}))*)\b", t):   # "por sexo e cor/raça"
+        pedidas += [QUEBRAS[x] for x in re.findall(rf"(?<![\w/])({alt})(?![\w/])", m.group(1))]
+    for d in dict.fromkeys(pedidas):
         if d == "municipio":
             ufs = [l for l in c.locais if l.nivel == "UF"]
             if ufs:
@@ -194,6 +214,11 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
 
     # ---------------- tipo de análise
     ranking = _tem(t, "maior", "maiores", "menor", "menores", "ranking", "top", "mais", "principais", "lideram")
+    reducao = _tem(t, "reducao", "reduziram", "reduziu", "perderam", "perdeu", "perda", "perdas", "queda", "cairam",
+                   "caiu", "diminuiram", "diminuiu", "encolheram", "recuo", "recuaram")
+    listar = "curso" in c.quebras or c.listar_municipios_uf or c.listar_ufs
+    if _tem(t, "cada", "todos os municipios", "todos os estados", "todas as ufs"):
+        c.top_n = 10000
     if _tem(t, "menor", "menores"):
         c.ordem = "asc"
     m = re.search(r"\b(\d+) (municipios|cursos|estados|maiores|principais)\b", t)
@@ -203,7 +228,12 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
                      "proporcionalmente", "em termos percentuais")
     if cresc_pct:
         c.criterio = "percentual"
-    if _tem(t, "participacao", "proporcao", "percentual", "parcela", "fatia", "porcentagem") and not cresc_pct:
+    part = _tem(t, "participacao", "proporcao", "percentual", "parcela", "fatia", "porcentagem") and not cresc_pct
+    if listar and reducao:                  # "quais municípios/cursos perderam/apresentaram redução"
+        c.tipo, c.ordem, c.so_reducao = "crescimento", "asc", True
+    elif part and listar and not [d for d in c.filtros if d != "curso"] and c.quebras in ([], ["curso"]):
+        c.tipo = "ranking"                  # participação de cada item no conjunto = ranking com coluna de participação
+    elif part:
         c.tipo = "participacao"
     elif ranking and ("curso" in c.quebras or c.listar_municipios_uf or c.listar_ufs) and serie:
         c.tipo = "crescimento"

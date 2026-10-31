@@ -37,6 +37,8 @@ class Catalogo:
     aliases: dict = field(default_factory=dict)
     nomes_curso: dict = field(default_factory=dict)       # nome normalizado -> código Cine de referência (2024)
     nome_curso: dict = field(default_factory=dict)        # código de referência -> nome
+    derivados: dict = field(default_factory=dict)         # id -> {numerador, denominador, ...}
+    temas_indisponiveis: dict = field(default_factory=dict)  # tema -> ([termos], mensagem)
 
     def termos(self, dim):
         return self.sin_dimensao.get(dim, [])
@@ -57,7 +59,13 @@ def carregar(con_factory=None) -> Catalogo:
     for iid, d in cat.indicadores.items():
         for t in [iid, d["nome"], *d.get("sinonimos", [])]:
             pares.append((normalizar(t), iid))
+    cat.derivados = bruto.get("derivados", {})
+    for iid, d in cat.derivados.items():
+        for t in [d["nome"], *d.get("sinonimos", [])]:
+            pares.append((normalizar(t), iid))
     cat.sin_indicador = _ordenar(set(pares))
+    cat.temas_indisponiveis = {k: ([normalizar(x) for x in v["termos"]], v["mensagem"])
+                               for k, v in bruto.get("temas_indisponiveis", {}).items()}
     for dim, d in bruto["dimensoes"].items():
         if "valores" in d:
             cat.sin_dimensao[dim] = _ordenar({(normalizar(t), canon) for canon, ts in d["valores"].items()

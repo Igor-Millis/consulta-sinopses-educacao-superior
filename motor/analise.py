@@ -220,8 +220,10 @@ def _ranking(df, c, dims):
         else:
             tab = tab.sort_values("variação_absoluta", ascending=asc)
         tab = tab.dropna(subset=["variação_absoluta"]) if criterio != "percentual" else tab
+        if getattr(c, "so_reducao", False):
+            tab = tab[tab["variação_absoluta"] < 0]
         fatos = {"ano0": ano0, "ano1": ano1, "criterio": criterio, "n_total": len(tab),
-                 "sem_base": int((v0.reindex(v1.index).isna()).sum())}
+                 "sem_base": int((v0.reindex(v1.index).isna()).sum()), "so_reducao": getattr(c, "so_reducao", False)}
         col_barra = "variação_absoluta" if criterio != "percentual" else "variação_%"
     else:
         v1 = alvo[alvo["ano"] == ano1].groupby(ent)["valor"].sum()

@@ -195,6 +195,50 @@ aliases_geo:
   "grande vitória": {uf: "32", municipios: [Vitória, Vila Velha, Serra, Cariacica, Viana, Guarapari, Fundão]}
   "grande vitoria": {uf: "32", municipios: [Vitória, Vila Velha, Serra, Cariacica, Viana, Guarapari, Fundão]}
 
+# Temas que existem no núcleo (fato_sinopse) mas ainda NÃO estão no motor: a pergunta recebe esta explicação
+# em vez de uma resposta sobre outro indicador. Termos normalizados (sem acento).
+temas_indisponiveis:
+  deficiencia:
+    termos: [deficiencia, deficientes, pcd, autismo, tea, necessidades especiais]
+    mensagem: "Dados de alunos com deficiência existem no núcleo (Sinopse, tabelas 4.13, 5.8, 6.8 e equivalência de categorias em xw_deficiencia), mas ainda não estão disponíveis no motor."
+  financiamento:
+    termos: [fies, prouni, financiamento, financiamento estudantil, bolsa, bolsas, bolsistas]
+    mensagem: "Dados de financiamento estudantil (FIES, ProUni etc.) existem no núcleo (Sinopse, dimensão financiamento), mas ainda não estão disponíveis no motor."
+  reserva_vagas:
+    termos: [reserva de vagas, cotas, cotistas, cota, acao afirmativa, acoes afirmativas]
+    mensagem: "Dados de reserva de vagas (cotas) existem no núcleo (Sinopse 4.15–4.17, 5.14–5.16, 6.14–6.16; equivalência em xw_reserva_vagas), mas ainda não estão disponíveis no motor."
+  turno:
+    termos: [noturno, diurno, turno, matutino, vespertino, integral]
+    mensagem: "Dados por turno existem no núcleo (Sinopse), mas ainda não estão disponíveis no motor."
+  nacionalidade:
+    termos: [estrangeiros, estrangeiro, nacionalidade, imigrantes]
+    mensagem: "Dados por nacionalidade existem no núcleo (Sinopse), mas ainda não estão disponíveis no motor."
+  taxas:
+    termos: [taxa de conclusao, taxa de evasao, evasao, taxa de sucesso, desistencia, abandono, taxa de ocupacao]
+    mensagem: "As Sinopses não publicam taxas de evasão ou conclusão por coorte; calculá-las exige microdados do Censo. Indicadores disponíveis: matrículas, ingressantes, concluintes, cursos, vagas, inscritos, IES, docentes e candidatos por vaga."
+  docentes_detalhe:
+    termos: [regime de trabalho, dedicacao exclusiva, titulacao, doutores, mestres, formacao dos docentes]
+    mensagem: "Docentes por titulação/regime existem no núcleo (Sinopse, tabelas 2.x), mas ainda não estão disponíveis no motor."
+
+# Indicadores derivados: razão calculada em código a partir de dois indicadores aditivos (soma antes de dividir)
+derivados:
+  candidatos_por_vaga:
+    nome: "Candidatos por vaga"
+    sinonimos: [candidatos por vaga, candidato por vaga, relacao candidato vaga, relacao candidatos vaga, concorrencia, relacao candidatos por vaga, inscritos por vaga]
+    numerador: inscritos
+    denominador: vagas
+    definicao: "Candidatos inscritos ÷ vagas oferecidas (mesmo ano, local e recorte)."
+    unidade: "candidatos por vaga"
+    casas: 2
+  ingressantes_por_vaga:
+    nome: "Ingressantes por vaga"
+    sinonimos: [ingressantes por vaga, ocupacao das vagas, preenchimento das vagas, vagas preenchidas]
+    numerador: ingressantes
+    denominador: vagas
+    definicao: "Ingressantes ÷ vagas oferecidas (mesmo ano, local e recorte). Aproximação: ingressantes podem entrar por processos sem vaga nova."
+    unidade: "ingressantes por vaga"
+    casas: 2
+
 compatibilidade_temporal:
   # Como o sistema deve qualificar comparações entre anos
   padrao: diretamente_comparavel
