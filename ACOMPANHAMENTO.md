@@ -2,6 +2,13 @@
 
 Criação e desenvolvimento: Igor L. Millis (projeto independente). Menções a "IJSN" que restam neste arquivo são nomes técnicos de pasta/arquivo.
 
+> **Atualização de 31/10/2026, 12:15: auditoria final concluída.** Ver `RELATORIO_FINAL_AUDITORIA.md`.
+> - Identidade trocada para Igor L. Millis.
+> - 3 defeitos de uso corrigidos: `.bat` não iniciava; duas instâncias na mesma porta; segunda abertura.
+> - Testes: 260/260 automatizados, e2e 13/13 pelo `.bat`, P3/P6/backup/equivalência OK.
+> - Disco: 2,5 GB livres. Liberação segura de cerca de 15 GB aguarda autorização.
+> - As seções abaixo são o registro da entrega anterior (03:00) e foram mantidas como histórico.
+
 Documento central. Atualizado em **31/10/2026, 03:00**: entrega da **primeira versão utilizável (v1)**.
 Situações: **validado** (executado, testado, resultado registrado) · **implementado** (executado, teste parcial) · **pendente**.
 
