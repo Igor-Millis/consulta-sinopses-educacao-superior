@@ -1,6 +1,6 @@
 # Acompanhamento do projeto IJSN — Sinopses da Educação Superior 2017–2024
 
-Documento central: o que existe, o que foi testado, problemas, decisões e próximo passo. Atualizado em **30/10/2026, 23:45**.
+Documento central: o que existe, o que foi testado, problemas, decisões e próximo passo. Atualizado em **30/10/2026, 23:41**.
 Situações usadas: **validado** (executado e testado, resultado registrado) · **implementado** (executado, teste parcial) · **pendente**. Não uso percentuais de conclusão.
 
 ## 1. Etapas
@@ -22,7 +22,7 @@ Situações usadas: **validado** (executado e testado, resultado registrado) · 
 | Interface (Streamlit local) | pendente (D09) | — |
 | Marcação célula a célula da Q10; regra `somente_presencial` na 7.4 (Q13) | pendente | — |
 
-## 2. Registro da operação autônoma de 30/10/2026 (23:14 → 23:45)
+## 2. Registro da operação autônoma de 30/10/2026 (23:14 → 23:41)
 
 | Hora | Ação | Resultado |
 |---|---|---|
@@ -36,7 +36,7 @@ Situações usadas: **validado** (executado e testado, resultado registrado) · 
 | 23:34 | Backup | **VÁLIDO** `20261030_233404` (47,4 MB) |
 | 23:35–23:36 | Investigação da T3 | 178/178 explicadas; Q11–Q13 registradas e sincronizadas |
 | 23:37–23:38 | Contrato JSON + gabarito de 61 interpretações | 216 testes OK |
-| 23:39–23:45 | Proposta de LLM, decisões D10–D13, documentação, bateria final | bateria final: 51 respondidas, 10 esclarecimentos, 0 erros |
+| 23:39–23:41 | Proposta de LLM, decisões D10–D13, documentação, bateria final | bateria final: 51 respondidas, 10 esclarecimentos, 0 erros |
 
 Commits: `8bee2be` (backup), `423c495` (correções), `447ce12` (folhas), `1151aaa` (contrato), mais o commit final de documentação.
 
