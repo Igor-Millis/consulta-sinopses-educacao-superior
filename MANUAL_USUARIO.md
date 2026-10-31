@@ -6,7 +6,7 @@ Para quem vai **fazer perguntas** aos dados. Não é preciso saber programar.
 
 Explore matrículas, ingressantes, concluintes, cursos, vagas e instituições de ensino superior por município, estado e região. Consulte indicadores, compare períodos e identifique tendências com base nos dados oficiais do INEP.
 
-Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
+Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior, 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
 
 ## 1. Abrir
 1. Na pasta do projeto (`IJSN`, nome técnico da pasta), dê **dois cliques em `iniciar_interface.bat`**.

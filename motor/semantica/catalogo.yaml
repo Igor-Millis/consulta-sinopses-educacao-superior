@@ -4,7 +4,7 @@
 
 versao: 1
 anos_disponiveis: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
-fonte_dados: "INEP — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024"
+fonte_dados: "INEP — Sinopses Estatísticas da Educação Superior, 2017–2024"
 
 fontes:
   mart_anexos_geo:

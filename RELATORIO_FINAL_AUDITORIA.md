@@ -8,7 +8,7 @@ Primeira versão utilizável, auditada e testada de ponta a ponta, **recomendada
 ## 2. Criador e natureza do projeto
 **Igor L. Millis - Projeto Independente com Dados Públicos**
 
-Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
+Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior, 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
 
 *(31/10/2026: identificação padronizada a pedido do autor; a auditoria abaixo registra os textos da época.)*
 
