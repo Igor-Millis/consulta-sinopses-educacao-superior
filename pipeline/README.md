@@ -25,6 +25,8 @@ Os ZIPs originais nunca são alterados. As cópias dos XLSX ficam em `%TEMP%\ijs
 | P5 | `p5_visoes_es.py` | Visões do Espírito Santo (municípios × curso; municípios × indicador; ES × UFs × Brasil) | visões `v_es_*`, `v_comparativo_uf`; `dados/analitico/*.csv` |
 | P6 | `p6_marts.py [mart ...]` | Camada de consulta do motor (sem argumentos: os três marts; cerca de 1 min) | `mart_anexos_geo`, `mart_curso_geo`, `mart_sinopse_geo` |
 | P6 | `p6_validar.py` | Marts × fatos por caminhos independentes (11 testes) | `dados/qualidade/p6_validacao.txt` |
+| — | `backup_leve.py [--validar DIR]` | Backup leve em Parquet (todas as tabelas exceto os 2 fatos), com manifesto e validação de conteúdo e de reconstrução | `dados/backup/AAAAMMDD_HHMMSS/` |
+| — | `investigar_t3.py` | Detalha as diferenças da T3 (explicadas em Q11–Q13) | `dados/qualidade/t3_falhas_detalhe.csv` |
 | — | `sincronizar_qualidade.py` | Copia `config/qualidade_ocorrencias.csv` para a tabela `qualidade_ocorrencias` (só ela) | tabela `qualidade_ocorrencias` |
 | — | `qualidade_confirmar_fonte.py` | Confere Q02/Q03/Q10 no XML original das planilhas | `dados/qualidade/confirmacao_fonte_Q02_Q03_Q10.csv` |
 | — | `estado_banco.py` | Resumo do estado do núcleo (somente leitura) | tela |

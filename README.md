@@ -6,7 +6,7 @@ Base de dados local (DuckDB) construída a partir dos 8 ZIPs originais das Sinop
 ```powershell
 $py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
 & $py -I perguntar.py "Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?"
-& $py -I -m pytest -p no:cacheprovider tests      # 61 testes
+& $py -I -m pytest -p no:cacheprovider tests      # 216 testes
 ```
 
 ## Onde está cada coisa
@@ -14,12 +14,12 @@ $py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
 |---|---|
 | `*.zip` | Originais do INEP. **Nunca alterados** |
 | `_diagnostico_estrutura/` | Diagnóstico da estrutura das planilhas (relatórios 01–07) |
-| `_arquitetura/` | Arquitetura de dados (`01`) e registro de decisões (`02`) |
+| `_arquitetura/` | Arquitetura de dados (`01`), registro de decisões (`02`) e proposta de LLM (`03`) |
 | `pipeline/` | Construção da base, P0–P6, com testes de validação. Ordem de reconstrução no `pipeline/README.md` |
 | `config/` | Mapeamentos, correções manuais e ocorrências de qualidade (`qualidade_ocorrencias.csv`) |
 | `motor/` | Motor de consultas: manual em `motor/README.md` |
 | `tests/` | Testes pytest do motor |
-| `dados/` | Staging, banco (`nucleo/ijsn.duckdb`), saídas analíticas, qualidade e consultas (fora do git) |
+| `dados/` | Staging, banco (`nucleo/ijsn.duckdb`), backups leves (`backup/`), saídas analíticas, qualidade e consultas (fora do git) |
 | `ACOMPANHAMENTO.md` | Situação, testes, problemas, auditoria e próximo passo |
 
 ## Princípios

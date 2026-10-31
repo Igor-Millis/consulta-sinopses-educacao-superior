@@ -39,5 +39,19 @@ Cada decisão: contexto, decisão, alternativas, consequências. Data no formato
 ## D08 — Recorte ES como visão, base completa (30/10/2026)
 - Ver `01_arquitetura_dados.md` §8.3. O motor responde sobre qualquer UF ou município. Para municípios homônimos, prefere o do ES e registra essa suposição na resposta.
 
+## D10 — Contrato JSON como ponto de integração de interpretadores (30/10/2026)
+- **Decisão:** qualquer interpretador (regras ou LLM) produz o JSON da `Consulta` (`motor/contrato.py`), validado contra o catálogo e o banco antes de consultar. Inválido = pedido de esclarecimento, sem correção silenciosa.
+- **Consequências:** o LLM pode ser trocado ou removido sem mexer em consultas, análise e segurança. Proposta completa em `03_proposta_llm.md`.
+
+## D11 — Indicadores derivados por razão de somas (30/10/2026)
+- **Decisão:** candidatos por vaga e ingressantes por vaga = Σ numerador ÷ Σ denominador no mesmo recorte (nunca média de razões). Participação de uma razão é recusada.
+
+## D12 — Valores dos marts em BIGINT; backup leve em Parquet (30/10/2026)
+- **Contexto:** `sum()` do DuckDB devolve HUGEINT, que o Parquet não representa (viraria DOUBLE).
+- **Decisão:** os marts fazem cast para BIGINT. `pipeline/backup_leve.py` exporta todas as tabelas, exceto os dois fatos (reconstruíveis a partir dos ZIPs), e recusa HUGEINT. A validação confere contagem, esquema, conteúdo (hash das linhas), sha256 e a reconstrução (o motor responde igual sobre um banco refeito só com os Parquet).
+
+## D13 — mart_sinopse_geo guarda as folhas (30/10/2026)
+- **Decisão:** para sexo, cor/raça e faixa etária, uma linha por folha org. acadêmica × dependência × categoria privada (sem as folhas de valor zero), com a coluna `rede`. Isso permite cruzar sexo/cor/faixa com rede, dependência e organização acadêmica. Validado contra os Anexos (V8, V9).
+
 ## D09 — Interface só depois do motor validado
 - **Decisão:** nenhuma interface gráfica nesta etapa. A interface atual é a linha de comando `perguntar.py`. O candidato seguinte é o Streamlit local (gratuito), sobre `motor.perguntar`, sem lógica própria.
