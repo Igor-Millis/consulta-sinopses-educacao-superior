@@ -133,7 +133,52 @@ def _plano_curso(c, cat, ind, pedidas):
     return pl
 
 
+ORG_FOLHA = ["rede", "dependencia", "categoria_privada", "org_academica"]
+
+
+def _plano_sinopse_folhas(c, cat, ind, pedidas):
+    """Matrículas/ingressantes/concluintes por sexo, cor/raça ou faixa etária: o mart guarda as folhas
+    org. acadêmica × dependência × categoria privada, que podem ser filtradas ou abertas (rede, dependência...)."""
+    pl = Plano("mart_sinopse_geo", aditivo=True)
+    sinop = [d for d in pedidas if d in DIMS_SINOPSE]
+    org = [d for d in pedidas if d in ORG_FOLHA]
+    extras = [d for d in pedidas if d not in DIMS_SINOPSE + ORG_FOLHA]
+    if extras:
+        pl.esclarecer.append(
+            f"Para {ind['nome'].lower()} por {', '.join(NOME_DIM[d].lower() for d in sinop)}, a Sinopse não traz "
+            f"cruzamento com {', '.join(NOME_DIM.get(d, d).lower() for d in extras)} por localidade "
+            "(dá para combinar com rede, dependência administrativa, categoria privada e organização acadêmica).")
+    if len(sinop) > 1:
+        pl.esclarecer.append("A Sinopse publica, por localidade, uma dimensão de cada vez "
+                             f"({' ou '.join(NOME_DIM[d].lower() for d in sinop)}). Qual delas?")
+    if pl.esclarecer:
+        return pl
+    dim = sinop[0]
+    params = [c.indicador, c.anos]
+    where = ["indicador = ?", "list_contains(?, ano)", _cond_geo(c, params), "dimensao = ?", "modo = 'soma das folhas'"]
+    params.append(dim)
+    if dim in c.filtros:
+        where.append("categoria = ?")
+        params.append(c.filtros[dim])
+    for d in org:
+        if d in c.filtros:
+            where.append(f"{d} = ?")
+            params.append(c.filtros[d])
+    pl.dims = ([dim] if dim in c.quebras else []) + [d for d in org if d in c.quebras]
+    cols = "".join(("categoria AS " + d if d == dim else d) + ", " for d in pl.dims)
+    pl.sql = (f"SELECT ano, id_geo, nivel_geo, {cols}sum(valor) AS valor, bool_or(tem_suspeito) AS tem_suspeito, "
+              f"string_agg(DISTINCT ocorrencias, ';') AS ocorrencias, min(origem) AS origem, "
+              f"string_agg(DISTINCT tabela, ',') AS tabelas "
+              f"FROM mart_sinopse_geo WHERE {' AND '.join(where)} GROUP BY ALL ORDER BY ALL")
+    pl.params = params
+    pl.notas.append(f"{NOME_DIM[dim]}: Sinopse, soma das folhas publicadas por organização acadêmica × dependência "
+                    "× categoria privada, nível Graduação; inclui presencial e a distância.")
+    return pl
+
+
 def _plano_sinopse(c, cat, ind, pedidas):
+    if c.indicador not in ("ies", "docentes_exercicio"):
+        return _plano_sinopse_folhas(c, cat, ind, pedidas)
     pl = Plano("mart_sinopse_geo", aditivo=bool(ind.get("aditivo", True)))
     disp = {"ies": ["dependencia", "rede", "org_academica"],
             "docentes_exercicio": ["dependencia", "rede", "org_academica", "sexo"]}.get(c.indicador, DIMS_SINOPSE)
@@ -186,6 +231,8 @@ def para_participacao(c):
     """Participação com filtros: os filtros viram quebras (uma só consulta dá numerador e denominador)."""
     c2 = deepcopy(c)
     for d in list(c2.filtros):
+        if c2.parte_dims and d not in c2.parte_dims:
+            continue                       # filtro de universo: fica como filtro (entra no denominador)
         if d not in c2.quebras and d != "curso":
             c2.quebras.append(d)
             c2.parte[d] = c2.filtros.pop(d)

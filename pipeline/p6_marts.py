@@ -105,7 +105,8 @@ if "mart_sinopse_geo" in ALVOS:
     #   publicado — a tabela tem a linha com as demais dimensões = Total (1.1, 2.1, 2.5): valor publicado, sem soma
     #               (obrigatório para docentes, que não são aditivos);
     #   folhas    — 4.6–4.8, 5.5–5.7, 6.5–6.7 só abrem sexo/cor/faixa nas folhas org. acadêmica × dependência ×
-    #               categoria privada: soma das folhas, nível Graduação. Validado: ES 2024, Σ folhas de 5.5, 5.6 e 5.7
+    #               categoria privada: uma linha por folha (colunas org_academica, dependencia, categoria_privada,
+#               rede), nível Graduação; qualquer total = soma das folhas. Validado: ES 2024, Σ folhas de 5.5, 5.6 e 5.7
     #               = 182.335 = total publicado (pipeline/investigar_mart_sinopse.py).
     FONTES = [  # (tabela, indicador, dimensão aberta ou None, modo)
         ("1.1", "ies", "dependencia", "publicado"), ("1.1", "ies", "org_academica", "publicado"), ("1.1", "ies", None, "publicado"),
@@ -127,7 +128,8 @@ if "mart_sinopse_geo" in ALVOS:
             partes.append(f"""SELECT f.ano, f.tabela, f.nivel_geo, f.id_geo, f.nivel_academico, f.indicador,
                 '{dim or 'total'}' AS dimensao, {('r.' + dim) if dim else "'Total'"} AS categoria,
                 f.valor, 1 AS n_celulas, f.status_valor = 'suspeito' AS tem_suspeito, f.id_ocorrencia AS ocorrencias,
-                f.aba || '!' || f.coluna || f.linha AS origem, 'publicado' AS modo
+                f.aba || '!' || f.coluna || f.linha AS origem, 'publicado' AS modo,
+                'Total' AS org_academica, 'Total' AS dependencia, 'Total' AS categoria_privada, 'Total' AS rede
               FROM fato_sinopse f JOIN dim_recorte_sinopse r USING (id_recorte)
               WHERE f.tabela = '{tab}' AND f.indicador = '{ind}' AND {cond} AND {abre}""")
         else:
@@ -137,10 +139,12 @@ if "mart_sinopse_geo" in ALVOS:
                 '{dim}' AS dimensao, r.{dim} AS categoria,
                 CAST(sum(f.valor) AS BIGINT) AS valor, count(f.valor) AS n_celulas, bool_or(f.status_valor = 'suspeito') AS tem_suspeito,
                 string_agg(DISTINCT f.id_ocorrencia, ';') AS ocorrencias, min(f.aba || '!' || f.coluna || f.linha) AS origem,
-                'soma das folhas' AS modo
+                'soma das folhas' AS modo,
+                r.org_academica, r.dependencia, r.categoria_privada,
+                CASE WHEN r.dependencia = 'Privada' THEN 'Privada' ELSE 'Pública' END AS rede
               FROM fato_sinopse f JOIN dim_recorte_sinopse r USING (id_recorte)
               WHERE f.tabela = '{tab}' AND f.indicador = '{ind}' AND f.nivel_academico = 'Graduação' AND {cond} AND {abre}
-              GROUP BY ALL""")
+              GROUP BY ALL HAVING sum(f.valor) IS DISTINCT FROM 0""")   # folha zero não altera somas (vazio fica)
     con.execute("CREATE OR REPLACE TABLE mart_sinopse_geo AS " + " UNION ALL ".join(partes))
     n = con.execute("SELECT count(*) FROM mart_sinopse_geo").fetchall()[0][0]
     print(f"mart_sinopse_geo: {n:,} linhas ({round(time.time() - t0)} s)", flush=True)

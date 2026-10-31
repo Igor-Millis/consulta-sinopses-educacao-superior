@@ -36,6 +36,7 @@ class Consulta:
     criterio: str = "absoluto"                             # ranking de crescimento: absoluto | percentual
     so_reducao: bool = False                               # ranking de crescimento: só itens com variação < 0
     parte: dict = field(default_factory=dict)              # participação: recorte do numerador (filtros → quebras)
+    parte_dims: list = field(default_factory=list)         # participação: só estes filtros são a parte (vazio = todos)
     supostos: list = field(default_factory=list)
     esclarecer: list = field(default_factory=list)
 
@@ -183,11 +184,14 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
     for frase in ("total estadual", "total nacional", "total municipal", "ambito estadual", "ambito nacional",
                   "ambito municipal", "nivel estadual", "nivel nacional", "nivel municipal"):
         restante = _consumir(restante, frase)   # "total estadual" é o total do estado, não a dependência Estadual
+    posicao = {}                              # dim → posição do 1º termo no texto (ordem de citação)
     for dim in ("modalidade", "rede", "dependencia", "categoria_privada", "org_academica", "grau", "sexo", "cor_raca"):
         achados = []
         for termo, canon in cat.termos(dim):
-            if _tem(restante, termo) and canon not in achados:
+            m_t = re.search(rf"(?<![\w]){re.escape(termo)}(?![\w])", restante)
+            if m_t and canon not in achados:
                 achados.append(canon)
+                posicao[dim] = min(posicao.get(dim, 10**6), m_t.start())
         if dim == "dependencia" and set(achados) <= {"Privada"}:
             achados = []  # "privada" é tratada como rede
         if len(achados) >= 2:
@@ -235,6 +239,16 @@ def interpretar(texto: str, cat: Catalogo, ano_max: int = 2024, ano_min: int = 2
         c.tipo = "ranking"                  # participação de cada item no conjunto = ranking com coluna de participação
     elif part:
         c.tipo = "participacao"
+        # "participação das mulheres nas matrículas da rede privada": a parte é o 1º filtro citado depois da palavra
+        # "participação"; os demais filtros definem o universo (denominador)
+        m_p = re.search(r"\b(participacao|proporcao|percentual|parcela|fatia|porcentagem)\b", restante)
+        if m_p and len(c.filtros) > 1:
+            depois = sorted((p, d) for d, p in posicao.items() if d in c.filtros and p > m_p.start())
+            if depois:
+                c.parte_dims = [depois[0][1]]
+                universo = [f"{d} = {v}" for d, v in c.filtros.items() if d != depois[0][1]]
+                c.supostos.append(f"participação de {c.filtros[depois[0][1]]} dentro do universo "
+                                  f"({', '.join(universo)})")
     elif ranking and ("curso" in c.quebras or c.listar_municipios_uf or c.listar_ufs) and serie:
         c.tipo = "crescimento"
     elif ranking and ("curso" in c.quebras or c.listar_municipios_uf or c.listar_ufs):

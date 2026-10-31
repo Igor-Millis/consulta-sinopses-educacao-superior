@@ -101,6 +101,21 @@ WITH s AS (SELECT ano, id_geo, indicador, sum(valor) a FROM mart_sinopse_geo
            WHERE nivel_geo='UF' AND indicador IN ('matriculas','ingressantes','concluintes') GROUP BY ALL)
 SELECT * FROM s FULL JOIN m USING (ano, id_geo, indicador)""")
 
+teste("V8 sinopse por sexo, aberta por rede (folhas) × Anexos por rede, UF", """
+WITH s AS (SELECT ano, id_geo, indicador, rede, sum(valor) a FROM mart_sinopse_geo
+           WHERE dimensao='sexo' AND modo='soma das folhas' AND nivel_geo='UF' GROUP BY ALL),
+     m AS (SELECT ano, id_geo, indicador, rede, sum(valor) b FROM mart_anexos_geo
+           WHERE nivel_geo='UF' AND indicador IN ('matriculas','ingressantes','concluintes') GROUP BY ALL)
+SELECT * FROM s FULL JOIN m USING (ano, id_geo, indicador, rede)""")
+
+teste("V9 sinopse por cor/raça × org. acadêmica (folhas) = Anexos por org. acadêmica, UF (exceto Q10)", """
+WITH s AS (SELECT ano, id_geo, indicador, org_academica, sum(valor) a FROM mart_sinopse_geo
+           WHERE dimensao='cor_raca' AND modo='soma das folhas' AND nivel_geo='UF'
+             AND NOT (tabela='6.6' AND ano IN (2017, 2018, 2019, 2023)) GROUP BY ALL),
+     m AS (SELECT ano, id_geo, indicador, org_academica, sum(valor) b FROM mart_anexos_geo
+           WHERE nivel_geo='UF' AND indicador IN ('matriculas','ingressantes','concluintes') GROUP BY ALL)
+SELECT s.*, m.b FROM s LEFT JOIN m USING (ano, id_geo, indicador, org_academica)""")
+
 # "Pública" é categoria agregada publicada (= Federal + Estadual + Municipal): não entra na soma das partes
 teste("V7 IES (1.1): Federal + Estadual + Municipal + Privada = total publicado", """
 WITH d AS (SELECT ano, id_geo, sum(valor) a FROM mart_sinopse_geo WHERE tabela='1.1' AND dimensao='dependencia'
