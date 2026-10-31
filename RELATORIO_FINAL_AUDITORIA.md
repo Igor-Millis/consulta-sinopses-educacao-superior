@@ -103,25 +103,25 @@ Instâncias antigas e de teste do servidor foram encerradas. Fica no ar só a ve
 
 Dica: abra o modo IA uma vez antes da apresentação (a primeira pergunta carrega o modelo e é a mais lenta).
 
-### 9.1 Verificação pós-limpeza (31/10/2026, 12:39) — `pipeline/verificar_pos_limpeza.py`
-O usuário autorizou apagar o banco pré-compactação e as cópias XLSX. **As exclusões não foram feitas:**
-- a tentativa pelo Claude Code foi bloqueada pela proteção de arquivos (pasta `dados/nucleo` protegida pela D16; `%TEMP%` fora da pasta da sessão);
-- os comandos manuais indicados ao usuário ainda não foram executados.
+### 9.1 Limpeza autorizada e verificação pós-limpeza (31/10/2026)
+O usuário autorizou e **executou ele mesmo** (o Claude Code foi bloqueado pela proteção de arquivos, D16) as duas exclusões:
 
-Situação verificada:
-
-| Item | Resultado |
+| Item excluído | Tamanho |
 |---|---|
-| `ijsn_pre_compactacao_20261031_011217.duckdb` | **ainda existe**, íntegro (5.488.521.216 bytes) |
-| `%TEMP%\ijsn_pipeline` | **ainda existe** (32 arquivos, 4.088.980.562 bytes) |
-| Banco atual `ijsn.duckdb` | existe; 4.813.500.416 bytes (4,48 GB); 25 tabelas; 8/8 visões compilam; contagens iguais às da auditoria; marcações de qualidade preservadas; consulta de leitura ES 2024 = 182.335; motor Vila Velha 2024 = 27.743 |
-| 8 ZIPs 2017–2024 | **intactos**: tamanho e MD5 iguais ao `config/manifesto_fontes.csv` |
-| Disco C: | **5,0 GB livres** (subiu de 2,5 GB por outras causas, **não** por essas exclusões) |
+| `dados\nucleo\ijsn_pre_compactacao_20261031_011217.duckdb`: banco antes da compactação, com cópia equivalente comprovada | 5.488.521.216 bytes |
+| `%TEMP%\ijsn_pipeline`: 32 cópias XLSX, recriáveis a partir dos ZIPs | 4.088.980.562 bytes |
 
-Espaço ainda recuperável com as exclusões autorizadas: cerca de 9,6 GB (5,49 + 4,09 GB).
+**Verificação às 15:01 (`pipeline/verificar_pos_limpeza.py`): 23/23 OK.**
+- Os dois itens estão ausentes.
+- O banco atual `ijsn.duckdb` existe, com 4.813.500.416 bytes: 25 tabelas, 8/8 visões compilam, contagens idênticas às da auditoria (fato_sinopse 126.758.202; fato_anexo_curso 609.970.482; marts 662.772 / 3.182.105 / 2.741.684), marcações de qualidade preservadas (suspeito 80.369; somente_presencial 178.644).
+- Consulta de leitura: ES 2024 = 182.335. Pelo motor: Vila Velha 2024 = 27.743.
+- Os **8 ZIPs estão intactos** (tamanho e MD5 iguais ao manifesto).
 
+**Disco C: de 2,5 GB (auditoria) para 14,0 GB livres.**
+
+**Consequência:** o teste T6 de `p1/p2/p3_validar.py` e `qualidade_confirmar_fonte.py` lia as cópias XLSX. Antes de rodá-los de novo, é preciso recriar as cópias pela etapa de extração de `p0_staging.py` (cerca de 3,8 GB). O motor e a interface não dependem delas.
 ## 12. Pendências que dependem de autorização
-1. Liberar espaço (§9). Nada foi apagado.
+1. Liberar o restante do espaço (§9): o scratchpad antigo (4,2 GB) e o modelo 3B (1,9 GB) continuam lá. O banco pré-compactação e as cópias XLSX já foram excluídos (§9.1).
 2. Manter ou ajustar as permissões atuais (restritas, D16).
 3. Inspeção visual da página por uma pessoa (§7).
 

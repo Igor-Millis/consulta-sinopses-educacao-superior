@@ -9,13 +9,11 @@ Criação e desenvolvimento: Igor L. Millis (projeto independente). Menções a 
 > - Disco: 2,5 GB livres. Liberação segura de cerca de 15 GB aguarda autorização.
 > - As seções abaixo são o registro da entrega anterior (03:00) e foram mantidas como histórico.
 >
-> **Pós-limpeza (31/10/2026, 12:39):** autorizadas as exclusões do banco pré-compactação e das cópias XLSX, mas **nenhuma foi realizada**.
-> - A tentativa do Claude Code foi bloqueada pela proteção de arquivos; os comandos manuais ainda não foram executados.
-> - Os dois itens seguem íntegros.
-> - Banco atual íntegro: 25 tabelas, 8/8 visões, contagens e consultas corretas.
-> - 8 ZIPs com MD5 igual ao manifesto.
-> - Disco: 5,0 GB livres.
-> - Detalhes em `RELATORIO_FINAL_AUDITORIA.md` §9.1 e `dados/qualidade/verificacao_pos_limpeza.txt`.
+> **Pós-limpeza (31/10/2026, 15:01):** o usuário excluiu o banco pré-compactação (5,49 GB) e as cópias XLSX de `%TEMP%\ijsn_pipeline` (4,09 GB).
+> - Verificação 23/23 OK: banco atual íntegro (25 tabelas, 8/8 visões, contagens e consultas corretas); 8 ZIPs com MD5 igual ao manifesto.
+> - Disco: **14,0 GB livres** (antes: 2,5 GB).
+> - Para rodar de novo o T6 da validação P3, recrie antes as cópias XLSX (`p0_staging.py`, etapa de extração).
+> - Detalhes em `RELATORIO_FINAL_AUDITORIA.md` §9.1.
 
 Documento central. Atualizado em **31/10/2026, 03:00**: entrega da **primeira versão utilizável (v1)**.
 Situações: **validado** (executado, testado, resultado registrado) · **implementado** (executado, teste parcial) · **pendente**.
