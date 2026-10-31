@@ -11,6 +11,7 @@ BANCO = RAIZ / "dados" / "nucleo" / "ijsn.duckdb"
 
 def pytest_addoption(parser):
     parser.addoption("--banco-backup", default=None, help="banco reconstruído a partir do backup Parquet (test_backup)")
+    parser.addoption("--banco-alternativo", default=None, help="outro banco para comparar respostas (test_equivalencia_banco)")
 
 
 @pytest.fixture(scope="session")
