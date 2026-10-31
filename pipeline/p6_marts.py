@@ -41,7 +41,7 @@ if "mart_anexos_geo" in ALVOS:
       SELECT f.ano, 'Município' AS nivel_geo, f.id_geo, f.indicador,
              CASE f.anexo WHEN 'anexo_ii' THEN 'Presencial' ELSE 'A Distância' END AS modalidade,
              r.org_academica, r.grau, r.dependencia, r.categoria_privada,
-             sum(f.valor) AS valor, count(f.valor) AS n_celulas,
+             CAST(sum(f.valor) AS BIGINT) AS valor, count(f.valor) AS n_celulas,
              bool_or(f.status_valor = 'suspeito') AS tem_suspeito, string_agg(DISTINCT f.id_ocorrencia, ';') AS ocorrencias,
              min(f.aba || '!' || f.coluna || f.linha) AS origem_exemplo
       FROM fato_anexo_curso f JOIN dim_recorte r USING (id_recorte)
@@ -51,7 +51,7 @@ if "mart_anexos_geo" in ALVOS:
       SELECT f.ano, 'Brasil' AS nivel_geo, 'BR' AS id_geo, f.indicador,
              CASE f.anexo WHEN 'anexo_ii' THEN 'Presencial' ELSE 'A Distância' END AS modalidade,
              r.org_academica, r.grau, r.dependencia, r.categoria_privada,
-             sum(f.valor) AS valor, count(f.valor) AS n_celulas,
+             CAST(sum(f.valor) AS BIGINT) AS valor, count(f.valor) AS n_celulas,
              bool_or(f.status_valor = 'suspeito') AS tem_suspeito, string_agg(DISTINCT f.id_ocorrencia, ';') AS ocorrencias,
              min(f.aba || '!' || f.coluna || f.linha) AS origem_exemplo
       FROM fato_anexo_curso f JOIN dim_recorte r USING (id_recorte)
@@ -59,12 +59,12 @@ if "mart_anexos_geo" in ALVOS:
       GROUP BY ALL HAVING sum(f.valor) <> 0),
     uf AS (
       SELECT m.ano, 'UF' AS nivel_geo, 'UF-' || g.co_uf AS id_geo, m.indicador, m.modalidade, m.org_academica, m.grau,
-             m.dependencia, m.categoria_privada, sum(m.valor), sum(m.n_celulas), bool_or(m.tem_suspeito),
+             m.dependencia, m.categoria_privada, CAST(sum(m.valor) AS BIGINT), CAST(sum(m.n_celulas) AS BIGINT), bool_or(m.tem_suspeito),
              string_agg(DISTINCT m.ocorrencias, ';'), 'Σ municípios' AS origem_exemplo
       FROM mun m JOIN dim_geografia g USING (id_geo) GROUP BY ALL),
     reg AS (
       SELECT m.ano, 'Região', 'REG-' || g.no_regiao, m.indicador, m.modalidade, m.org_academica, m.grau,
-             m.dependencia, m.categoria_privada, sum(m.valor), sum(m.n_celulas), bool_or(m.tem_suspeito),
+             m.dependencia, m.categoria_privada, CAST(sum(m.valor) AS BIGINT), CAST(sum(m.n_celulas) AS BIGINT), bool_or(m.tem_suspeito),
              string_agg(DISTINCT m.ocorrencias, ';'), 'Σ municípios'
       FROM mun m JOIN dim_geografia g USING (id_geo) GROUP BY ALL)
     SELECT * FROM mun UNION ALL SELECT * FROM uf UNION ALL SELECT * FROM reg UNION ALL SELECT * FROM br""")
@@ -90,7 +90,7 @@ if "mart_curso_geo" in ALVOS:
       FROM fato_anexo_curso f WHERE f.nivel_geo = 'Brasil' AND f.co_cine <> '_TOTAL' AND f.id_recorte = {TOT}
         AND f.valor IS NOT NULL AND f.valor <> 0),
     uf AS (
-      SELECT m.ano, 'UF', 'UF-' || g.co_uf, m.co_cine, m.indicador, m.modalidade, sum(m.valor), bool_or(m.tem_suspeito), 'Σ municípios'
+      SELECT m.ano, 'UF', 'UF-' || g.co_uf, m.co_cine, m.indicador, m.modalidade, CAST(sum(m.valor) AS BIGINT), bool_or(m.tem_suspeito), 'Σ municípios'
       FROM mun m JOIN dim_geografia g USING (id_geo) GROUP BY ALL)
     SELECT x.*, c.no_cine, xc.co_cine_ref, xc.tipo AS tipo_cine
     FROM (SELECT * FROM mun UNION ALL SELECT * FROM uf UNION ALL SELECT * FROM br) x
@@ -135,7 +135,7 @@ if "mart_sinopse_geo" in ALVOS:
                                 + [f"r.{d} IN ('Total', 'Não se aplica')" for d in DIMS if d != dim and d not in FOLHA_ORG])
             partes.append(f"""SELECT f.ano, f.tabela, f.nivel_geo, f.id_geo, f.nivel_academico, f.indicador,
                 '{dim}' AS dimensao, r.{dim} AS categoria,
-                sum(f.valor) AS valor, count(f.valor) AS n_celulas, bool_or(f.status_valor = 'suspeito') AS tem_suspeito,
+                CAST(sum(f.valor) AS BIGINT) AS valor, count(f.valor) AS n_celulas, bool_or(f.status_valor = 'suspeito') AS tem_suspeito,
                 string_agg(DISTINCT f.id_ocorrencia, ';') AS ocorrencias, min(f.aba || '!' || f.coluna || f.linha) AS origem,
                 'soma das folhas' AS modo
               FROM fato_sinopse f JOIN dim_recorte_sinopse r USING (id_recorte)

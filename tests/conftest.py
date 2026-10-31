@@ -9,6 +9,10 @@ sys.path.insert(0, str(RAIZ))
 BANCO = RAIZ / "dados" / "nucleo" / "ijsn.duckdb"
 
 
+def pytest_addoption(parser):
+    parser.addoption("--banco-backup", default=None, help="banco reconstruído a partir do backup Parquet (test_backup)")
+
+
 @pytest.fixture(scope="session")
 def cat():
     if not BANCO.exists():
