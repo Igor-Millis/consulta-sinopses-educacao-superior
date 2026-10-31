@@ -23,9 +23,13 @@ Os ZIPs originais nunca são alterados. As cópias dos XLSX ficam em `%TEMP%\ijs
 | P3 | `detectar_colunas_trocadas.py` | Detecta pares de colunas com valores trocados na publicação (Q09); rodar antes de `carregar_sinopse.py` | `config/q09_colunas_trocadas.csv` |
 | P4 | `p4_crosswalks.py` | Correspondências entre anos: Cine, deficiência, reserva de vagas | `config/xw_*.csv`, tabelas `xw_*`, visões comparáveis |
 | P5 | `p5_visoes_es.py` | Visões do Espírito Santo (municípios × curso; municípios × indicador; ES × UFs × Brasil) | visões `v_es_*`, `v_comparativo_uf`; `dados/analitico/*.csv` |
+| P6 | `p6_marts.py [mart ...]` | Camada de consulta do motor (sem argumentos: os três marts; cerca de 1 min) | `mart_anexos_geo`, `mart_curso_geo`, `mart_sinopse_geo` |
+| P6 | `p6_validar.py` | Marts × fatos por caminhos independentes (11 testes) | `dados/qualidade/p6_validacao.txt` |
+| — | `sincronizar_qualidade.py` | Copia `config/qualidade_ocorrencias.csv` para a tabela `qualidade_ocorrencias` (só ela) | tabela `qualidade_ocorrencias` |
+| — | `qualidade_confirmar_fonte.py` | Confere Q02/Q03/Q10 no XML original das planilhas | `dados/qualidade/confirmacao_fonte_Q02_Q03_Q10.csv` |
 | — | `estado_banco.py` | Resumo do estado do núcleo (somente leitura) | tela |
 
-**Ordem completa para reconstruir do zero:** `p0_staging` → `p0_validar` → `p1_mapear_anexos` → `carregar_anexos` → `p1_validar`/`p2_validar` → `p3_mapear_sinopse` → `carregar_sinopse` → `detectar_colunas_trocadas` → `carregar_sinopse` (de novo, para marcar a Q09) → `p3_validar` → `p4_crosswalks` → `p5_visoes_es`.
+**Ordem completa para reconstruir do zero:** `p0_staging` → `p0_validar` → `p1_mapear_anexos` → `carregar_anexos` → `p1_validar`/`p2_validar` → `p3_mapear_sinopse` → `carregar_sinopse` → `detectar_colunas_trocadas` → `carregar_sinopse` (de novo, para marcar a Q09) → `p3_validar` → `p4_crosswalks` → `p5_visoes_es` → `p6_marts` → `p6_validar` → testes do motor (`python -I -m pytest -p no:cacheprovider tests`).
 
 Comando: `python -I pipeline\<script>.py` a partir da pasta do projeto.
 

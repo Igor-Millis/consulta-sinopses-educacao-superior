@@ -1,0 +1,221 @@
+# Catálogo semântico do IJSN — Sinopses da Educação Superior (INEP) 2017–2024
+# Liga a linguagem das perguntas (português) às tabelas da camada de consulta (marts) do DuckDB.
+# Regra: só existem aqui indicadores, dimensões e categorias que EXISTEM na fonte. Expansível.
+
+versao: 1
+anos_disponiveis: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+fonte_dados: "INEP — Sinopses Estatísticas da Educação Superior (Graduação), 2017–2024"
+
+fontes:
+  mart_anexos_geo:
+    descricao: "Anexos II (presencial) e III (EaD) da Sinopse: recortes-folha (org. acadêmica × grau × dependência × categoria privada), somados sobre os cursos."
+    niveis_geo: [Município, UF, Região, Brasil]
+    dimensoes: [modalidade, rede, dependencia, categoria_privada, org_academica, grau]
+    medida: valor
+    agregacao: soma
+    observacao: "Município = Σ cursos; UF e Região = Σ municípios; Brasil = linha publicada (inclui Distância e Exterior)."
+  mart_curso_geo:
+    descricao: "Anexos II e III por curso (rótulo Cine Brasil), recorte total."
+    niveis_geo: [Município, UF, Brasil]
+    dimensoes: [modalidade, curso]
+    medida: valor
+    agregacao: soma
+  mart_sinopse_geo:
+    descricao: "Sinopse por município (tabelas 1.1, 2.1, 2.5, 4.6–4.8, 5.5–5.7, 6.5–6.7): uma dimensão aberta por vez, totais publicados."
+    niveis_geo: [Município, UF, Região, Brasil]
+    dimensoes: [sexo, cor_raca, faixa_etaria, dependencia, org_academica]
+    medida: valor
+    agregacao: "valor publicado (não somar docentes entre geografias)"
+
+indicadores:
+  matriculas:
+    nome: "Matrículas"
+    sinonimos: [matrícula, matriculas, matrícula, matriculados, matriculadas, alunos matriculados, estudantes matriculados, alunos, estudantes, vínculos]
+    definicao: "Número de matrículas (vínculos de aluno a curso) em cursos de graduação na data de referência do Censo da Educação Superior."
+    unidade: "matrículas"
+    fontes: [mart_anexos_geo, mart_curso_geo, mart_sinopse_geo]
+    aditivo: true
+    ead_por_municipio: true
+    limitacoes:
+      - "No EaD, a matrícula é atribuída ao município do polo (local de oferta)."
+  ingressantes:
+    nome: "Ingressantes"
+    sinonimos: [ingressante, ingressantes, ingresso, ingressos, novos alunos, calouros, entrantes]
+    definicao: "Número de alunos que ingressaram em cursos de graduação no ano de referência."
+    unidade: "ingressantes"
+    fontes: [mart_anexos_geo, mart_curso_geo, mart_sinopse_geo]
+    aditivo: true
+    ead_por_municipio: true
+    limitacoes: []   # ocorrências (Q03 etc.) entram na resposta só quando os valores usados são afetados
+  concluintes:
+    nome: "Concluintes"
+    sinonimos: [concluinte, concluintes, formados, formandos, diplomados, graduados, egressos]
+    definicao: "Número de alunos que concluíram cursos de graduação no ano de referência."
+    unidade: "concluintes"
+    fontes: [mart_anexos_geo, mart_curso_geo, mart_sinopse_geo]
+    aditivo: true
+    ead_por_municipio: true
+    limitacoes: []   # Q10 (6.3/6.6) entra na resposta só quando essas tabelas são usadas
+  cursos:
+    nome: "Cursos"
+    sinonimos: [curso, cursos, número de cursos, quantidade de cursos, oferta de cursos]
+    definicao: "Número de cursos de graduação com pelo menos um aluno matriculado."
+    unidade: "cursos"
+    fontes: [mart_anexos_geo]
+    aditivo: true
+    ead_por_municipio: false
+    limitacoes:
+      - "Cursos EaD não são distribuídos por município nem UF (só existem no total Brasil). Abaixo do Brasil, o total contém só o presencial."
+  vagas:
+    nome: "Vagas oferecidas"
+    sinonimos: [vaga, vagas, vagas oferecidas, vagas ofertadas, oferta de vagas]
+    definicao: "Número de vagas oferecidas em processos seletivos de cursos de graduação."
+    unidade: "vagas"
+    fontes: [mart_anexos_geo, mart_curso_geo]
+    aditivo: true
+    ead_por_municipio: false
+    limitacoes:
+      - "Vagas EaD não são coletadas por local de oferta (só no total Brasil)."
+  inscritos:
+    nome: "Candidatos inscritos"
+    sinonimos: [inscrito, inscritos, candidatos, candidatos inscritos, inscrições, inscricoes, procura, demanda]
+    definicao: "Número de candidatos inscritos em processos seletivos de cursos de graduação."
+    unidade: "inscritos"
+    fontes: [mart_anexos_geo, mart_curso_geo]
+    aditivo: true
+    ead_por_municipio: false
+    limitacoes:
+      - "Inscritos EaD não são coletados por local de oferta (só no total Brasil)."
+  ies:
+    nome: "Instituições de Ensino Superior"
+    sinonimos: [ies, instituições, instituicoes, instituição, faculdades e universidades, instituições de ensino superior]
+    definicao: "Número de Instituições de Ensino Superior, pelo município da sede administrativa."
+    unidade: "instituições"
+    fontes: [mart_sinopse_geo]
+    aditivo: true
+    ead_por_municipio: null
+    limitacoes:
+      - "Referência geográfica: sede administrativa da IES (não o local de oferta dos cursos)."
+  docentes_exercicio:
+    nome: "Docentes em exercício"
+    sinonimos: [docente, docentes, professores, professor, corpo docente]
+    definicao: "Número de docentes em exercício (atuaram ao menos 60 dias no ano) em cursos de graduação."
+    unidade: "docentes"
+    fontes: [mart_sinopse_geo]
+    aditivo: false
+    ead_por_municipio: null
+    limitacoes:
+      - "NÃO é aditivo: um docente é contado uma vez em cada nível; somar municípios ou categorias superestima o total."
+      - "Referência geográfica: sede/reitoria da IES."
+
+dimensoes:
+  ano:
+    nome: "Ano"
+    tipo: tempo
+  geografia:
+    nome: "Localidade"
+    niveis: [Município, UF, Região, Brasil]
+    sinonimos_nivel:
+      Município: [município, municipio, municípios, municipios, cidade, cidades]
+      UF: [estado, estados, uf, ufs, unidade da federação]
+      Região: [região, regiao, regiões, regioes]
+      Brasil: [brasil, país, pais, nacional]
+  modalidade:
+    nome: "Modalidade de ensino"
+    valores:
+      Presencial: [presencial, presenciais, ensino presencial, modalidade presencial]
+      A Distância: [ead, a distância, a distancia, ensino a distância, educação a distância, educacao a distancia, distância, remoto, ensino remoto, online]
+  rede:
+    nome: "Rede (categoria administrativa agregada)"
+    valores:
+      Pública: [pública, publica, públicas, publicas, rede pública, rede publica, setor público, gratuita]
+      Privada: [privada, privadas, particular, particulares, rede privada, setor privado]
+  dependencia:
+    nome: "Dependência administrativa"
+    valores:
+      Federal: [federal, federais]
+      Estadual: [estadual, estaduais]
+      Municipal: [municipal, municipais]
+      Privada: [privada, privadas, particular]
+  categoria_privada:
+    nome: "Categoria da instituição privada"
+    valores:
+      Com Fins Lucrativos: [com fins lucrativos, lucrativa, lucrativas]
+      Sem Fins Lucrativos: [sem fins lucrativos, filantrópica, comunitária sem fins]
+  org_academica:
+    nome: "Organização acadêmica"
+    valores:
+      Universidade: [universidade, universidades]
+      Centro Universitário: [centro universitário, centro universitario, centros universitários, centros universitarios]
+      Faculdade: [faculdade, faculdades]
+      IF/Cefet: [instituto federal, institutos federais, if, ifes, cefet]
+  grau:
+    nome: "Grau acadêmico"
+    valores:
+      Bacharelado: [bacharelado, bacharelados, bacharel]
+      Licenciatura: [licenciatura, licenciaturas]
+      Tecnológico: [tecnológico, tecnologico, tecnólogo, tecnologo, cursos tecnológicos]
+  curso:
+    nome: "Curso (rótulo Cine Brasil)"
+    fonte: dim_curso_cine
+  sexo:
+    nome: "Sexo"
+    valores:
+      Feminino: [feminino, mulheres, mulher, sexo feminino]
+      Masculino: [masculino, homens, homem, sexo masculino]
+  cor_raca:
+    nome: "Cor/raça"
+    valores:
+      Branca: [branca, brancos, brancas]
+      Preta: [preta, pretos, pretas]
+      Parda: [parda, pardos, pardas]
+      Amarela: [amarela, amarelos, amarelas]
+      Indígena: [indígena, indigena, indígenas, indigenas]
+      Não Dispõe da Informação: [não declarada, sem informação, não dispõe]
+  faixa_etaria:
+    nome: "Faixa etária"
+    fonte: mart_sinopse_geo
+
+aliases_geo:
+  "ES": "UF-32"
+  "espírito santo": "UF-32"
+  "espirito santo": "UF-32"
+  "capixaba": "UF-32"
+  "capixabas": "UF-32"
+  "sudeste": "REG-Sudeste"
+  "sul": "REG-Sul"
+  "nordeste": "REG-Nordeste"
+  "norte": "REG-Norte"
+  "centro-oeste": "REG-Centro-Oeste"
+  "centro oeste": "REG-Centro-Oeste"
+  "brasil": "BR"
+  "país": "BR"
+  "nacional": "BR"
+  # Região Metropolitana da Grande Vitória (7 municípios); códigos resolvidos no banco (dim_geografia, UF = ES)
+  "grande vitória": {uf: "32", municipios: [Vitória, Vila Velha, Serra, Cariacica, Viana, Guarapari, Fundão]}
+  "grande vitoria": {uf: "32", municipios: [Vitória, Vila Velha, Serra, Cariacica, Viana, Guarapari, Fundão]}
+
+compatibilidade_temporal:
+  # Como o sistema deve qualificar comparações entre anos
+  padrao: diretamente_comparavel
+  regras:
+    - dimensao: curso
+      anos_quebra: [2024]
+      classificacao: comparavel_mediante_correspondencia
+      descricao: "Revisão dos rótulos Cine em 2024: 13 códigos mudaram mantendo o nome (ligados em xw_cine); outros entram ou saem."
+      fonte: xw_cine
+    - dimensao: deficiencia
+      classificacao: parcialmente_comparavel
+      descricao: "Categorias de deficiência mudaram (Autismo/Asperger/Rett → TGD em 2021 → TEA em 2023; Visão Monocular nova em 2024)."
+      fonte: xw_deficiencia
+    - dimensao: reserva_vagas
+      anos_quebra: [2024]
+      classificacao: parcialmente_comparavel
+      descricao: "Em 2024 'Étnico' foi dividido em categorias novas e surgiram programas novos."
+      fonte: xw_reserva_vagas
+    - indicador: [cursos, vagas, inscritos]
+      classificacao: nao_comparavel_entre_niveis
+      descricao: "EaD só existe no total Brasil; não somar UFs/municípios para obter o Brasil."
+    - indicador: docentes_exercicio
+      classificacao: nao_aditivo
+      descricao: "Totais de docentes não são somas das partes."
