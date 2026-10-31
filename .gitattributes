@@ -1,0 +1,2 @@
+# .bat precisa de CRLF e ASCII: com LF o cmd do Windows lê as linhas errado (defeito encontrado em 31/10/2026)
+*.bat text eol=crlf

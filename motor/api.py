@@ -172,7 +172,7 @@ def main(argv=None):
     if args:
         print(perguntar(" ".join(args)).texto)
         return
-    print("Motor IJSN — pergunte em português (linha vazia para sair).")
+    print("Consulta às Sinopses da Educação Superior (Igor L. Millis) — pergunte em português (linha vazia para sair).")
     while True:
         try:
             p = input("\n> ").strip()

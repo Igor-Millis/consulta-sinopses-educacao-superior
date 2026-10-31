@@ -43,6 +43,16 @@ def test_so_escuta_localhost():
         srv.server_close()
 
 
+def test_porta_exclusiva_segunda_instancia_falha():
+    """Defeito de 31/10/2026: no Windows duas instâncias escutavam a mesma porta (a antiga seguia respondendo)."""
+    a = servidor.criar_servidor(0)
+    try:
+        with pytest.raises(OSError):
+            servidor.criar_servidor(a.server_address[1])
+    finally:
+        a.server_close()
+
+
 def test_pagina(url):
     st, corpo, h = _get(url + "/")
     assert st == 200 and "Consulta às Sinopses" in corpo.decode() and "Content-Security-Policy" in h

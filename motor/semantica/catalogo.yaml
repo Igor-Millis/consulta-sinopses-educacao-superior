@@ -1,4 +1,4 @@
-# Catálogo semântico do IJSN — Sinopses da Educação Superior (INEP) 2017–2024
+# Catálogo semântico da Consulta às Sinopses (criação: Igor L. Millis) — Sinopses da Educação Superior (INEP) 2017–2024
 # Liga a linguagem das perguntas (português) às tabelas da camada de consulta (marts) do DuckDB.
 # Regra: só existem aqui indicadores, dimensões e categorias que EXISTEM na fonte. Expansível.
 

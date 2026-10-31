@@ -1,4 +1,5 @@
-"""Interface web LOCAL do motor IJSN (só biblioteca padrão do Python; escuta apenas em 127.0.0.1).
+"""Interface web LOCAL da Consulta às Sinopses da Educação Superior — criação e desenvolvimento: Igor L. Millis
+(projeto independente; dados públicos do INEP). Só biblioteca padrão do Python; escuta apenas em 127.0.0.1).
 
 Uso: python -I app/servidor.py [porta]      (padrão 8765; abre o navegador)   — ou duplo clique em iniciar_interface.bat
 Rotas: GET /  (página) · POST /api/perguntar {"pergunta", "modo"} · GET /api/estado · GET /arquivo/<nome> (PNG/CSV
@@ -53,7 +54,7 @@ def estado() -> dict:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "IJSN"
+    server_version = "ConsultaSinopses"
 
     def log_message(self, fmt, *args):   # sem log de acesso no console (as perguntas já vão para o registro do motor)
         pass
@@ -99,14 +100,46 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(500, {"erro": f"Não foi possível processar a pergunta ({type(e).__name__})."})
 
 
+class ServidorExclusivo(ThreadingHTTPServer):
+    """No Windows, SO_REUSEADDR (padrão do http.server) deixa DOIS processos escutarem a mesma porta: uma versão antiga
+    aberta continuaria respondendo e outro programa local poderia sequestrar a porta. Aqui a porta é exclusiva."""
+    allow_reuse_address = False
+
+    def server_bind(self):
+        import socket
+        if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+
 def criar_servidor(porta=8765):
-    return ThreadingHTTPServer((HOST, porta), Handler)
+    return ServidorExclusivo((HOST, porta), Handler)
+
+
+def ja_aberta(porta) -> bool:
+    """True se a porta já tem ESTA aplicação respondendo (ex.: o .bat foi aberto duas vezes)."""
+    import urllib.request
+    try:
+        with urllib.request.urlopen(f"http://{HOST}:{porta}/api/estado", timeout=3) as r:
+            return r.status == 200 and "llm_disponivel" in r.read().decode("utf-8", "replace")
+    except Exception:
+        return False
 
 
 if __name__ == "__main__":
     porta = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
-    srv = criar_servidor(porta)
     url = f"http://{HOST}:{porta}/"
-    print(f"Interface IJSN em {url} (só neste computador). Feche esta janela para encerrar.")
+    try:
+        srv = criar_servidor(porta)
+    except OSError:
+        if ja_aberta(porta):
+            print(f"A Consulta já está aberta em {url} (outra janela preta). Abrindo o navegador nela.\n"
+                  "Se a página parecer desatualizada, feche a outra janela preta e abra esta de novo.")
+            webbrowser.open(url)
+        else:
+            print(f"A porta {porta} está ocupada por outro programa. Feche-o ou rode: "
+                  f"python -I app\\servidor.py 8766")
+        sys.exit(1)
+    print(f"Consulta às Sinopses da Educação Superior — Igor L. Millis — em {url} (só neste computador). Feche esta janela para encerrar.")
     threading.Timer(1.0, lambda: webbrowser.open(url)).start()
     srv.serve_forever()

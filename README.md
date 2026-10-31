@@ -1,4 +1,8 @@
-# IJSN — Sinopses Estatísticas da Educação Superior (INEP), 2017–2024
+# Consulta às Sinopses da Educação Superior (INEP), 2017–2024
+
+**Criação e desenvolvimento: Igor L. Millis.** Projeto independente, desenvolvido em ambiente pessoal e no tempo livre, com dados públicos do INEP/MEC. Não é produto oficial do INEP, do MEC nem de qualquer outra instituição.
+
+> Nota técnica: a pasta do projeto, o arquivo do banco (`ijsn.duckdb`) e a pasta temporária `ijsn_pipeline` conservam o nome técnico usado desde o início do desenvolvimento. É só um identificador de arquivo (renomear exigiria mover arquivos e refazer caminhos) e não indica autoria nem vínculo institucional. Os commits antigos do git trazem o nome de autor "IJSN projeto", que foi preservado (o histórico não é reescrito); os commits a partir de 31/10/2026 são de Igor L. Millis.
 
 Base de dados local (DuckDB) construída a partir dos 8 ZIPs originais das Sinopses do INEP, com rastreabilidade até a célula de origem, e um motor que responde perguntas em português com fontes e limitações. O foco analítico é o Espírito Santo, mas a base é nacional.
 

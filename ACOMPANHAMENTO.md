@@ -1,4 +1,6 @@
-# Acompanhamento do projeto IJSN — Sinopses da Educação Superior 2017–2024
+# Acompanhamento do projeto — Consulta às Sinopses da Educação Superior 2017–2024
+
+Criação e desenvolvimento: Igor L. Millis (projeto independente). Menções a "IJSN" que restam neste arquivo são nomes técnicos de pasta/arquivo.
 
 Documento central. Atualizado em **31/10/2026, 03:00**: entrega da **primeira versão utilizável (v1)**.
 Situações: **validado** (executado, testado, resultado registrado) · **implementado** (executado, teste parcial) · **pendente**.
@@ -98,7 +100,7 @@ Situações: **validado** (executado, testado, resultado registrado) · **implem
 5. Guia completo: `MANUAL_USUARIO.md`. Roteiro sugerido para a demonstração: os 6 exemplos da página, mais "Quantos alunos com deficiência no ES?" (mostra a recusa honesta) e uma pergunta livre no modo IA.
 
 ## 8. Próximos passos sugeridos (fora desta entrega)
-1. Teste com usuários do IJSN: cada pergunta mal entendida vira teste de regressão.
+1. Teste com usuários: cada pergunta mal entendida vira teste de regressão.
 2. Novo conjunto inédito de perguntas para remedir a generalização (o de controle já foi usado).
 3. Liberar espaço em disco (§6).
 4. Avaliar a verificação cruzada regras × 7B para detectar erros silenciosos (D17, não adotada).

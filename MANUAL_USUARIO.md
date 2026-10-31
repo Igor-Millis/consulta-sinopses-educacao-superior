@@ -1,9 +1,11 @@
-# Manual de uso — Consulta às Sinopses da Educação Superior (IJSN)
+# Manual de uso — Consulta às Sinopses da Educação Superior
 
 Para quem vai **fazer perguntas** aos dados. Não é preciso saber programar.
 
+*Ferramenta criada e desenvolvida por **Igor L. Millis**: projeto independente, desenvolvido em ambiente pessoal e no tempo livre, com dados públicos do INEP. Não é produto oficial do INEP, do MEC nem de qualquer outra instituição.*
+
 ## 1. Abrir
-1. Na pasta `IJSN`, dê **dois cliques em `iniciar_interface.bat`**.
+1. Na pasta do projeto (`IJSN`, nome técnico da pasta), dê **dois cliques em `iniciar_interface.bat`**.
 2. Abre-se uma janela preta (deixe-a aberta) e, em seguida, o navegador em `http://127.0.0.1:8765`.
 3. Para encerrar, feche a janela preta.
 
