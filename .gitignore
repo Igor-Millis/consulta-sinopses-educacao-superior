@@ -6,5 +6,7 @@ dados/
 __pycache__/
 *.pyc
 .pytest_cache/
+# Pacote de distribuição (cópia de app/, motor/ e do banco; gerado a partir do projeto)
+Portabilidade do Projeto/
 # Configuração local do Claude Code
 .claude/settings.local.json
