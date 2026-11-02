@@ -1,6 +1,6 @@
 # Acompanhamento do projeto — Consulta às Sinopses da Educação Superior 2017–2024
 
-Igor L. Millis - Projeto Independente com Dados Públicos. Menções a "IJSN" que restam neste arquivo são nomes técnicos de pasta/arquivo.
+Igor L. Millis - Projeto Independente com Dados Públicos. Projeto desenvolvido de forma independente, em paralelo à bolsa de pesquisa do autor no IJSN; não é produto oficial do Instituto. Menções a "IJSN" que restam neste arquivo são nomes técnicos de pasta/arquivo.
 
 > **Atualização de 31/10/2026, 12:15: auditoria final concluída.** Ver `RELATORIO_FINAL_AUDITORIA.md`.
 > - Identidade trocada para Igor L. Millis.

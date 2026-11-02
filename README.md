@@ -112,6 +112,8 @@ Originais intocados · nada é corrigido em silêncio (valores suspeitos são ma
 - As Sinopses não publicam taxas de evasão ou conclusão por coorte. Cursos, vagas e inscritos a distância só existem no total Brasil.
 - O interpretador por regras cobre as formas de pergunta documentadas no Guia. A IA local é experimental: sozinha, acertou 27 de 40 perguntas na avaliação.
 
-## Nota sobre nomes técnicos
+## Autoria e relação com o IJSN
 
-O arquivo do banco (`ijsn.duckdb`), a pasta temporária `ijsn_pipeline` e alguns caminhos conservam o nome técnico usado desde o início do desenvolvimento. É só um identificador de arquivo e não indica autoria nem vínculo institucional. Os commits iniciais trazem o nome de autor "IJSN projeto", preservado no histórico. Os commits a partir de 31/10/2026 são de Igor L. Millis.
+Este projeto foi idealizado e desenvolvido por **Igor L. Millis**, de forma **independente**, em paralelo à sua bolsa de pesquisa no IJSN. **Não é um produto, sistema ou publicação oficial do IJSN**, não tem endosso do Instituto, e a responsabilidade pelo conteúdo é exclusivamente do autor. Os dados são públicos e foram obtidos diretamente do INEP/MEC.
+
+O nome técnico `ijsn` aparece no arquivo do banco (`ijsn.duckdb`), na pasta temporária `ijsn_pipeline` e em alguns caminhos. Ele vem do contexto em que o projeto começou e foi mantido para não quebrar caminhos. Os commits iniciais trazem o nome de autor "IJSN projeto", preservado no histórico. Os commits a partir de 31/10/2026 são de Igor L. Millis.
