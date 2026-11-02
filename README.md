@@ -6,33 +6,112 @@ Explore matrículas, ingressantes, concluintes, cursos, vagas e instituições d
 
 Fonte dos dados: INEP/MEC — Sinopses Estatísticas da Educação Superior, 2017–2024. Processamento e consultas realizados localmente. Inconsistências identificadas na publicação original são preservadas e sinalizadas nas respostas.
 
-> Nota técnica: a pasta do projeto, o arquivo do banco (`ijsn.duckdb`) e a pasta temporária `ijsn_pipeline` conservam o nome técnico usado desde o início do desenvolvimento. É só um identificador de arquivo (renomear exigiria mover arquivos e refazer caminhos) e não indica autoria nem vínculo institucional. Os commits antigos do git trazem o nome de autor "IJSN projeto", que foi preservado (o histórico não é reescrito); os commits a partir de 31/10/2026 são de Igor L. Millis.
+![Tela inicial](docs/img/tela_inicial.png)
 
-Base de dados local (DuckDB) construída a partir dos 8 ZIPs originais das Sinopses do INEP, com rastreabilidade até a célula de origem, e um motor que responde perguntas em português com fontes e limitações. O foco analítico é o Espírito Santo, mas a base é nacional.
+## O que é
 
-## Para usar (sem programar)
-Dois cliques em **`iniciar_interface.bat`**: o navegador abre a página local de perguntas. Guia completo em **`MANUAL_USUARIO.md`**.
+Uma ferramenta local para fazer perguntas em português sobre as oito edições (2017–2024) das Sinopses Estatísticas da Educação Superior do INEP:
 
-## Começar (equipe técnica)
-```powershell
-$py = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
-& $py -I perguntar.py "Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?"
-& $py -I -m pytest -p no:cacheprovider tests      # 260 testes
+> *Como evoluíram as matrículas no Espírito Santo entre 2017 e 2024?* · *Quais os 10 municípios capixabas com mais matrículas em 2024?* · *Qual a participação das mulheres nas matrículas da rede privada do ES?*
+
+- **Números calculados pelo banco, não estimados.** Um interpretador por regras transforma a pergunta numa consulta estruturada. O SQL é montado com parâmetros e roda num banco DuckDB aberto **somente para leitura**.
+- **Rastreabilidade até a célula:** cada valor guarda a aba e a célula da planilha original do INEP de onde veio.
+- **Honestidade sobre os dados:**
+  - inconsistências da própria publicação (ocorrências Q01–Q13) são mantidas como publicadas e sinalizadas;
+  - ausência de dado nunca vira zero;
+  - perguntas sobre o que a base não tem recebem uma explicação, não um número inventado.
+- **Interface web local** (só biblioteca padrão do Python) com gráficos, tabelas, exportação CSV e uma aba **Guia de Consultas** interativa.
+- **IA local opcional (experimental):** um modelo de linguagem rodando no próprio computador (Ollama + Qwen2.5 7B) ajuda a interpretar perguntas que as regras não entendem. Ele nunca gera SQL nem números.
+- **100% local:** nenhum dado é enviado a serviços externos.
+
+| Resposta com série histórica | Sinalização de qualidade | Guia de Consultas |
+|---|---|---|
+| ![Série](docs/img/resposta_serie.png) | ![Qualidade](docs/img/resposta_qualidade.png) | ![Guia](docs/img/guia_de_consultas.png) |
+
+## Os dados não estão neste repositório
+
+O banco (`dados/nucleo/ijsn.duckdb`, cerca de 4,5 GB) e os ZIPs originais do INEP (cerca de 2,2 GB) passam dos limites do GitHub e estão no `.gitignore`. O banco pode ser **reconstruído do zero** a partir dos arquivos públicos:
+
+1. Baixe as 8 Sinopses (2017–2024) do portal do INEP, salvando-as na raiz do projeto com os nomes `sinopse_educacao_superior_<ano>.zip`. Os endereços e o MD5 esperado de cada arquivo estão em [`config/manifesto_fontes.csv`](config/manifesto_fontes.csv).
+2. Rode o pipeline na ordem descrita em [`pipeline/README.md`](pipeline/README.md) (cerca de 3 horas e 6 GB de RAM livres na carga mais pesada).
+
+## Instalação
+
+Requer **Windows** e **Python 3.12**.
+
+```bash
+py -3.12 -m pip install -r requirements.txt
 ```
 
-## Onde está cada coisa
-| Pasta / arquivo | Conteúdo |
+## Uso
+
+**Interface (sem programar):** dois cliques em `iniciar_interface.bat`. O navegador abre em `http://127.0.0.1:8765`. Guia para usuários: [`MANUAL_USUARIO.md`](MANUAL_USUARIO.md).
+
+**Linha de comando:**
+
+```bash
+py -3.12 -I perguntar.py "Quantas matrículas havia em Vila Velha em 2024?"
+```
+
+**Em Python:**
+
+```python
+from motor import perguntar
+r = perguntar("Compare as matrículas presenciais e a distância no ES nos últimos 5 anos")
+print(r.texto)      # resposta em markdown: resultado, interpretação, fontes, limitações
+r.tabela            # DataFrame com os números
+```
+
+O `iniciar_interface.bat` procura o Python em `%LOCALAPPDATA%\Programs\Python\Python312` (instalação padrão do python.org). Para levar a ferramenta a outro computador, use um pacote com o banco, um iniciador que localiza o Python e um verificador de ambiente. A pasta local `Portabilidade do Projeto/`, não versionada, segue esse modelo.
+
+## Testes
+
+```bash
+py -3.12 -I -m pytest -p no:cacheprovider tests
+```
+
+São **458 testes** (precisam do banco). Eles cobrem:
+- segurança do SQL;
+- interpretação, com um gabarito de 61 perguntas revisadas;
+- respostas comparadas com consultas independentes nas tabelas de fato;
+- regressões, qualidade dos dados e interface;
+- IA local, com o modelo simulado;
+- todos os exemplos e as 150 combinações do montador do Guia de Consultas.
+
+O pipeline tem validações próprias (`pipeline/p*_validar.py`), por exemplo a conferência de valores no XML original das planilhas.
+
+## Arquitetura
+
+```
+ZIPs do INEP ─► P0 staging (Parquet, cópia fiel) ─► P1–P3 núcleo DuckDB (fatos com status e origem por célula)
+            ─► P4 correspondências entre anos ─► P5 visões ─► P6 marts (camada de consulta validada)
+pergunta ─► interpretador (regras | IA local opcional) ─► contrato JSON validado ─► SQL parametrizado, somente leitura
+        ─► análise em código (variação, participação, ranking…) ─► resposta: texto, tabela, gráfico, fontes, limitações
+```
+
+| Pasta | Conteúdo |
 |---|---|
-| `*.zip` | Originais do INEP. **Nunca alterados** |
-| `_diagnostico_estrutura/` | Diagnóstico da estrutura das planilhas (relatórios 01–07) |
-| `_arquitetura/` | Arquitetura de dados (`01`), registro de decisões (`02`) e proposta de LLM (`03`) |
-| `pipeline/` | Construção da base, P0–P6, com testes de validação. Ordem de reconstrução no `pipeline/README.md` |
-| `config/` | Mapeamentos, correções manuais e ocorrências de qualidade (`qualidade_ocorrencias.csv`) |
-| `motor/` | Motor de consultas: manual em `motor/README.md` |
-| `app/` | Interface web local (só biblioteca padrão; `iniciar_interface.bat`) |
-| `tests/` | Testes pytest (motor, interface, LLM, qualidade, contrato) e avaliações |
-| `dados/` | Staging, banco (`nucleo/ijsn.duckdb`), backups leves (`backup/`), saídas analíticas, qualidade e consultas (fora do git) |
-| `ACOMPANHAMENTO.md` | Situação, testes, problemas, auditoria e próximo passo |
+| [`app/`](app) | Interface web local (`servidor.py`, `pagina.html`) |
+| [`motor/`](motor) | Motor de consultas: interpretador, catálogo semântico, segurança, análise, resposta, IA local ([manual técnico](motor/README.md)) |
+| [`pipeline/`](pipeline) | Construção e validação do banco, P0–P6 ([ordem de execução](pipeline/README.md)) |
+| [`config/`](config) | Mapeamentos de colunas, correções manuais, ocorrências de qualidade, manifesto das fontes |
+| [`tests/`](tests) | Testes automatizados, bateria de perguntas, avaliação da IA, teste ponta a ponta |
+| [`_arquitetura/`](_arquitetura) | Arquitetura de dados, registro de decisões (D01–D18), proposta de LLM |
+| [`_diagnostico_estrutura/`](_diagnostico_estrutura) | Diagnóstico da estrutura das 662 abas das planilhas |
+| [`docs/img/`](docs/img) | Capturas de tela |
+
+Documentos de acompanhamento: [`ACOMPANHAMENTO.md`](ACOMPANHAMENTO.md) (histórico de desenvolvimento) e [`RELATORIO_FINAL_AUDITORIA.md`](RELATORIO_FINAL_AUDITORIA.md).
 
 ## Princípios
+
 Originais intocados · nada é corrigido em silêncio (valores suspeitos são marcados e explicados) · ausência ≠ zero · comparações entre anos só com compatibilidade verificada · processamento 100% local, com ferramentas gratuitas · toda funcionalidade com teste executado e registrado.
+
+## Limitações conhecidas
+
+- Indicadores de deficiência, reserva de vagas (cotas), financiamento, turno, nacionalidade e titulação de docentes existem na base, mas ainda não estão disponíveis no motor.
+- As Sinopses não publicam taxas de evasão ou conclusão por coorte. Cursos, vagas e inscritos a distância só existem no total Brasil.
+- O interpretador por regras cobre as formas de pergunta documentadas no Guia. A IA local é experimental: sozinha, acertou 27 de 40 perguntas na avaliação.
+
+## Nota sobre nomes técnicos
+
+O arquivo do banco (`ijsn.duckdb`), a pasta temporária `ijsn_pipeline` e alguns caminhos conservam o nome técnico usado desde o início do desenvolvimento. É só um identificador de arquivo e não indica autoria nem vínculo institucional. Os commits iniciais trazem o nome de autor "IJSN projeto", preservado no histórico. Os commits a partir de 31/10/2026 são de Igor L. Millis.

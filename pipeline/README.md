@@ -1,7 +1,9 @@
 # Pipeline — Sinopses da Educação Superior (INEP)
 
 Implementação das fases P0 e P1 descritas em `_arquitetura/01_arquitetura_dados.md`.
-Requisitos: Python 3.12 com `lxml`, `pandas`, `openpyxl`, `pyarrow`, `duckdb` e `python-calamine`.
+Requisitos: Python 3.12 com as bibliotecas de [`requirements.txt`](../requirements.txt).
+Os 8 ZIPs (`sinopse_educacao_superior_<ano>.zip`, 2017–2024) devem estar na raiz do projeto; endereços e MD5 em `config/manifesto_fontes.csv`.
+Com a lista `config/q10_celulas_suspeitas.csv` e a regra da tabela 7.4 já no `carregar_sinopse.py`, uma reconstrução do zero aplica as marcações Q10/Q13 automaticamente.
 Os ZIPs originais nunca são alterados. As cópias dos XLSX ficam em `%TEMP%\ijsn_pipeline\xlsx` (fora do projeto).
 
 ## Ordem de execução
@@ -30,6 +32,10 @@ Os ZIPs originais nunca são alterados. As cópias dos XLSX ficam em `%TEMP%\ijs
 | — | `sincronizar_qualidade.py` | Copia `config/qualidade_ocorrencias.csv` para a tabela `qualidade_ocorrencias` (só ela) | tabela `qualidade_ocorrencias` |
 | — | `qualidade_confirmar_fonte.py` | Confere Q02/Q03/Q10 no XML original das planilhas | `dados/qualidade/confirmacao_fonte_Q02_Q03_Q10.csv` |
 | — | `estado_banco.py` | Resumo do estado do núcleo (somente leitura) | tela |
+| Q10 | `q10_detectar.py` | Identifica célula a célula as inconsistências de 6.3/6.6 (regra T2 de `regras_t2.py`) | `config/q10_celulas_suspeitas.csv` (lido por `carregar_sinopse.py`) |
+| Q10/Q13 | `aplicar_q10_q13.py --comparar/--aplicar/--reverter` | Aplica as marcações num banco já carregado, sem recarga, com backup e verificação | status no `fato_sinopse` |
+| — | `compactar_banco.py --copiar/--validar/--trocar/--reverter` | Compacta o banco por cópia nova e validada | `dados/nucleo/ijsn.duckdb` |
+| — | `verificar_pos_limpeza.py` | Confere banco, ZIPs (MD5) e disco | `dados/qualidade/verificacao_pos_limpeza.txt` |
 
 **Ordem completa para reconstruir do zero:** `p0_staging` → `p0_validar` → `p1_mapear_anexos` → `carregar_anexos` → `p1_validar`/`p2_validar` → `p3_mapear_sinopse` → `carregar_sinopse` → `detectar_colunas_trocadas` → `carregar_sinopse` (de novo, para marcar a Q09) → `p3_validar` → `p4_crosswalks` → `p5_visoes_es` → `p6_marts` → `p6_validar` → testes do motor (`python -I -m pytest -p no:cacheprovider tests`).
 

@@ -85,7 +85,7 @@ Instâncias antigas e de teste do servidor foram encerradas. Fica no ar só a ve
 **Liberação segura possível: cerca de 15 GB.** Por ordem de segurança: pré-compactação (5,1 GB), XLSX (3,8 GB), scratchpad antigo (4,2 GB, depois de olhar), modelo 3B (1,9 GB), teste (0,09 GB). Com 2,5 GB livres, a aplicação funciona (banco só leitura, saídas pequenas), mas **não há espaço para recargas ou compactações**.
 
 ## 10. Como iniciar
-**Dois cliques em `C:\Users\T-Gamer\Desktop\IJSN\iniciar_interface.bat`.** O navegador abre `http://127.0.0.1:8765`. Linha de comando equivalente:
+**Dois cliques em `iniciar_interface.bat` (na pasta do projeto).** O navegador abre `http://127.0.0.1:8765`. Linha de comando equivalente:
 ```
 "%LOCALAPPDATA%\Programs\Python\Python312\python.exe" -I app\servidor.py
 ```
