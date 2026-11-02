@@ -114,6 +114,6 @@ Originais intocados · nada é corrigido em silêncio (valores suspeitos são ma
 
 ## Autoria e relação com o IJSN
 
-Este projeto foi idealizado e desenvolvido por **Igor L. Millis**, de forma **independente**, em paralelo à sua bolsa de pesquisa no IJSN. **Não é um produto, sistema ou publicação oficial do IJSN**, não tem endosso do Instituto, e a responsabilidade pelo conteúdo é exclusivamente do autor. Os dados são públicos e foram obtidos diretamente do INEP/MEC.
+Este projeto foi idealizado e desenvolvido por mim, de forma **independente**, em paralelo à bolsa de pesquisa no Instituto. **Não é um produto, sistema ou publicação oficial do IJSN**, não tem endosso do Instituto, e a responsabilidade pelo conteúdo é exclusivamente do minha. Os dados são públicos e foram obtidos diretamente do INEP/MEC.
 
-O nome técnico `ijsn` aparece no arquivo do banco (`ijsn.duckdb`), na pasta temporária `ijsn_pipeline` e em alguns caminhos. Ele vem do contexto em que o projeto começou e foi mantido para não quebrar caminhos. Os commits iniciais trazem o nome de autor "IJSN projeto", preservado no histórico. Os commits a partir de 31/10/2026 são de Igor L. Millis.
+O nome `ijsn` aparece no arquivo do banco (`ijsn.duckdb`), na pasta temporária `ijsn_pipeline` e em alguns caminhos. Ele vem do contexto em que o projeto começou e foi mantido para não quebrar caminhos. Os commits iniciais trazem o nome de autor "IJSN projeto", preservado no histórico. 
