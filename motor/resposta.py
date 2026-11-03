@@ -16,6 +16,10 @@ from .config import SAIDAS
 CORES = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
 TINTA, TINTA2, GRADE, FUNDO = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
 MAX_SERIES = 8
+MAX_SERIES_PROJECAO = 4   # acima disto os envelopes se sobrepõem e o gráfico fica ilegível
+NOTA_PROJECAO = ("Projeção: tendência linear (mínimos quadrados) ajustada aos anos observados, com intervalo de "
+                 "previsão de 95%. É extrapolação estatística, **não é dado do INEP**: não incorpora mudanças de "
+                 "política, demografia ou choques (como 2020), e, com poucos anos de série, o intervalo é largo.")
 
 
 @dataclass
@@ -85,7 +89,26 @@ def _arquivo(pergunta, ext):
     return SAIDAS / f"{datetime.now():%Y%m%d_%H%M%S}_{base}.{ext}"
 
 
-def grafico(res, titulo, unidade, pergunta):
+def projecoes(res):
+    """Projeção de tendência (analise.projetar) das até MAX_SERIES_PROJECAO séries temporais da resposta."""
+    if res.serie is None or res.tipo not in ("serie", "comparacao", "participacao"):
+        return {}
+    if len(res.serie.columns) > MAX_SERIES_PROJECAO:
+        return {}
+    from .analise import projetar
+    teto = 1.0 if res.tipo == "participacao" else None
+    out = {}
+    for col in res.serie.columns:
+        y = res.serie[col].dropna()
+        # só projeta a partir do último ano da série (série encerrada antes não é estendida)
+        if not y.empty and y.index[-1] == res.serie.index.max():
+            p = projetar(y, maximo=teto)
+            if p is not None:
+                out[col] = p
+    return out
+
+
+def grafico(res, titulo, unidade, pergunta, proj=None):
     if res.serie is None and res.barras is None:
         return None
     import matplotlib
@@ -105,10 +128,25 @@ def grafico(res, titulo, unidade, pergunta):
             y = s[col]
             ax.plot(s.index, y, color=CORES[i], linewidth=2, marker="o", markersize=5, label=str(col))
             ult = y.dropna()
+            p = (proj or {}).get(col)
+            if p is not None:   # tracejado a partir do último observado + envelope de 95%
+                xs, ys = [ult.index[-1], *p.index], [ult.iloc[-1], *p["previsto"]]
+                ax.plot(xs, ys, color=CORES[i], linewidth=1.6, linestyle="--", marker="o", markersize=4,
+                        markerfacecolor=FUNDO, markevery=slice(1, None))
+                ax.fill_between(xs, [ult.iloc[-1], *p["inferior"]], [ult.iloc[-1], *p["superior"]],
+                                color=CORES[i], alpha=0.14, linewidth=0)
+                ult = p["previsto"]
             if len(s.columns) <= 4 and not ult.empty:
                 ax.annotate(pct(ult.iloc[-1]) if eh_pct else n(ult.iloc[-1]), (ult.index[-1], ult.iloc[-1]),
                             xytext=(6, 0), textcoords="offset points", va="center", fontsize=9, color=TINTA)
-        ax.set_xticks(list(s.index))
+        anos_x = list(s.index)
+        if proj:
+            a_obs = s.index.max()
+            anos_x += sorted({a for p in proj.values() for a in p.index})
+            ax.axvline(a_obs + 0.5, color=GRADE, linewidth=1, linestyle=":")
+            ax.text(a_obs + 0.55, 1, "projeção (IC 95%)", transform=ax.get_xaxis_transform(), ha="left",
+                    va="top", fontsize=8, color=TINTA2)
+        ax.set_xticks(anos_x)
         ax.yaxis.set_major_formatter(fmt)
         if len(s.columns) >= 2:
             ax.legend(frameon=False, fontsize=9, labelcolor=TINTA2)
@@ -137,6 +175,17 @@ def grafico(res, titulo, unidade, pergunta):
     fig.savefig(caminho, facecolor=FUNDO)
     plt.close(fig)
     return caminho
+
+
+def _texto_projecao(proj, eh_pct):
+    f = (lambda v: pct(v)) if eh_pct else (lambda v: n(v))
+    anos = sorted({a for p in proj.values() for a in p.index})
+    linhas = []
+    for col, p in proj.items():
+        linhas.append(f"{col}: " + "; ".join(f"{a}: **{f(r['previsto'])}** ({f(r['inferior'])} a {f(r['superior'])})"
+                                            for a, r in p.iterrows()) + ".")
+    return (f"**Projeção {min(anos)}–{max(anos)}** (tendência linear; entre parênteses, intervalo de 95%)\n"
+            + "\n".join("- " + x for x in linhas))
 
 
 def descrever_recorte(c, cat):
@@ -298,6 +347,9 @@ def _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, in
     interp = interpretacao(res, c)
     if interp:
         partes.append("**Interpretação**\n" + "\n".join("- " + x for x in interp))
+    proj = projecoes(res)
+    if proj:
+        partes.append(_texto_projecao(proj, res.tipo == "participacao"))
     if c.supostos:
         partes.append("**Como a pergunta foi entendida**\n" + "\n".join("- " + x for x in c.supostos))
     fontes = [f"- Dados: {cat.bruto['fonte_dados']}."]
@@ -322,11 +374,13 @@ def _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, in
     for _, o in ocorr.iterrows():
         lim.append(f"Ocorrência {o['id']} ({o['anos']}, tabela {o['tabela']}): {o['descricao'][:300]}"
                    + ("…" if len(o["descricao"]) > 300 else ""))
+    if proj:
+        lim.append(NOTA_PROJECAO)
     if lim:
         partes.append("**Limitações**\n" + "\n".join("- " + x for x in lim))
     nome_ind = ind["nome"]
     titulo = f"{nome_ind}{descrever_recorte(c, cat)} — " + (", ".join(l.nome for l in c.locais) or "UFs")
-    png = grafico(res, titulo, ind["unidade"], pergunta)
+    png =grafico(res, titulo, ind["unidade"], pergunta, proj)
     csv = None
     if tabela is not None and not tabela.empty:
         csv = _arquivo(pergunta, "csv")

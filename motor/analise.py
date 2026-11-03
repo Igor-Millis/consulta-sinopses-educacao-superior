@@ -37,6 +37,42 @@ def cagr(v0, v1, anos):
     return (v1 / v0) ** (1 / anos) - 1
 
 
+HORIZONTE_PROJECAO = 3     # anos projetados além do último ano observado
+MIN_PONTOS_PROJECAO = 5    # menos que isto: sem projeção (tendência pouco informativa)
+# t de Student bicaudal 95% (0,975) por graus de liberdade; acima de 30 usa 1,96
+_T975 = {1: 12.706, 2: 4.303, 3: 3.182, 4: 2.776, 5: 2.571, 6: 2.447, 7: 2.365, 8: 2.306, 9: 2.262, 10: 2.228,
+         11: 2.201, 12: 2.179, 13: 2.160, 14: 2.145, 15: 2.131, 20: 2.086, 25: 2.060, 30: 2.042}
+
+
+def _t975(gl):
+    return next((_T975[k] for k in sorted(_T975) if k >= gl), 1.96)
+
+
+def projetar(y: pd.Series, horizonte=HORIZONTE_PROJECAO, minimo=0.0, maximo=None):
+    """Tendência linear (MQO sobre o ano) com intervalo de PREVISÃO de 95%.
+
+    ŷ(t) = a + b·t;  IC = ŷ ± t(n−2) · s · √(1 + 1/n + (t − t̄)² / Σ(tᵢ − t̄)²), s = √(SQR / (n − 2)).
+    Anos ausentes ficam fora do ajuste (ausência ≠ zero). Valores e limites são cortados em [minimo, maximo]
+    (contagens não ficam negativas; participações ficam entre 0 e 1). Retorna DataFrame (ano, previsto,
+    inferior, superior) ou None se houver menos de MIN_PONTOS_PROJECAO anos com dado.
+    """
+    y = y.dropna()
+    if len(y) < MIN_PONTOS_PROJECAO:
+        return None
+    t = y.index.to_numpy(dtype=float)
+    v = y.to_numpy(dtype=float)
+    nobs = len(t)
+    b, a = np.polyfit(t, v, 1)
+    s = np.sqrt(((v - (a + b * t)) ** 2).sum() / (nobs - 2))
+    sxx = ((t - t.mean()) ** 2).sum()
+    anos = np.arange(int(t.max()) + 1, int(t.max()) + 1 + horizonte)
+    prev = a + b * anos
+    meia = _t975(nobs - 2) * s * np.sqrt(1 + 1 / nobs + (anos - t.mean()) ** 2 / sxx)
+    out = pd.DataFrame({"ano": anos, "previsto": prev, "inferior": prev - meia, "superior": prev + meia})
+    out[["previsto", "inferior", "superior"]] = out[["previsto", "inferior", "superior"]].clip(lower=minimo, upper=maximo)
+    return out.set_index("ano")
+
+
 def ano_ultrapassagem(serie_a: pd.Series, serie_b: pd.Series):
     """Primeiro ano em que a ordem entre A e B se inverte em relação ao primeiro ano comum. None se nunca."""
     comum = serie_a.dropna().index.intersection(serie_b.dropna().index).sort_values()
