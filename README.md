@@ -24,9 +24,21 @@ Uma ferramenta local para fazer perguntas em português sobre as oito edições 
 - **IA local opcional (experimental):** um modelo de linguagem rodando no próprio computador (Ollama + Qwen2.5 7B) ajuda a interpretar perguntas que as regras não entendem. Ele nunca gera SQL nem números.
 - **100% local:** nenhum dado é enviado a serviços externos.
 
-| Resposta com série histórica | Sinalização de qualidade | Guia de Consultas |
+| Comparação entre UFs, com projeção | Sinalização de qualidade | Guia de Consultas |
 |---|---|---|
 | ![Série](docs/img/resposta_serie.png) | ![Qualidade](docs/img/resposta_qualidade.png) | ![Guia](docs/img/guia_de_consultas.png) |
+
+### Gráficos
+
+Os gráficos seguem os princípios de *storytelling* com dados:
+- o título afirma a conclusão;
+- só o Espírito Santo é colorido e as demais UFs ficam em cinza, como contexto;
+- os valores são rotulados direto na ponta da linha;
+- as séries anuais ganham uma projeção de 3 anos por tendência linear, com intervalo de previsão de 95% (extrapolação estatística, não dado do INEP).
+
+| Série com projeção e IC 95% | Posição do ES entre as UFs |
+|---|---|
+| ![Comparação com projeção](docs/img/grafico_comparacao_projecao.png) | ![Ranking das UFs](docs/img/grafico_ranking_ufs.png) |
 
 ## Os dados não estão neste repositório
 
