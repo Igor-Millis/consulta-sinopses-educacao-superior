@@ -108,69 +108,243 @@ def projecoes(res):
     return out
 
 
-def grafico(res, titulo, unidade, pergunta, proj=None):
+# Princípios de storytelling com dados: o título diz a conclusão; cor só no foco (ES), o resto é contexto em
+# cinza; rótulo direto na ponta da linha; grade e eixos recessivos; marcadores só no início e no fim.
+FOCO = "Espírito Santo"
+CINZA, CINZA_BARRA, FAIXA_PROJ, GRADE_SUAVE = "#9d9c97", "#cfcec9", "#f1f0eb", "#ecebe7"
+RODAPE = ("Fonte: INEP — Sinopses Estatísticas da Educação Superior. "
+          "Elaboração: Igor L. Millis - Projeto Independente com Dados Públicos.")
+
+
+def _eh_foco(rotulo):
+    return FOCO in str(rotulo)
+
+
+def _pp(v):
+    return f"{v * 100:+.1f}".replace(".", ",").replace("-", "−") + " p.p."   # espaço não separável: o texto não quebra entre número e unidade
+
+
+def _titulo_serie(s, nome_ind, eh_pct, parte=None):
+    """Título-conclusão a partir da série em foco (ES, se houver; senão a maior no último ano)."""
+    from .analise import variacao
+    cols = [c for c in s.columns if len(s[c].dropna()) >= 2]
+    if not cols:
+        return None
+    foco = next((c for c in cols if _eh_foco(c)), cols[0])
+    y = s[foco].dropna()
+    a0, a1, v0, v1 = int(y.index[0]), int(y.index[-1]), y.iloc[0], y.iloc[-1]
+    periodo = f"entre {a0} e {a1}"
+    if eh_pct:
+        verbo = "subiu" if v1 - v0 >= 0.0005 else "caiu" if v1 - v0 <= -0.0005 else "ficou estável"
+        quem = f" ({parte.lower()})" if parte else ""
+        return f"{foco}: participação{quem} {verbo} de {pct(v0)} para {pct(v1)} ({_pp(v1 - v0)}) {periodo}"
+    _, vp = variacao(v0, v1)
+    if CASAS or pd.isna(vp):   # razões (candidatos por vaga etc.): de → para, sem verbo no plural
+        return f"{foco}: {nome_ind.lower()} passou de {n(v0)} para {n(v1)} {periodo}"
+    verbo = "cresceram" if vp >= 0.005 else "caíram" if vp <= -0.005 else "ficaram estáveis"
+    txt = f"{foco}: {nome_ind.lower()} {verbo}" + (f" {pct(abs(vp))}" if verbo != "ficaram estáveis" else "")
+    txt += f" {periodo}"
+    outros = [c for c in cols if c != foco]
+    if len(outros) == 1:
+        y2 = s[outros[0]].dropna()
+        _, vp2 = variacao(y2.iloc[0], y2.iloc[-1])
+        if not pd.isna(vp2):
+            txt += f" ({outros[0]}: {pct(vp2, sinal=True)})"
+    return txt
+
+
+AGREGADOS = {"Brasil", "Norte", "Nordeste", "Sudeste", "Sul", "Centro-Oeste"}
+
+
+def _titulo_barras(b, nome_ind, res):
+    """Posição do foco. Ranking/crescimento: ordem e total vêm da análise (as barras são só o top)."""
+    focos = [i for i, r in enumerate(b["recorte"]) if _eh_foco(r)]
+    if len(focos) != 1 or len(b) < 3:
+        return None
+    pos = focos[0] + 1
+    if res.tipo == "crescimento":
+        f = res.fatos
+        if f.get("so_reducao"):
+            return f"{FOCO}: {pos}ª maior queda entre {f['n_total']} em {nome_ind.lower()} ({f['ano0']}→{f['ano1']})"
+        crit = "em % " if f.get("criterio") == "percentual" else ""
+        return f"{FOCO}: {pos}º lugar entre {f['n_total']} no crescimento {crit}de {nome_ind.lower()} ({f['ano0']}→{f['ano1']})"
+    total = res.fatos.get("n_total", len(b)) if res.tipo == "ranking" else len(b)
+    v = b.iloc[:, 1].tolist()
+    ordem = " (do menor para o maior)" if res.tipo == "ranking" and v == sorted(v) and v[0] != v[-1] else ""
+    return f"{FOCO}: {pos}º lugar entre {total} em {nome_ind.lower()}{ordem}"
+
+
+def _sem_agregados(b):
+    """Brasil e regiões achatam as barras das UFs e não entram na posição: saem do gráfico (ficam na tabela)."""
+    agreg = b["recorte"].astype(str).isin(AGREGADOS)
+    if agreg.any() and (~agreg).sum() >= 3:
+        return b[~agreg].reset_index(drop=True), sorted(b.loc[agreg, "recorte"].astype(str))
+    return b, []
+
+
+def _afastar(ys, folga):
+    """Empurra posições verticais (fração do eixo) para que rótulos vizinhos não se sobreponham."""
+    ordem = sorted(range(len(ys)), key=lambda i: ys[i])
+    out = list(ys)
+    for k in range(1, len(ordem)):
+        a, b = ordem[k - 1], ordem[k]
+        out[b] = max(out[b], out[a] + folga)
+    excesso = out[ordem[-1]] - 1.02 if ordem else 0
+    if excesso > 0:
+        out = [v - excesso for v in out]
+    return out
+
+
+def _cabecalho(fig, titulo, subtitulo):
+    import textwrap
+    if not titulo:   # sem conclusão calculável: a descrição sobe para título
+        titulo, subtitulo = subtitulo, ""
+    linhas = textwrap.wrap(titulo, 70)
+    y = 0.965
+    if linhas:
+        fig.text(0.02, y, "\n".join(linhas), fontsize=13.5, color=TINTA, fontweight="semibold", va="top",
+                 linespacing=1.25)
+        y -= 0.052 * len(linhas) + 0.008
+    fig.text(0.02, y, subtitulo, fontsize=9.5, color=TINTA2, va="top")
+    return y - 0.045   # topo disponível para a área do gráfico
+
+
+def grafico(res, titulo, unidade, pergunta, proj=None, nome_ind=None):
     if res.serie is None and res.barras is None:
         return None
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib.ticker import FuncFormatter
-    fig, ax = plt.subplots(figsize=(9, 5), dpi=120)
-    fig.patch.set_facecolor(FUNDO)
-    ax.set_facecolor(FUNDO)
+    from matplotlib.lines import Line2D
+    from matplotlib.ticker import FuncFormatter, MaxNLocator
+    nome_ind = nome_ind or titulo.split(" — ")[0]
     eh_pct = res.tipo == "participacao" or (res.barras is not None and res.fatos.get("criterio") == "percentual")
-    fmt = FuncFormatter(lambda v, _: pct(v, 0) if eh_pct else n(v))
+    fv = (lambda v: pct(v)) if eh_pct else (lambda v: n(v))
+    fig = plt.figure(figsize=(10, 5.6), dpi=120)
+    fig.patch.set_facecolor(FUNDO)
+    parte = res.fatos.get("rotulo_parte") if res.tipo == "participacao" else None
+    subtitulo = (f"Participação{' de ' + parte if parte else ''} (%) — " if res.tipo == "participacao" else "") + titulo
     if res.serie is not None:
         s = res.serie
         if len(s.columns) > MAX_SERIES:   # dobra o excedente: mostra as maiores no último ano
             s = s[s.iloc[-1].sort_values(ascending=False).index[:MAX_SERIES]]
-        for i, col in enumerate(s.columns):
-            y = s[col]
-            ax.plot(s.index, y, color=CORES[i], linewidth=2, marker="o", markersize=5, label=str(col))
-            ult = y.dropna()
-            p = (proj or {}).get(col)
-            if p is not None:   # tracejado a partir do último observado + envelope de 95%
-                xs, ys = [ult.index[-1], *p.index], [ult.iloc[-1], *p["previsto"]]
-                ax.plot(xs, ys, color=CORES[i], linewidth=1.6, linestyle="--", marker="o", markersize=4,
-                        markerfacecolor=FUNDO, markevery=slice(1, None))
-                ax.fill_between(xs, [ult.iloc[-1], *p["inferior"]], [ult.iloc[-1], *p["superior"]],
-                                color=CORES[i], alpha=0.14, linewidth=0)
-                ult = p["previsto"]
-            if len(s.columns) <= 4 and not ult.empty:
-                ax.annotate(pct(ult.iloc[-1]) if eh_pct else n(ult.iloc[-1]), (ult.index[-1], ult.iloc[-1]),
-                            xytext=(6, 0), textcoords="offset points", va="center", fontsize=9, color=TINTA)
-        anos_x = list(s.index)
+        cols = list(s.columns)
+        rotular = len(cols) <= 4
+        focos = [c for c in cols if _eh_foco(c)]
+        cinza_contexto = rotular and 0 < len(focos) < len(cols)
+        cor = {c: (CORES[focos.index(c)] if c in focos else CINZA) if cinza_contexto else CORES[i]
+               for i, c in enumerate(cols)}
+        destaque = {c: (c in focos) if focos else (i == 0) for i, c in enumerate(cols)}
         if proj:
-            a_obs = s.index.max()
-            anos_x += sorted({a for p in proj.values() for a in p.index})
-            ax.axvline(a_obs + 0.5, color=GRADE, linewidth=1, linestyle=":")
-            ax.text(a_obs + 0.55, 1, "projeção (IC 95%)", transform=ax.get_xaxis_transform(), ha="left",
-                    va="top", fontsize=8, color=TINTA2)
+            a_proj = sorted({a for p in proj.values() for a in p.index})
+            subtitulo += f" · {min(a_proj)}–{max(a_proj)}: projeção de tendência (faixa = intervalo de 95%)"
+        topo = _cabecalho(fig, _titulo_serie(s, nome_ind, eh_pct, parte), subtitulo)
+        ax = fig.add_axes((0.075, 0.1, (0.74 if rotular else 0.9) - 0.075, topo - 0.1 - (0.05 if len(cols) >= 2 else 0)))
+        ax.set_facecolor(FUNDO)
+        fins = []
+        for c in cols:
+            y = s[c].dropna()
+            if y.empty:
+                continue
+            lw, z = (2.6, 3) if destaque[c] else (1.8, 2)
+            ax.plot(y.index, y.values, color=cor[c], linewidth=lw, zorder=z, solid_capstyle="round")
+            ax.plot([y.index[0], y.index[-1]], [y.iloc[0], y.iloc[-1]], "o", color=cor[c], markersize=6.5,
+                    markeredgecolor=FUNDO, markeredgewidth=1.5, zorder=z + 1)
+            ultimo = (y.index[-1], y.iloc[-1])
+            p = (proj or {}).get(c)
+            if p is not None:   # tracejado a partir do último observado + envelope de 95%
+                xs = [y.index[-1], *p.index]
+                ax.fill_between(xs, [y.iloc[-1], *p["inferior"]], [y.iloc[-1], *p["superior"]],
+                                color=cor[c], alpha=0.16 if destaque[c] else 0.10, linewidth=0, zorder=1)
+                ax.plot(xs, [y.iloc[-1], *p["previsto"]], color=cor[c], linewidth=lw * 0.75, linestyle=(0, (4, 3)),
+                        zorder=z)
+                ax.plot(p.index[-1], p["previsto"].iloc[-1], "o", color=cor[c], markerfacecolor=FUNDO,
+                        markersize=6, markeredgewidth=1.6, zorder=z + 1)
+                ultimo = (p.index[-1], p["previsto"].iloc[-1])
+            if destaque[c] and (len(cols) <= 2 or cinza_contexto or not focos):
+                ax.annotate(fv(y.iloc[0]), (y.index[0], y.iloc[0]), xytext=(0, 9), textcoords="offset points",
+                            ha="center", fontsize=9, color=TINTA2)
+            texto = f"{y.index[-1]}: {fv(y.iloc[-1])}"
+            if p is not None:
+                texto += f"\n{p.index[-1]}: {fv(p['previsto'].iloc[-1])} (proj.)"
+            fins.append((c, ultimo, texto))
+        ax.yaxis.set_major_locator(MaxNLocator(6, steps=[1, 2, 5, 10]))   # sem passos de 2,5 (marca "18%" em 17,5%)
+        ax.margins(y=0.14)
+        y0, y1 = ax.get_ylim()
+        casas_pct = 0 if (y1 - y0) >= 0.08 else 1   # faixa estreita: 17,5% e não "18%"
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: pct(v, casas_pct) if eh_pct else n(v)))
+        anos_x = list(s.index) + (a_proj if proj else [])
         ax.set_xticks(anos_x)
-        ax.yaxis.set_major_formatter(fmt)
-        if len(s.columns) >= 2:
-            ax.legend(frameon=False, fontsize=9, labelcolor=TINTA2)
-        if not eh_pct:
-            ax.set_ylim(bottom=0)
+        ax.set_xlim(min(anos_x) - 0.4, max(anos_x) + 0.25)
+        if proj:   # período projetado com fundo próprio: o leitor vê onde acabam os dados
+            ax.axvspan(s.index.max() + 0.5, max(anos_x) + 0.25, color=FAIXA_PROJ, linewidth=0, zorder=0)
+            ax.text(s.index.max() + 0.6, 0.98, "Projeção", transform=ax.get_xaxis_transform(), ha="left",
+                    va="top", fontsize=9, color=TINTA2, fontstyle="italic")
+        if rotular and fins:
+            y0, y1 = ax.get_ylim()
+            alvo = [(u[1] - y0) / (y1 - y0) for _, u, _ in fins]
+            pos = _afastar(alvo, 0.15 if any("\n" in t for *_, t in fins) else 0.11)
+            for (c, u, texto), py in zip(fins, pos):   # nome + valores na ponta, alinhados ao último ponto
+                ax.text(1.02, py, str(c), transform=ax.transAxes, fontsize=10, color=TINTA, va="bottom",
+                        fontweight="semibold" if destaque[c] else "normal", clip_on=False)
+                ax.text(1.02, py - 0.006, texto, transform=ax.transAxes, fontsize=8.5, color=TINTA2, va="top",
+                        linespacing=1.3, clip_on=False)
+        if len(cols) >= 2:   # legenda sempre presente com 2+ séries (identidade nunca só pela cor)
+            alcas = [Line2D([], [], color=cor[c], linewidth=2.6 if destaque[c] else 1.8) for c in cols]
+            ax.legend(alcas, [str(c) for c in cols], loc="lower left", bbox_to_anchor=(0, 1.0), ncol=min(len(cols), 4),
+                      frameon=False, fontsize=8.5, labelcolor=TINTA2, handlelength=1.8, borderaxespad=0.3)
+        ax.grid(axis="y", color=GRADE_SUAVE, linewidth=0.8)
+        for lado in ("top", "right", "left"):
+            ax.spines[lado].set_visible(False)
+        ax.spines["bottom"].set_color(GRADE)
+        ax.tick_params(axis="y", length=0, colors=TINTA2, labelsize=8.5)
+        ax.tick_params(axis="x", colors=TINTA2, labelsize=9, color=GRADE)
     else:
-        b = res.barras.dropna().head(20).iloc[::-1]
-        ax.barh(b["recorte"].astype(str), b.iloc[:, 1], color=CORES[0], height=0.6)
-        ax.xaxis.set_major_formatter(fmt)
-        for y, v in enumerate(b.iloc[:, 1]):
-            ax.annotate(pct(v) if eh_pct else n(v), (v, y), xytext=(4, 0), textcoords="offset points",
-                        va="center", fontsize=8, color=TINTA)
-        ax.axvline(0, color=TINTA2, linewidth=0.8)
-    for lado in ("top", "right"):
-        ax.spines[lado].set_visible(False)
-    for lado in ("left", "bottom"):
-        ax.spines[lado].set_color(GRADE)
-    ax.tick_params(colors=TINTA2, labelsize=9)
-    ax.grid(axis="y" if res.serie is not None else "x", color=GRADE, linewidth=0.8)
-    ax.set_axisbelow(True)
-    ax.set_title(titulo, loc="left", fontsize=11, color=TINTA)
-    fig.text(0.01, 0.01, "Fonte: INEP — Sinopses Estatísticas da Educação Superior. Elaboração: Igor L. Millis - Projeto Independente com Dados Públicos.",
-             fontsize=7, color=TINTA2)
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
+        f = res.fatos
+        if res.tipo == "crescimento":   # as barras são a variação, não o nível: o título precisa dizer
+            subtitulo += (f" · variação {'percentual' if f.get('criterio') == 'percentual' else 'absoluta'}"
+                          f" {f['ano0']}→{f['ano1']}" + (" (só reduções)" if f.get("so_reducao") else ""))
+        elif f.get("ano1") or f.get("ano"):
+            subtitulo += f" · {f.get('ano1') or f.get('ano')}"
+        b = res.barras.dropna().reset_index(drop=True)
+        if res.tipo not in ("ranking", "crescimento"):   # ranking e crescimento já vêm na ordem pedida
+            b = b.sort_values(b.columns[1], ascending=False).reset_index(drop=True)
+            b, fora = _sem_agregados(b)
+            if fora:
+                subtitulo += f" · {', '.join(fora)} fora do gráfico (valores na tabela)"
+        titulo_acao = _titulo_barras(b, nome_ind, res)
+        if len(b) > 20:   # mostra as 20 maiores; o foco entra mesmo se estiver abaixo delas
+            foco_fora = b.iloc[20:][b.iloc[20:]["recorte"].map(_eh_foco)]
+            b = pd.concat([b.head(20 - len(foco_fora)), foco_fora]) if len(foco_fora) <= 3 else b.head(20)
+        rotulos = b["recorte"].astype(str).tolist()
+        topo = _cabecalho(fig, titulo_acao, subtitulo)
+        esq = min(0.42, 0.03 + 0.0078 * max(len(r) for r in rotulos))
+        ax = fig.add_axes((esq, 0.08, 0.9 - esq, topo - 0.08))
+        ax.set_facecolor(FUNDO)
+        tem_foco = any(_eh_foco(r) for r in rotulos)
+        vals = b.iloc[:, 1].tolist()
+        ypos = list(range(len(b)))[::-1]
+        cores = [CORES[0] if (_eh_foco(r) or not tem_foco) else CINZA_BARRA for r in rotulos]
+        ax.barh(ypos, vals, color=cores, height=0.68, zorder=2)
+        ax.set_yticks(ypos, rotulos)
+        for t, r in zip(ax.get_yticklabels(), rotulos):
+            if tem_foco and _eh_foco(r):
+                t.set_color(TINTA)
+                t.set_fontweight("semibold")
+        amp = max(abs(v) for v in vals) or 1
+        for yy, v, r in zip(ypos, vals, rotulos):
+            ax.annotate(fv(v), (v, yy), xytext=(4 if v >= 0 else -4, 0), textcoords="offset points",
+                        ha="left" if v >= 0 else "right", va="center", fontsize=8.5,
+                        color=TINTA if (tem_foco and _eh_foco(r)) else TINTA2,
+                        fontweight="semibold" if (tem_foco and _eh_foco(r)) else "normal")
+        ax.set_xlim(min(0, min(vals)) - (0.12 * amp if min(vals) < 0 else 0), max(0, max(vals)) + 0.12 * amp)
+        if min(vals) < 0:
+            ax.axvline(0, color=TINTA2, linewidth=0.8, zorder=3)
+        ax.set_xticks([])
+        for lado in ("top", "right", "bottom", "left"):
+            ax.spines[lado].set_visible(False)
+        ax.tick_params(axis="y", length=0, colors=TINTA2, labelsize=9)
+    fig.text(0.02, 0.015, RODAPE, fontsize=7, color=TINTA2)
     caminho = _arquivo(pergunta, "png")
     fig.savefig(caminho, facecolor=FUNDO)
     plt.close(fig)
@@ -380,7 +554,7 @@ def _montar(pergunta, c, cat, res, df_bruto, plano, notas_extra, ocorr, sqls, in
         partes.append("**Limitações**\n" + "\n".join("- " + x for x in lim))
     nome_ind = ind["nome"]
     titulo = f"{nome_ind}{descrever_recorte(c, cat)} — " + (", ".join(l.nome for l in c.locais) or "UFs")
-    png =grafico(res, titulo, ind["unidade"], pergunta, proj)
+    png = grafico(res, titulo, ind["unidade"], pergunta, proj, nome_ind)
     csv = None
     if tabela is not None and not tabela.empty:
         csv = _arquivo(pergunta, "csv")
